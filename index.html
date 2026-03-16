@@ -1,112 +1,125 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PULSO — Inteligencia Financiera ARG</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#000000;
-  --s:#0A0A0A;
-  --b:#1C1C1C;
-  --b2:#2A2A2A;
-  --t:#F0F0E8;
-  --t2:#D4D4CC;
-  --dim:#888888;
-  --dim2:#AAAAAA;
-  --a:#D4BC00;
-  --r:#E04030;
-  --g:#28A060;
-  --cyan:#00B8D4;
-  --orange:#E86000;
-  --mono:'IBM Plex Mono',monospace;
+/* ═══════════════════════════════════════════════
+   TOKENS — dark / light
+═══════════════════════════════════════════════ */
+[data-theme="dark"]{
+  --bg:#000;--bg2:#0A0A0A;--bg3:#111;
+  --card:#0E0E0E;--card2:#141414;
+  --border:#222;--border2:#2C2C2C;
+  --t:#F2F2EA;--t2:#C8C8C0;--t3:#888;
+  --a:#D4BC00;--r:#E04030;--g:#28A060;
+  --cyan:#00B8D4;--orange:#E86000;
+  --hero-bg:#050505;
+  --section-alt:#070707;
+  --badge-dark:rgba(0,0,0,.5);
+}
+[data-theme="light"]{
+  --bg:#F4F4EE;--bg2:#EEEEE8;--bg3:#E4E4DC;
+  --card:#FFFFFF;--card2:#F8F8F2;
+  --border:#D8D8D0;--border2:#C8C8C0;
+  --t:#111108;--t2:#444440;--t3:#888880;
+  --a:#8A7800;--r:#C02818;--g:#1A6040;
+  --cyan:#007A90;--orange:#B04000;
+  --hero-bg:#EBEBE4;
+  --section-alt:#EEEEEA;
+  --badge-dark:rgba(255,255,255,.6);
 }
 
-/* ── RESET ── */
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-
-/* ── BASE: negro puro + líneas estáticas ── */
 body{
-  background:var(--bg);
-  color:var(--t);
-  font-family:var(--mono);
-  font-size:12px;
-  line-height:1.6;
+  background:var(--bg);color:var(--t);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;line-height:1.6;
   min-height:100vh;
-  /* Líneas horizontales estáticas muy tenues — tipo terminal */
+  /* líneas estáticas terminales */
   background-image:repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 3px,
-    rgba(255,255,255,.018) 3px,
-    rgba(255,255,255,.018) 4px
+    0deg,transparent,transparent 3px,
+    rgba(128,128,128,.04) 3px,rgba(128,128,128,.04) 4px
   );
+  transition:background .25s,color .25s;
 }
+a{text-decoration:none;color:inherit}
 
-/* Sin viñeta, sin animaciones de fondo */
+/* ═══════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════ */
+.up{color:var(--g)}.dn{color:var(--r)}.am{color:var(--a)}.cy{color:var(--cyan)}.dim{color:var(--t3)}
+.kv{display:inline-block;font-size:9px;font-weight:700;color:var(--cyan);
+  border:1px solid rgba(0,184,212,.25);background:rgba(0,184,212,.07);
+  padding:0 4px;margin:0 2px;letter-spacing:.04em}
+.hl{color:var(--a);font-weight:600}.hl-r{color:var(--r);font-weight:600}.hl-g{color:var(--g);font-weight:600}
 
-/* ── UTILITIES ── */
-.up{color:var(--g)}.dn{color:var(--r)}.am{color:var(--a)}.cy{color:var(--cyan)}.dim{color:var(--dim)}
-.kv{
-  display:inline-block;font-size:9px;font-weight:700;
-  color:var(--cyan);border:1px solid #1A3A44;background:#040C10;
-  padding:0 4px;margin:0 2px;letter-spacing:.04em;
-}
-.hl{color:var(--a);font-weight:600}
-.hl-r{color:var(--r);font-weight:600}
-.hl-g{color:var(--g);font-weight:600}
-
-/* ── FADE-IN STAGGER ── */
-.reveal{opacity:0;transform:translateY(6px);transition:opacity .4s ease,transform .4s ease}
+/* reveal stagger */
+.reveal{opacity:0;transform:translateY(7px);transition:opacity .4s ease,transform .4s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
-/* ── FLASH ── */
-@keyframes flashUp{0%{color:#60E0A0}100%{color:var(--g)}}
+/* flash */
+@keyframes flashUp{0%{color:#60E8A8}100%{color:var(--g)}}
 @keyframes flashDn{0%{color:#FF7060}100%{color:var(--r)}}
 .flash-up{animation:flashUp .5s ease forwards}
 .flash-dn{animation:flashDn .5s ease forwards}
 
-/* ── PULSE DOT ── */
+/* pulse dot */
 @keyframes pulse-glow{
   0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 5px var(--g),0 0 10px var(--g)}
-  50%{opacity:.25;transform:scale(.65);box-shadow:0 0 2px var(--g)}
+  50%{opacity:.2;transform:scale(.6);box-shadow:none}
 }
-.pulse-dot{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--g);box-shadow:0 0 5px var(--g),0 0 10px var(--g);
-  animation:pulse-glow 1.8s ease-in-out infinite;
-  flex-shrink:0;
-}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--g);
+  box-shadow:0 0 5px var(--g),0 0 10px var(--g);
+  animation:pulse-glow 1.8s ease-in-out infinite;flex-shrink:0}
 
-/* ── NAV ── */
+/* impact dot */
+@keyframes pulse-imp{0%,100%{opacity:1}50%{opacity:.15}}
+.ibdot{width:5px;height:5px;border-radius:50%;animation:pulse-imp 1.4s ease-in-out infinite}
+
+/* ═══════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════ */
 nav{
-  position:sticky;top:0;z-index:200;
-  background:#000;border-bottom:1px solid var(--b);
+  position:sticky;top:0;z-index:300;
+  background:var(--bg);border-bottom:1px solid var(--border);
   padding:0 1.5rem;height:48px;
   display:flex;align-items:center;justify-content:space-between;
+  transition:background .25s;
 }
-.nav-brand{display:flex;align-items:baseline;gap:10px;text-decoration:none}
-.nav-name{
-  font-size:18px;font-weight:700;letter-spacing:.24em;
-  color:var(--a);text-shadow:0 0 24px rgba(212,188,0,.35);
+.nav-brand{display:flex;align-items:baseline;gap:10px}
+.nav-name{font-size:17px;font-weight:700;letter-spacing:.24em;color:var(--a);
+  text-shadow:0 0 20px rgba(212,188,0,.25)}
+.nav-sub{font-size:7.5px;letter-spacing:.12em;color:var(--t3);text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:.9rem}
+.nav-defcon{font-size:7.5px;font-weight:700;letter-spacing:.1em;
+  padding:2px 7px;border:1px solid rgba(232,96,0,.4);color:var(--orange);
+  background:rgba(232,96,0,.06)}
+.nav-ed{font-size:8px;color:var(--t3);letter-spacing:.05em}
+.nav-dot{font-size:8.5px;color:var(--g);letter-spacing:.1em;
+  display:flex;align-items:center;gap:5px;font-weight:600}
+/* theme toggle */
+.theme-btn{
+  background:none;border:1px solid var(--border2);color:var(--t3);
+  font-family:inherit;font-size:10px;letter-spacing:.06em;
+  padding:3px 9px;cursor:pointer;transition:all .2s;
+  white-space:nowrap;
 }
-.nav-sub{font-size:7.5px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
-.nav-right{display:flex;align-items:center;gap:1rem}
-.nav-defcon{
-  font-size:8px;font-weight:700;letter-spacing:.12em;
-  padding:2px 8px;border:1px solid #503000;color:#F0A020;
-  background:rgba(240,160,32,.05);
-}
-.nav-ed{font-size:8px;color:var(--dim);letter-spacing:.05em}
-.nav-dot{font-size:8.5px;color:var(--g);letter-spacing:.1em;display:flex;align-items:center;gap:5px;font-weight:600}
+.theme-btn:hover{border-color:var(--a);color:var(--a)}
 
-/* ── STATUS BAR ── */
+/* ═══════════════════════════════════════════════
+   STATUS BAR
+═══════════════════════════════════════════════ */
 .status-bar{
-  background:var(--s);border-bottom:1px solid var(--b);
+  background:var(--bg2);border-bottom:1px solid var(--border);
   padding:.28rem 1.5rem;display:flex;gap:1.6rem;align-items:center;
-  font-size:8px;color:var(--dim);letter-spacing:.08em;overflow-x:auto;
+  font-size:7.5px;color:var(--t3);letter-spacing:.07em;overflow-x:auto;
 }
 .si{display:flex;gap:5px;align-items:center;white-space:nowrap}
 .si-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
@@ -114,275 +127,303 @@ nav{
 .dr{background:var(--r)}
 .da{background:var(--a);box-shadow:0 0 4px var(--a)}
 
-/* ── TICKERS ── */
-.ticker-wrap{
-  background:#000;border-bottom:1px solid var(--b);
-  overflow:hidden;height:28px;display:flex;align-items:center;
-}
-.ticker-lbl{
-  background:var(--a);color:#000;font-size:8px;font-weight:700;
-  letter-spacing:.16em;padding:0 12px;height:100%;
-  display:flex;align-items:center;flex-shrink:0;
-}
-.geo-wrap{
-  background:#050505;border-bottom:1px solid var(--b);
-  overflow:hidden;height:28px;display:flex;align-items:center;
-}
-.geo-lbl{
-  background:#120600;color:var(--orange);font-size:8px;font-weight:700;
-  letter-spacing:.14em;padding:0 12px;height:100%;
-  display:flex;align-items:center;flex-shrink:0;
-  border-right:1px solid #201008;
-}
+/* ═══════════════════════════════════════════════
+   TICKERS
+═══════════════════════════════════════════════ */
+.ticker-wrap{background:var(--bg);border-bottom:1px solid var(--border);
+  overflow:hidden;height:28px;display:flex;align-items:center}
+.ticker-lbl{background:var(--a);color:#000;font-size:8px;font-weight:700;
+  letter-spacing:.16em;padding:0 12px;height:100%;display:flex;align-items:center;flex-shrink:0}
+.geo-wrap{background:var(--bg2);border-bottom:1px solid var(--border);
+  overflow:hidden;height:28px;display:flex;align-items:center}
+.geo-lbl{background:rgba(232,96,0,.15);color:var(--orange);font-size:8px;font-weight:700;
+  letter-spacing:.14em;padding:0 12px;height:100%;display:flex;align-items:center;
+  flex-shrink:0;border-right:1px solid var(--border)}
 .tt,.gt{display:flex;white-space:nowrap}
-.tt{animation:sl 40s linear infinite}
-.gt{animation:sl 68s linear infinite}
+.tt{animation:sl 40s linear infinite}.gt{animation:sl 68s linear infinite}
 .tt:hover,.gt:hover{animation-play-state:paused}
 @keyframes sl{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.ti,.gi{display:flex;align-items:center;gap:5px;padding:0 1.2rem;font-size:10px;border-right:1px solid var(--b)}
-.ts{color:var(--dim);font-size:9px}.tv{font-weight:600;color:var(--t)}
-.gi{gap:7px;font-size:9.5px;color:#808888;border-right-color:#181818}
-.gtag{
-  font-size:7px;font-weight:700;letter-spacing:.1em;
-  color:var(--orange);padding:0 4px;
-  border:1px solid #281200;background:#080300;
-}
-.gv{font-weight:600}
+.ti,.gi{display:flex;align-items:center;gap:5px;padding:0 1.2rem;font-size:10px;border-right:1px solid var(--border)}
+.ts{color:var(--t3);font-size:9px}.tv{font-weight:600;color:var(--t)}
+.gi{gap:7px;font-size:9.5px;color:var(--t3);border-right-color:var(--border)}
+.gtag{font-size:7px;font-weight:700;letter-spacing:.1em;color:var(--orange);
+  padding:0 4px;border:1px solid rgba(232,96,0,.25);background:rgba(232,96,0,.06)}
+.gv{font-weight:600;color:var(--t2)}
 
-/* ── TESIS ── */
+/* ═══════════════════════════════════════════════
+   TESIS
+═══════════════════════════════════════════════ */
 .tesis{
-  background:#080800;border-bottom:2px solid var(--a);
+  background:var(--bg2);border-bottom:2px solid var(--a);
   padding:.55rem 1.5rem;
   display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
 }
-.tesis-tag{
-  font-size:8px;font-weight:700;letter-spacing:.18em;
-  color:#000;background:var(--a);padding:3px 8px;
-  white-space:nowrap;flex-shrink:0;
-}
-.tesis-txt{
-  font-size:11.5px;font-weight:500;color:var(--t);
-  letter-spacing:.01em;line-height:1.3;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;
-}
-.tesis-meta{font-size:8.5px;color:var(--dim);letter-spacing:.07em;white-space:nowrap;flex-shrink:0}
+.tesis-tag{font-size:8px;font-weight:700;letter-spacing:.18em;color:#000;
+  background:var(--a);padding:3px 8px;white-space:nowrap;flex-shrink:0}
+.tesis-txt{font-size:11.5px;font-weight:500;color:var(--t);letter-spacing:.01em;
+  line-height:1.3;flex:1;min-width:0}
+.tesis-meta{font-size:8px;color:var(--t3);letter-spacing:.07em;white-space:nowrap;flex-shrink:0}
 
-/* ── MAIN 3-COL ── */
-.main{
+/* ═══════════════════════════════════════════════
+   SECTION DIVIDER  ← nueva jerarquía visual
+═══════════════════════════════════════════════ */
+.section-div{
+  display:flex;align-items:center;gap:1rem;
+  padding:.7rem 1.5rem;
+  background:var(--bg3);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.section-div-label{
+  font-size:8px;font-weight:700;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--a);white-space:nowrap;
+}
+.section-div-label::before{content:"§ "}
+.section-div-line{flex:1;height:1px;background:var(--border2)}
+.section-div-meta{font-size:7.5px;color:var(--t3);letter-spacing:.06em;white-space:nowrap}
+
+/* ═══════════════════════════════════════════════
+   HERO — los 3 números que más importan
+═══════════════════════════════════════════════ */
+.hero{
+  background:var(--hero-bg);
+  border-bottom:1px solid var(--border);
+  padding:1.4rem 1.5rem 1.2rem;
   display:grid;
-  grid-template-columns:1fr 1.45fr .88fr;
-  gap:1px;background:var(--b);
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--border); /* gap color = border */
 }
-.col{background:#000;padding:1rem 1.2rem}
-.col-mid{background:#040404}
-.col-right{background:#020202;padding:0;display:flex;flex-direction:column}
-
-.col-label{
-  font-size:8px;font-weight:700;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--a);margin-bottom:.9rem;
+.hero-card{
+  background:var(--hero-bg);
+  padding:1rem 1.2rem;
+  display:flex;flex-direction:column;gap:.3rem;
+  transition:background .2s;
 }
-.col-label::before{content:"// ";color:var(--dim)}
+.hero-card:hover{background:var(--card)}
+.hero-label{font-size:8px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--t3)}
+.hero-value{font-size:42px;font-weight:700;line-height:1;letter-spacing:-.03em}
+.hero-value.r{color:var(--r)}.hero-value.g{color:var(--g)}.hero-value.a{color:var(--a)}
+.hero-sub{font-size:10px;font-weight:400;color:var(--t3);line-height:1.4}
+.hero-spark{margin-top:.3rem}
 
-/* ── NÚMERO BLOCKS ── */
-.nb{padding-bottom:.85rem;margin-bottom:.85rem;border-bottom:1px solid var(--b)}
+/* ═══════════════════════════════════════════════
+   MAIN 3-COL GRID
+═══════════════════════════════════════════════ */
+.main{
+  display:grid;grid-template-columns:1fr 1.45fr .88fr;
+  gap:1px;background:var(--border);
+}
+.col{background:var(--bg);padding:1rem 1.2rem;transition:background .25s}
+.col-mid{background:var(--bg2)}
+.col-right{background:var(--bg);padding:0;display:flex;flex-direction:column}
+.col-label{font-size:8px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--a);margin-bottom:.9rem}
+.col-label::before{content:"// ";color:var(--t3)}
+
+/* ── número blocks ── */
+.nb{padding-bottom:.85rem;margin-bottom:.85rem;border-bottom:1px solid var(--border)}
 .nb:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
 .nb-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
 .nb-left{flex:1}
 .nb-spark{flex-shrink:0;opacity:.75}
 .nr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.1rem}
-.nn{font-size:8.5px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.nn{font-size:8.5px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
 .nv{font-size:20px;font-weight:700;line-height:1;letter-spacing:-.02em;color:var(--t)}
-.nv.r{color:var(--r)}.nv.g{color:var(--g)}.nv.a{color:var(--a)}.nv.t{color:var(--t)}
-.nv-sm{font-size:14px;font-weight:700;line-height:1;letter-spacing:-.01em}
-.nc{
-  font-size:10.5px;font-weight:300;
-  color:var(--dim2);line-height:1.45;
-  letter-spacing:.01em;margin-top:.25rem;
-}
-.nc .arr{margin-right:3px}
-.nc .arr.up{color:var(--g)}
-.nc .arr.dn{color:var(--r)}
-.nsrc{
-  display:inline-block;font-size:7px;font-weight:700;
-  letter-spacing:.12em;color:var(--dim);
-  border:1px solid var(--b);padding:0 3px;
-  margin-left:4px;vertical-align:middle;
-  position:relative;top:-1px;
-}
+.nv.r{color:var(--r)}.nv.g{color:var(--g)}.nv.a{color:var(--a)}
+.nv-sm{font-size:13px;font-weight:700;line-height:1.2}
+.nc{font-size:10.5px;font-weight:300;color:var(--t2);line-height:1.45;margin-top:.25rem}
+.nc .arr{margin-right:3px}.nc .arr.up{color:var(--g)}.nc .arr.dn{color:var(--r)}
+.nsrc{display:inline-block;font-size:7px;font-weight:700;letter-spacing:.12em;
+  color:var(--t3);border:1px solid var(--border);padding:0 3px;
+  margin-left:4px;vertical-align:middle;position:relative;top:-1px}
 
-/* ── RESEARCH CARDS ── */
-.res-feed{padding:.7rem .85rem;overflow-y:auto;flex:1}
-
+/* ── research cards ── */
 .res-card{
-  margin-bottom:.65rem;
-  border:1px solid var(--b);
-  background:#050505;
-  cursor:pointer;
-  transition:border-color .2s,background .2s;
-  position:relative;overflow:hidden;
+  margin-bottom:.6rem;border:1px solid var(--border);
+  background:var(--card);cursor:pointer;
+  transition:border-color .2s,background .2s;position:relative;overflow:hidden;
 }
-.res-card::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
-  transition:background .2s;
-}
+.res-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;transition:background .2s}
 .res-card.impact-alto::before{background:var(--r)}
 .res-card.impact-medio::before{background:var(--a)}
 .res-card.impact-bajo::before{background:var(--cyan)}
-.res-card:hover{border-color:var(--b2);background:#080808}
-
-.res-header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:.55rem .75rem .55rem 1rem;gap:.5rem;
-}
+.res-card:hover{border-color:var(--border2);background:var(--card2)}
+.res-header{display:flex;justify-content:space-between;align-items:center;
+  padding:.55rem .75rem .55rem 1rem;gap:.5rem}
 .res-banco{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
 .res-header-right{display:flex;align-items:center;gap:.5rem;flex-shrink:0}
-.res-fecha{font-size:7.5px;color:var(--dim);letter-spacing:.04em}
-.res-toggle{font-size:11px;color:var(--dim);transition:transform .25s;flex-shrink:0}
+.res-fecha{font-size:7.5px;color:var(--t3);letter-spacing:.04em}
+.res-toggle{font-size:11px;color:var(--t3);transition:transform .25s;flex-shrink:0}
 .res-card.open .res-toggle{transform:rotate(90deg);color:var(--a)}
-
-/* IMPACT BADGE */
-@keyframes pulse-imp{0%,100%{opacity:1}50%{opacity:.2}}
-.impact-badge{
-  display:flex;align-items:center;gap:4px;
-  font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  padding:2px 6px;border:1px solid;
-}
-.ibdot{width:5px;height:5px;border-radius:50%;animation:pulse-imp 1.4s ease-in-out infinite}
-.ib-alto{color:var(--r);border-color:#3A1010;background:rgba(224,64,48,.08)}
+.impact-badge{display:flex;align-items:center;gap:4px;font-size:7px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;padding:2px 6px;border:1px solid}
+.ib-alto{color:var(--r);border-color:rgba(224,64,48,.4);background:rgba(224,64,48,.07)}
 .ib-alto .ibdot{background:var(--r);box-shadow:0 0 4px var(--r)}
-.ib-medio{color:var(--a);border-color:#3A2A00;background:rgba(212,188,0,.06)}
+.ib-medio{color:var(--a);border-color:rgba(212,188,0,.4);background:rgba(212,188,0,.06)}
 .ib-medio .ibdot{background:var(--a);box-shadow:0 0 4px var(--a)}
-.ib-bajo{color:var(--cyan);border-color:#0C2030;background:rgba(0,184,212,.06)}
+.ib-bajo{color:var(--cyan);border-color:rgba(0,184,212,.3);background:rgba(0,184,212,.06)}
 .ib-bajo .ibdot{background:var(--cyan);box-shadow:0 0 4px var(--cyan)}
-
-/* COLLAPSED PREVIEW */
-.res-preview{
-  padding:.0rem .75rem .45rem 1rem;
-  font-size:10px;color:var(--dim2);line-height:1.4;letter-spacing:.01em;
-}
-
-/* EXPANDED BODY */
+.res-preview{padding:0 .75rem .45rem 1rem;font-size:10px;color:var(--t3);line-height:1.4}
 .res-body-wrap{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1)}
 .res-card.open .res-body-wrap{max-height:900px}
-.res-body{
-  font-size:11px;font-weight:400;
-  color:var(--t2);line-height:1.75;letter-spacing:.01em;
-  padding:.55rem .75rem .65rem 1rem;
-  border-top:1px solid var(--b);
-}
-.res-tag{
-  display:inline-block;font-size:7px;font-weight:700;
-  letter-spacing:.12em;text-transform:uppercase;
-  padding:1px 5px;border:1px solid #281200;
-  color:var(--orange);background:#060200;margin-right:5px;
-}
-.res-div{display:block;margin:.5rem 0;border-top:1px dashed var(--b2)}
-.res-op{
-  margin:.65rem 0 .2rem;padding:.5rem .75rem;
-  background:#080808;border-left:2px solid var(--a);
-  border-top:1px solid var(--b);
-}
+.res-body{font-size:11px;font-weight:400;color:var(--t2);line-height:1.75;
+  padding:.55rem .75rem .65rem 1rem;border-top:1px solid var(--border)}
+.res-tag{display:inline-block;font-size:7px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;padding:1px 5px;border:1px solid rgba(232,96,0,.3);
+  color:var(--orange);background:rgba(232,96,0,.07);margin-right:5px}
+.res-div{display:block;margin:.5rem 0;border-top:1px dashed var(--border2)}
+.res-op{margin:.65rem 0 .2rem;padding:.5rem .75rem;
+  background:var(--bg3);border-left:2px solid var(--a);border-top:1px solid var(--border)}
 .res-op-tag{font-size:7.5px;font-weight:700;letter-spacing:.2em;color:var(--a);display:block;margin-bottom:.3rem}
-.res-op-txt{font-size:10.5px;font-weight:400;color:var(--t2);line-height:1.62;letter-spacing:.01em}
-.res-op-by{font-size:7.5px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem}
+.res-op-txt{font-size:10.5px;font-weight:400;color:var(--t2);line-height:1.62}
+.res-op-by{font-size:7.5px;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem}
 
-/* ── NEWS FEED ── */
-.feed-header{
-  padding:.6rem .85rem .4rem;
-  border-bottom:1px solid var(--b);flex-shrink:0;
-  background:#020202;
-}
+/* ── news feed ── */
+.feed-header{padding:.6rem .85rem .4rem;border-bottom:1px solid var(--border);flex-shrink:0}
 .feed-scroll{overflow:hidden;flex:1;position:relative;min-height:0}
 .feed-inner{position:absolute;width:100%;animation:feed-scroll 60s linear infinite}
 .feed-inner:hover{animation-play-state:paused}
 @keyframes feed-scroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
-.feed-item{padding:.55rem .85rem;border-bottom:1px solid #111}
-.feed-source{font-size:7px;font-weight:700;letter-spacing:.14em;color:var(--orange);margin-bottom:.2rem;text-transform:uppercase}
+.feed-item{padding:.55rem .85rem;border-bottom:1px solid var(--border)}
+.feed-source{font-size:7px;font-weight:700;letter-spacing:.14em;color:var(--orange);
+  margin-bottom:.2rem;text-transform:uppercase}
 .feed-title{font-size:10.5px;font-weight:600;color:var(--t);line-height:1.3;margin-bottom:.2rem}
-.feed-body{font-size:9.5px;font-weight:300;color:var(--dim2);line-height:1.45}
-.feed-imp{
-  display:inline-block;font-size:7px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;
-  padding:1px 5px;border:1px solid;margin-top:.25rem;
-}
-.fi-alto{color:var(--r);border-color:#2E1010}
-.fi-medio{color:var(--a);border-color:#2E2000}
-.fi-bajo{color:var(--cyan);border-color:#0A1E28}
+.feed-body{font-size:9.5px;font-weight:300;color:var(--t2);line-height:1.45}
+.feed-imp{display:inline-block;font-size:7px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;padding:1px 5px;border:1px solid;margin-top:.25rem}
+.fi-alto{color:var(--r);border-color:rgba(224,64,48,.4)}
+.fi-medio{color:var(--a);border-color:rgba(212,188,0,.4)}
+.fi-bajo{color:var(--cyan);border-color:rgba(0,184,212,.3)}
 
-/* ── GEO PANEL ── */
-.geo-panel{background:#000;border-top:1px solid var(--b);padding:.85rem 1.2rem}
-.geo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--b);margin-top:.7rem}
-.geo-card{background:#000;padding:.65rem .9rem;transition:background .2s}
-.geo-card:hover{background:#080808}
+/* ═══════════════════════════════════════════════
+   CARTERA MODELO  ← nueva sección
+═══════════════════════════════════════════════ */
+.cartera{background:var(--bg2);padding:1.2rem 1.5rem;border-bottom:1px solid var(--border)}
+.cartera-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:.9rem}
+.cartera-tabla{width:100%;border-collapse:collapse}
+.cartera-tabla th{font-size:7.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--t3);padding:.4rem .6rem;border-bottom:1px solid var(--border);text-align:left}
+.cartera-tabla td{font-size:11px;padding:.45rem .6rem;border-bottom:1px solid var(--border);
+  color:var(--t);vertical-align:middle}
+.cartera-tabla tr:last-child td{border-bottom:none}
+.cartera-tabla tr:hover td{background:var(--card)}
+.ct-asset{font-weight:600;color:var(--t)}
+.ct-tipo{font-size:8px;font-weight:700;letter-spacing:.1em;padding:1px 5px;border:1px solid}
+.ct-pe{color:var(--cyan);border-color:rgba(0,184,212,.3)}
+.ct-rf{color:var(--a);border-color:rgba(212,188,0,.4)}
+.ct-co{color:var(--orange);border-color:rgba(232,96,0,.3)}
+.ct-ca{color:var(--t3);border-color:var(--border2)}
+.ct-peso{font-weight:700;color:var(--t);text-align:right}
+.ct-ret{font-weight:600;text-align:right}
+.ct-rat{font-size:9.5px;color:var(--t3)}
+
+/* allocation bar */
+.alloc-section{display:flex;flex-direction:column;gap:.9rem}
+.alloc-title{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--t3)}
+.alloc-bar-wrap{display:flex;flex-direction:column;gap:.55rem}
+.alloc-row{display:flex;align-items:center;gap:.7rem}
+.alloc-label{font-size:9.5px;font-weight:500;color:var(--t2);width:130px;flex-shrink:0}
+.alloc-track{flex:1;height:8px;background:var(--border);border-radius:1px;overflow:hidden}
+.alloc-fill{height:100%;border-radius:1px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.alloc-pct{font-size:9px;font-weight:700;color:var(--t);width:30px;text-align:right;flex-shrink:0}
+.cartera-nota{margin-top:.9rem;font-size:9.5px;color:var(--t3);line-height:1.5;
+  padding:.5rem .7rem;border-left:2px solid var(--border2)}
+
+/* ═══════════════════════════════════════════════
+   GEO PANEL
+═══════════════════════════════════════════════ */
+.geo-panel{background:var(--bg);padding:.85rem 1.5rem;border-bottom:1px solid var(--border)}
+.geo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--border);margin-top:.7rem}
+.geo-card{background:var(--bg);padding:.65rem .9rem;transition:background .2s}
+.geo-card:hover{background:var(--card)}
 .geo-card-tag{font-size:7.5px;font-weight:700;letter-spacing:.14em;color:var(--orange);margin-bottom:.2rem}
-.geo-card-title{font-size:11px;font-weight:600;color:var(--t);text-transform:uppercase;line-height:1.25;margin-bottom:.2rem}
-.geo-card-body{font-size:10px;font-weight:300;color:var(--dim2);line-height:1.5}
-.geo-card-imp{
-  display:inline-block;font-size:7px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;
-  padding:1px 5px;border:1px solid;margin-top:.3rem;
-}
-.gc-c{color:var(--r);border-color:#2E1010}
-.gc-m{color:var(--a);border-color:#2E2200}
-.gc-l{color:var(--cyan);border-color:#0A2030}
+.geo-card-title{font-size:11px;font-weight:600;color:var(--t);text-transform:uppercase;
+  line-height:1.25;margin-bottom:.2rem}
+.geo-card-body{font-size:10px;font-weight:300;color:var(--t2);line-height:1.5}
+.geo-card-imp{display:inline-block;font-size:7px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;padding:1px 5px;border:1px solid;margin-top:.3rem}
+.gc-c{color:var(--r);border-color:rgba(224,64,48,.4)}
+.gc-m{color:var(--a);border-color:rgba(212,188,0,.4)}
+.gc-l{color:var(--cyan);border-color:rgba(0,184,212,.3)}
 
-/* ── EVENTOS ── */
-.eventos{background:#050505;border-top:1px solid var(--b);padding:.85rem 1.2rem}
-.ev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--b);margin-top:.65rem}
-.ev-card{background:#000;padding:.65rem .9rem;transition:background .2s}
-.ev-card:hover{background:#080808}
+/* ═══════════════════════════════════════════════
+   EVENTOS
+═══════════════════════════════════════════════ */
+.eventos{background:var(--bg2);padding:.85rem 1.5rem;border-bottom:1px solid var(--border)}
+.ev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--border);margin-top:.65rem}
+.ev-card{background:var(--bg);padding:.65rem .9rem;transition:background .2s}
+.ev-card:hover{background:var(--card)}
 .ev-fecha{font-size:8px;color:var(--a);letter-spacing:.05em;margin-bottom:.2rem}
-.ev-titulo{font-size:11px;font-weight:700;color:var(--t);text-transform:uppercase;line-height:1.25;margin-bottom:.2rem}
-.ev-desc{font-size:10px;font-weight:300;color:var(--dim2);line-height:1.45}
-.ev-imp{
-  display:inline-block;font-size:7px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;
-  padding:1px 5px;border:1px solid;margin-top:.3rem;
-}
-.ea{color:var(--r);border-color:#2E1010}
-.em{color:var(--a);border-color:#2E2200}
+.ev-titulo{font-size:11px;font-weight:700;color:var(--t);text-transform:uppercase;
+  line-height:1.25;margin-bottom:.2rem}
+.ev-desc{font-size:10px;font-weight:300;color:var(--t2);line-height:1.45}
+.ev-imp{display:inline-block;font-size:7px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;padding:1px 5px;border:1px solid;margin-top:.3rem}
+.ea{color:var(--r);border-color:rgba(224,64,48,.4)}
+.em{color:var(--a);border-color:rgba(212,188,0,.4)}
 
-/* ── FIRMA ── */
-.firma{
-  background:#000;border-top:2px solid var(--a);
+/* ═══════════════════════════════════════════════
+   FIRMA
+═══════════════════════════════════════════════ */
+.firma{background:var(--bg);border-top:2px solid var(--a);
   padding:.6rem 1.5rem;display:flex;
-  justify-content:space-between;align-items:center;
-  flex-wrap:wrap;gap:.4rem;
-}
-.firma-l{font-size:9px;color:var(--dim);letter-spacing:.07em}
+  justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.4rem}
+.firma-l{font-size:9px;color:var(--t3);letter-spacing:.07em}
 .firma-l b{color:var(--a)}
-.firma-r{font-size:9px;color:var(--dim);letter-spacing:.06em}
+.firma-r{font-size:9px;color:var(--t3);letter-spacing:.06em}
 
-/* ── RESPONSIVE ── */
+/* ═══════════════════════════════════════════════
+   MOBILE  ← nueva
+═══════════════════════════════════════════════ */
 @media(max-width:900px){
   .main{grid-template-columns:1fr 1fr}
   .col-right{display:none}
+  .hero{grid-template-columns:1fr 1fr}
+  .hero-card:last-child{grid-column:1/-1}
+  .hero-value{font-size:32px}
+  .geo-grid{grid-template-columns:1fr 1fr}
+  .cartera-grid{grid-template-columns:1fr}
+  .tesis-txt{white-space:normal}
 }
 @media(max-width:640px){
-  .main,.ev-grid,.geo-grid{grid-template-columns:1fr}
+  .main{grid-template-columns:1fr}
   .col-right{display:none}
-  .tesis-txt{white-space:normal}
+  .hero{grid-template-columns:1fr}
+  .hero-value{font-size:36px}
+  .hero-card:last-child{grid-column:auto}
+  .ev-grid,.geo-grid{grid-template-columns:1fr}
+  .cartera-grid{grid-template-columns:1fr}
   nav{padding:0 .9rem}
   .nav-ed{display:none}
+  .tesis-txt{white-space:normal;font-size:10.5px}
+  .section-div{padding:.6rem .9rem}
+  .cartera,.geo-panel,.eventos{padding:.85rem .9rem}
+  .alloc-label{width:100px;font-size:9px}
+  .status-bar{gap:.9rem;padding:.28rem .9rem}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ── NAV ── -->
 <nav class="reveal">
-  <a class="nav-brand" href="#">
+  <div class="nav-brand">
     <span class="nav-name">PULSO</span>
     <span class="nav-sub">Inteligencia Financiera · ARG</span>
-  </a>
+  </div>
   <div class="nav-right">
     <span class="nav-defcon">DEFCON 3</span>
-    <span class="nav-ed">Ed.001 · Lun 16 Mar 2026</span>
+    <span class="nav-ed">Ed.001 · 16 Mar 2026</span>
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀ CLARO</button>
     <span class="nav-dot"><span class="pulse-dot"></span>ACTIVO</span>
   </div>
 </nav>
 
-<!-- STATUS -->
+<!-- ── STATUS ── -->
 <div class="status-bar reveal">
   <div class="si"><span class="si-dot dg"></span>BCRA <span class="am" id="st-bcra">cargando...</span></div>
   <div class="si"><span class="si-dot da"></span>DÓLAR <span id="st-dolar">cargando...</span></div>
@@ -390,7 +431,7 @@ nav{
   <div class="si"><span class="si-dot dr"></span>UPDT <span id="st-time">—</span></div>
 </div>
 
-<!-- TICKER ARG -->
+<!-- ── TICKERS ── -->
 <div class="ticker-wrap reveal">
   <div class="ticker-lbl">ARG</div>
   <div class="tt">
@@ -399,7 +440,6 @@ nav{
     <div class="ti"><span class="ts">MEP</span><span class="tv" id="tk-mep">—</span></div>
     <div class="ti"><span class="ts">BRECHA</span><span class="tv dn" id="tk-br">—</span></div>
     <div class="ti"><span class="ts">RESERVAS</span><span class="tv" id="tk-res">—</span></div>
-    <div class="ti"><span class="ts">BASE MON</span><span class="tv" id="tk-bm">—</span></div>
     <div class="ti"><span class="ts">RIESGO PAÍS</span><span class="tv dn">582 bps</span></div>
     <div class="ti"><span class="ts">MERVAL</span><span class="tv up" id="tk-mv">—</span></div>
     <div class="ti"><span class="ts">INFLACIÓN</span><span class="tv dn">2.9%</span></div>
@@ -411,7 +451,6 @@ nav{
     <div class="ti"><span class="ts">MEP</span><span class="tv" id="tk-mep2">—</span></div>
     <div class="ti"><span class="ts">BRECHA</span><span class="tv dn" id="tk-br2">—</span></div>
     <div class="ti"><span class="ts">RESERVAS</span><span class="tv" id="tk-res2">—</span></div>
-    <div class="ti"><span class="ts">BASE MON</span><span class="tv" id="tk-bm2">—</span></div>
     <div class="ti"><span class="ts">RIESGO PAÍS</span><span class="tv dn">582 bps</span></div>
     <div class="ti"><span class="ts">MERVAL</span><span class="tv up" id="tk-mv2">—</span></div>
     <div class="ti"><span class="ts">INFLACIÓN</span><span class="tv dn">2.9%</span></div>
@@ -420,8 +459,6 @@ nav{
     <div class="ti"><span class="ts">LECAP 1M</span><span class="tv">28.6% TNA</span></div>
   </div>
 </div>
-
-<!-- TICKER GEO -->
 <div class="geo-wrap reveal">
   <div class="geo-lbl">GEO</div>
   <div class="gt">
@@ -434,7 +471,6 @@ nav{
     <div class="gi"><span class="gtag">S&P 500</span><span class="gv" id="gk-spx">—</span></div>
     <div class="gi"><span class="gtag">IRÁN</span><span class="gv dn">Hormuz cerrado · Brent +50% YTD</span></div>
     <div class="gi"><span class="gtag">FED</span><span class="gv dim">Miérc 18 · sin cambios · dot plot clave</span></div>
-    <div class="gi"><span class="gtag">ARANCELES</span><span class="gv dn">Sec.301 · 100+ países investigados</span></div>
     <div class="gi"><span class="gtag">ARG-FMI</span><span class="gv up">Bilateral Italia/Israel/EEUU en proceso</span></div>
     <div class="gi"><span class="gtag">WTI</span><span class="gv" id="gk-wti2">—</span></div>
     <div class="gi"><span class="gtag">BRENT</span><span class="gv" id="gk-brent2">—</span></div>
@@ -445,39 +481,73 @@ nav{
     <div class="gi"><span class="gtag">S&P 500</span><span class="gv" id="gk-spx2">—</span></div>
     <div class="gi"><span class="gtag">IRÁN</span><span class="gv dn">Hormuz cerrado · Brent +50% YTD</span></div>
     <div class="gi"><span class="gtag">FED</span><span class="gv dim">Miérc 18 · sin cambios · dot plot clave</span></div>
-    <div class="gi"><span class="gtag">ARANCELES</span><span class="gv dn">Sec.301 · 100+ países investigados</span></div>
     <div class="gi"><span class="gtag">ARG-FMI</span><span class="gv up">Bilateral Italia/Israel/EEUU en proceso</span></div>
   </div>
 </div>
 
-<!-- TESIS -->
+<!-- ── TESIS ── -->
 <div class="tesis reveal">
-  <div style="display:flex;align-items:baseline;gap:.9rem;flex:1;min-width:0">
+  <div style="display:flex;align-items:baseline;gap:.9rem;flex:1;min-width:0;flex-wrap:wrap">
     <span class="tesis-tag">TESIS · SEM 11</span>
     <span class="tesis-txt">"El BCRA compra pero las netas siguen negativas. El ancla cambiaria tiene fecha de vencimiento."</span>
   </div>
   <div class="tesis-meta">Federico R. · 16 Mar 2026</div>
 </div>
 
-<!-- MAIN 3-COL -->
-<div class="main">
+<!-- ════════════════════════════════
+     § 1 — LOS TRES NÚMEROS QUE MANDAN
+════════════════════════════════ -->
+<div class="section-div reveal">
+  <span class="section-div-label">Lo que tenés que mirar primero</span>
+  <div class="section-div-line"></div>
+  <span class="section-div-meta">3 indicadores clave · actualización en vivo</span>
+</div>
 
+<div class="hero reveal">
+  <div class="hero-card">
+    <div class="hero-label">Brecha cambiaria (CCL)</div>
+    <div class="hero-value a counting" id="h-brecha" data-target="5.6" data-suffix="%" data-prefix="">—</div>
+    <div class="hero-sub">Mínimo desde cepo 2019 · Oficial bajó -1.5% en la semana</div>
+    <div class="hero-spark" id="hsp-brecha"></div>
+  </div>
+  <div class="hero-card">
+    <div class="hero-label">Riesgo País EMBI</div>
+    <div class="hero-value r counting" id="h-rp" data-target="582" data-suffix=" bps" data-prefix="">—</div>
+    <div class="hero-sub">AL35 -2.1% · AE38 -1.3% · semana de venta en bonos largos</div>
+    <div class="hero-spark" id="hsp-rp"></div>
+  </div>
+  <div class="hero-card">
+    <div class="hero-label">Compras BCRA · acum. 2026</div>
+    <div class="hero-value g counting" id="h-bcra" data-target="307" data-suffix="M" data-prefix="USD ">—</div>
+    <div class="hero-sub">USD 295M en la semana · compra en meses que históricamente vendía</div>
+    <div class="hero-spark" id="hsp-bcra"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     § 2 — ANÁLISIS PROFUNDO
+════════════════════════════════ -->
+<div class="section-div reveal">
+  <span class="section-div-label">Análisis y números completos</span>
+  <div class="section-div-line"></div>
+  <span class="section-div-meta">datos BCRA · INDEC · Bluelytics en vivo</span>
+</div>
+
+<div class="main">
   <!-- COL 1: NÚMEROS -->
   <div class="col reveal">
     <div class="col-label">Los números que importan</div>
-
     <div class="nb">
       <div class="nb-top">
         <div class="nb-left">
-          <div class="nr"><span class="nn">Reservas brutas <span class="nsrc">BCRA</span></span><span class="nv t counting" id="n-resbru" data-target="45.7" data-suffix="B" data-prefix="USD ">—</span></div>
+          <div class="nr"><span class="nn">Reservas brutas <span class="nsrc">BCRA</span></span><span class="nv counting" id="n-resbru" data-target="45.7" data-suffix="B" data-prefix="USD ">—</span></div>
           <div class="nr"><span class="nn">Netas FMI</span><span class="nv r nv-sm">−USD 10.284M</span></div>
           <div class="nr"><span class="nn">Líquidas est.</span><span class="nv a nv-sm">USD 8.757M</span></div>
         </div>
         <div class="nb-spark" id="spark-res"></div>
       </div>
-      <div class="nc"><span class="arr dn">▼</span>Brutas cayeron USD 352M en la semana. Oro y encajes explicaron la baja. El flujo semanal manda — el stock bruto engaña.</div>
+      <div class="nc"><span class="arr dn">▼</span>Brutas cayeron USD 352M en la semana. El stock bruto engaña — las líquidas mandan.</div>
     </div>
-
     <div class="nb">
       <div class="nb-top">
         <div class="nb-left">
@@ -486,31 +556,18 @@ nav{
         </div>
         <div class="nb-spark" id="spark-infl"></div>
       </div>
-      <div class="nc"><span class="arr dn">▼</span>Arriba del REM (2.7%). Regulados = 30% del total. Allaria espera marzo levemente mayor por estacionalidad.</div>
+      <div class="nc"><span class="arr dn">▼</span>Arriba del REM (2.7%). Regulados = 30% del total. Allaria espera marzo levemente mayor.</div>
     </div>
-
     <div class="nb">
       <div class="nb-top">
         <div class="nb-left">
           <div class="nr"><span class="nn">LECAP 1M (S30A6)</span><span class="nv a counting" id="n-lecap" data-target="28.6" data-suffix="% TNA" data-prefix="">—</span></div>
-          <div class="nr"><span class="nn">Caución 1 día</span><span class="nv-sm" style="color:var(--dim2);font-size:13px;font-weight:700">20.5% TNA</span></div>
+          <div class="nr"><span class="nn">Caución 1 día</span><span class="nv-sm" style="color:var(--t2)">20.5% TNA</span></div>
         </div>
         <div class="nb-spark" id="spark-tasa"></div>
       </div>
-      <div class="nc"><span class="arr dn">▼</span>Lecap -180pb en la semana. Caución -136pb. Hay pesos sobrando — el mercado dice que la inflación baja.</div>
+      <div class="nc"><span class="arr dn">▼</span>Lecap -180pb · Caución -136pb. Hay pesos sobrando en el sistema.</div>
     </div>
-
-    <div class="nb">
-      <div class="nb-top">
-        <div class="nb-left">
-          <div class="nr"><span class="nn">Brecha cambiaria (CCL)</span><span class="nv a counting" id="n-brecha" data-target="5.6" data-suffix="%" data-prefix="">—</span></div>
-          <div class="nr"><span class="nn">TC Oficial</span><span class="nv-sm" style="color:var(--t2);font-size:13px;font-weight:700" id="n-oficial">$1.393</span></div>
-        </div>
-        <div class="nb-spark" id="spark-brecha"></div>
-      </div>
-      <div class="nc"><span class="arr">►</span>Oficial bajó -1.5% en la semana. Mínimo desde cepo 2019. Energía y minería sostienen compras del BCRA fuera de temporada.</div>
-    </div>
-
     <div class="nb">
       <div class="nb-top">
         <div class="nb-left">
@@ -520,193 +577,283 @@ nav{
         </div>
         <div class="nb-spark" id="spark-rp"></div>
       </div>
-      <div class="nc"><span class="arr dn">▼</span>Semana mala. AL35 -2.1%, AE38 -1.3%. BPOD7 resistió +1%. Tesoro colocó USD 500M en AO27 a TIR 5.58%.</div>
+      <div class="nc"><span class="arr dn">▼</span>Semana mala en bonos largos. BPOD7 resistió +1%. Tesoro colocó AO27 a 5.58% TIR.</div>
     </div>
-
     <div class="nb" style="border-bottom:none">
       <div class="nb-top">
         <div class="nb-left">
-          <div class="nr"><span class="nn">Compras BCRA acum. 2026</span><span class="nv g counting" id="n-bcra-comp" data-target="307" data-suffix="M neto" data-prefix="USD ">—</span></div>
+          <div class="nr"><span class="nn">Dólar oficial <span class="nsrc">BLUELYTICS</span></span><span class="nv counting" id="n-oficial2" data-target="1393" data-suffix="" data-prefix="$">—</span></div>
+          <div class="nr"><span class="nn">Brecha CCL</span><span class="nv a nv-sm" id="n-br2">5.6%</span></div>
         </div>
-        <div class="nb-spark" id="spark-bcra"></div>
+        <div class="nb-spark" id="spark-brecha"></div>
       </div>
-      <div class="nc"><span class="arr up">▲</span>USD 295M comprados en la semana. Compra en meses que históricamente vendía — señal muy positiva para el programa.</div>
+      <div class="nc"><span class="arr">►</span>Oficial bajó -1.5% en la semana. Mínimo desde el cepo 2019.</div>
     </div>
   </div>
 
   <!-- COL 2: RESEARCH CARDS -->
   <div class="col col-mid reveal">
-    <div class="col-label" style="margin-bottom:.7rem">
-      Lo que dicen los bancos
-      <span style="font-size:8px;color:var(--dim);font-weight:400;letter-spacing:.04em;text-transform:none"> · click para expandir</span>
-    </div>
+    <div class="col-label" style="margin-bottom:.7rem">Lo que dicen los bancos <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:.03em"> · click para leer</span></div>
 
-    <!-- HSBC -->
     <div class="res-card impact-alto" onclick="toggleCard(this)">
       <div class="res-header">
         <span class="res-banco">HSBC Asset Management</span>
         <div class="res-header-right">
           <span class="impact-badge ib-alto"><span class="ibdot"></span>IMPACTO ALTO</span>
-          <span class="res-fecha">16 MAR 2026</span>
+          <span class="res-fecha">16 MAR</span>
           <span class="res-toggle">▶</span>
         </div>
       </div>
-      <div class="res-preview">60/40 muerto · EM la oportunidad del año · Merval 9.4x P/E — el más barato de LatAm</div>
-      <div class="res-body-wrap">
-        <div class="res-body">
-          <span class="res-tag">PETRÓLEO</span>Brent <span class="kv">+50%</span> — HSBC descarta recesión. EEUU produce su propio crudo. El S&P cayó solo <span class="kv">-13%</span> en Ucrania 2022 y recuperó en <span class="kv">120 días</span>. Esta vez el punto de partida macro es más frágil.
-          <span class="res-div"></span>
-          <span class="res-tag">PORTAFOLIO</span><span class="hl">El 60/40 dejó de funcionar.</span> Acciones y bonos caen juntos — la correlación negativa desapareció. Régimen similar a los 90s: inflación persistente, bancos centrales con menos margen. <span class="hl">Hedge funds = nuevo diversificador obligatorio.</span> En los 90s rendían <span class="kv">+20%</span> anual.
-          <span class="res-div"></span>
-          <span class="res-tag">EMERGENTES</span>Bonos EM aguantaron mejor que EEUU y Europa en ambos shocks. Asia lidera: proyecciones de ganancias saltaron de <span class="kv">20%</span> a <span class="kv">+30%</span> — IA y semiconductores (Corea, Taiwán). Merval cotiza a <span class="kv">9.4x P/E</span> vs Brasil <span class="kv">10x</span>, India <span class="kv">20x</span>, EEUU <span class="kv">21x</span>. HSBC no menciona Argentina en ningún análisis de asignación.
-          <div class="res-op">
-            <span class="res-op-tag">// Lectura PULSO</span>
-            <div class="res-op-txt">HSBC dice tres cosas sin juntarlas: el 60/40 murió, los emergentes son la oportunidad del año, y Argentina es el activo más barato de la región. El mercado global todavía no la encontró. Cuando la encuentre, ya va a ser tarde.</div>
-            <div class="res-op-by">— Federico R.</div>
-          </div>
-        </div>
-      </div>
+      <div class="res-preview">60/40 muerto · EM la oportunidad del año · Merval 9.4x P/E vs EEUU 21x</div>
+      <div class="res-body-wrap"><div class="res-body">
+        <span class="res-tag">PETRÓLEO</span>Brent <span class="kv">+50%</span> — HSBC descarta recesión. S&P cayó solo <span class="kv">-13%</span> en Ucrania 2022 y recuperó en <span class="kv">120 días</span>. Esta vez el punto de partida macro es más frágil.
+        <span class="res-div"></span>
+        <span class="res-tag">PORTAFOLIO</span><span class="hl">El 60/40 dejó de funcionar.</span> Acciones y bonos caen juntos. <span class="hl">Hedge funds = nuevo diversificador.</span> En los 90s rendían <span class="kv">+20%</span> anual.
+        <span class="res-div"></span>
+        <span class="res-tag">EMERGENTES</span>Merval cotiza a <span class="kv">9.4x P/E</span> vs Brasil <span class="kv">10x</span>, India <span class="kv">20x</span>, EEUU <span class="kv">21x</span>. HSBC no menciona Argentina en ningún análisis de asignación.
+        <div class="res-op"><span class="res-op-tag">// Lectura PULSO</span><div class="res-op-txt">HSBC dice tres cosas sin juntarlas: el 60/40 murió, los emergentes son la oportunidad del año, y Argentina es el activo más barato de la región. Cuando el mercado la encuentre, ya va a ser tarde.</div><div class="res-op-by">— Federico R.</div></div>
+      </div></div>
     </div>
 
-    <!-- ALLARIA -->
     <div class="res-card impact-alto" onclick="toggleCard(this)">
       <div class="res-header">
         <span class="res-banco">Allaria — Renta Fija Macro</span>
         <div class="res-header-right">
           <span class="impact-badge ib-alto"><span class="ibdot"></span>IMPACTO ALTO</span>
-          <span class="res-fecha">16 MAR 2026</span>
+          <span class="res-fecha">16 MAR</span>
           <span class="res-toggle">▶</span>
         </div>
       </div>
-      <div class="res-preview">Inflación feb 2.9% sobre estimado · Tasas -180pb · Preferir CER sobre tasa fija</div>
-      <div class="res-body-wrap">
-        <div class="res-body">
-          <span class="res-tag">INFLACIÓN</span>Feb dio <span class="kv">2.9%</span>, arriba del REM (<span class="kv">2.7%</span>). Núcleo <span class="kv">3.1%</span> — máximo desde abr-25. Regulados explicaron el 30%. El REM viene subestimando sistemáticamente. Allaria espera marzo levemente mayor.
-          <span class="res-div"></span>
-          <span class="res-tag">TASAS</span>Fuerte compresión: LECAP S30A6 <span class="kv dn">-180pb</span> → TNA 28.6%. Caución 1d cayó <span class="kv dn">-136pb</span> → 20.5% TNA. Hay pesos sobrando. <span class="hl">Prefieren instrumentos CER</span> — Boncer y Lecer para abril y junio. Inflación BE marzo 2.3% vs REM 2.56%: CER gana.
-          <span class="res-div"></span>
-          <span class="res-tag">RESERVAS</span>Líquidas <span class="kv">USD 8.757M</span>. Netas FMI <span class="kv dn">−USD 10.284M</span> — mejora vs noviembre. BCRA compró <span class="kv">USD 295M</span> en la semana (vs ventas USD 104M un año atrás). <span class="hl-g">Financiamiento bilateral próximo a anunciar.</span>
-          <span class="res-div"></span>
-          <span class="res-tag">BONOS HD</span>Tramo corto aguantó (BPOD7 <span class="kv">+1.0%</span>). Largo cayó (AL35 <span class="kv dn">-2.1%</span>). <span class="hl">Tramo corto por ahora, largo cuando termine la tensión EEUU-Irán.</span> Escenario base (RP 400pb): AL35 <span class="kv">+19.2%</span>, GD35 <span class="kv">+17.6%</span>.
-          <div class="res-op">
-            <span class="res-op-tag">// Lectura PULSO</span>
-            <div class="res-op-txt">Allaria dice que el carry en pesos ya no alcanza — la tasa real ex-ante sigue negativa. El mercado prefiere CER porque nadie cree en la desinflación tan rápida. El BCRA compra dólares en meses que históricamente vendía: señal muy positiva. El problema persiste: -USD 10.284M con el FMI es mucho.</div>
-            <div class="res-op-by">— Federico R.</div>
-          </div>
-        </div>
-      </div>
+      <div class="res-preview">Inflación 2.9% sobre REM · Tasas -180pb · Preferir CER sobre tasa fija</div>
+      <div class="res-body-wrap"><div class="res-body">
+        <span class="res-tag">INFLACIÓN</span>Feb <span class="kv">2.9%</span>, arriba del REM (<span class="kv">2.7%</span>). Núcleo <span class="kv">3.1%</span> — máximo desde abr-25. Regulados explicaron el 30%.
+        <span class="res-div"></span>
+        <span class="res-tag">TASAS</span>LECAP S30A6 <span class="kv dn">-180pb</span> → TNA 28.6%. <span class="hl">Prefieren CER</span> — Boncer y Lecer para abr/jun. Inflación BE marzo 2.3% vs REM 2.56%: CER gana.
+        <span class="res-div"></span>
+        <span class="res-tag">RESERVAS</span>BCRA compró <span class="kv">USD 295M</span> en la semana (vs ventas USD 104M un año atrás). <span class="hl-g">Financiamiento bilateral próximo a anunciar.</span>
+        <span class="res-div"></span>
+        <span class="res-tag">BONOS HD</span>Escenario base (RP 400pb): AL35 <span class="kv">+19.2%</span>, GD35 <span class="kv">+17.6%</span>. Tramo corto por ahora.
+        <div class="res-op"><span class="res-op-tag">// Lectura PULSO</span><div class="res-op-txt">El carry en pesos ya no alcanza — la tasa real ex-ante sigue negativa. El BCRA compra dólares en meses que históricamente vendía: señal muy positiva. El problema: -USD 10.284M con el FMI es mucho.</div><div class="res-op-by">— Federico R.</div></div>
+      </div></div>
     </div>
 
-    <!-- FT -->
     <div class="res-card impact-alto" onclick="toggleCard(this)">
       <div class="res-header">
         <span class="res-banco">Financial Times</span>
         <div class="res-header-right">
           <span class="impact-badge ib-alto"><span class="ibdot"></span>IMPACTO ALTO</span>
-          <span class="res-fecha">16 MAR 2026</span>
+          <span class="res-fecha">16 MAR</span>
           <span class="res-toggle">▶</span>
         </div>
       </div>
-      <div class="res-preview">GDP EEUU Q4 +0.7% revisado · 40% chance de cero recortes Fed · Sec.301 sobre 100+ países</div>
-      <div class="res-body-wrap">
-        <div class="res-body">
-          <span class="res-tag">HORMUZ</span>India negoció paso seguro de dos buques de gas. Trump llama a China, Francia y UK a mandar barcos de guerra. <span class="hl-r">9-10M barriles/día atrapados.</span> Escolta requeriría 2 barcos por tanquero — EEUU no tiene inventario sostenible.
-          <span class="res-div"></span>
-          <span class="res-tag">ECONOMÍA EEUU</span>GDP Q4 revisado a <span class="kv dn">+0.7%</span> (desde +1.4%). Consumo privado <span class="kv dn">+1.6%</span> en enero — motor frena. Nafta: de USD 2.98 a USD 3.63 en 30 días. Fed atrapada: inflación sube + crecimiento cae. Mercado descuenta <span class="kv">40%</span> chance de cero recortes en 2026.
-          <span class="res-div"></span>
-          <span class="res-tag">ARANCELES</span>USTR abrió investigaciones Sec.301 contra <span class="hl">más de 100 países simultáneamente.</span> Objetivo: reemplazar aranceles anulados por la Corte Suprema. Para Argentina: China puede diversificar compras de soja — oportunidad de corto plazo.
-          <div class="res-op">
-            <span class="res-op-tag">// Lectura PULSO</span>
-            <div class="res-op-txt">El peor combo para la Fed: inflación que sube por energía y crecimiento que se frena. DXY fuerte y tasas largas de EEUU arriba presionan a todos los emergentes. La única buena noticia: si China diversifica compras de soja por los aranceles, el campo argentino gana.</div>
-            <div class="res-op-by">— Federico R.</div>
-          </div>
-        </div>
-      </div>
+      <div class="res-preview">GDP EEUU Q4 +0.7% revisado · 40% chance cero recortes · Sec.301 en 100+ países</div>
+      <div class="res-body-wrap"><div class="res-body">
+        <span class="res-tag">HORMUZ</span><span class="hl-r">9-10M barriles/día atrapados.</span> India negoció paso seguro. Trump llama a coalición naval. EEUU no tiene inventario sostenible de escolta.
+        <span class="res-div"></span>
+        <span class="res-tag">ECONOMÍA EEUU</span>GDP Q4 revisado a <span class="kv dn">+0.7%</span>. Nafta: USD 2.98 → USD 3.63 en 30 días. Mercado descuenta <span class="kv">40%</span> chance de cero recortes en 2026.
+        <span class="res-div"></span>
+        <span class="res-tag">ARANCELES</span>USTR abrió Sec.301 contra <span class="hl">100+ países simultáneamente.</span> Para ARG: oportunidad si China diversifica compras de soja.
+        <div class="res-op"><span class="res-op-tag">// Lectura PULSO</span><div class="res-op-txt">El peor combo para la Fed: inflación que sube por energía y crecimiento que se frena. DXY fuerte presiona emergentes. La única buena noticia: si China necesita soja fuera de EEUU, el campo argentino gana.</div><div class="res-op-by">— Federico R.</div></div>
+      </div></div>
     </div>
 
-    <!-- WSJ -->
     <div class="res-card impact-medio" onclick="toggleCard(this)">
       <div class="res-header">
         <span class="res-banco">Wall Street Journal</span>
         <div class="res-header-right">
           <span class="impact-badge ib-medio"><span class="ibdot"></span>IMPACTO MEDIO</span>
-          <span class="res-fecha">16 MAR 2026</span>
+          <span class="res-fecha">16 MAR</span>
           <span class="res-toggle">▶</span>
         </div>
       </div>
-      <div class="res-preview">6.000 objetivos iraníes destruidos · SPR no movió precio · IA boom reactiva San Francisco</div>
-      <div class="res-body-wrap">
-        <div class="res-body">
-          <span class="res-tag">GUERRA IRÁN</span>EEUU destruyó más de 6.000 objetivos, incluyendo al Líder Supremo. Irán: "no pedimos cese al fuego, vamos a defendernos el tiempo que haga falta." Trump tiene tres opciones imperfectas: retirarse (Irán gana), seguir (riesgo recesión), o ciclos periódicos de ataques.
-          <span class="res-div"></span>
-          <span class="res-tag">RESERVA ESTRATÉGICA</span>EEUU activó <span class="kv">172M de barriles</span> del SPR — 40% de su reserva total. IEA coordinó <span class="kv">400M barriles</span>. Resultado: <span class="hl-r">no movió el precio.</span> Hacen falta 9-10M barriles/día para compensar Hormuz. SPR aporta ~3M/día y tarda 4 meses en llegar al mercado.
-          <span class="res-div"></span>
-          <span class="res-tag">IA BOOM</span>San Francisco: alquileres <span class="kv">+14%</span> interanual — el mayor crecimiento del país. Robots humanoides en fábricas. El boom de IA reactiva la economía real — relevante para S&P y CEDEARs tech.
-          <div class="res-op">
-            <span class="res-op-tag">// Lectura PULSO</span>
-            <div class="res-op-txt">Trump ganó la guerra táctica pero tiene problemas estratégicos. Para Argentina: si el crudo sigue arriba, Vaca Muerta exporta más caro y el BCRA compra más divisas. Riesgo: si la suba del crudo desata inflación en EEUU y la Fed no baja tasas, endurece las condiciones globales y presiona bonos EM.</div>
-            <div class="res-op-by">— Federico R.</div>
-          </div>
+      <div class="res-preview">6.000 objetivos iraníes destruidos · SPR no movió precio · IA boom en SF</div>
+      <div class="res-body-wrap"><div class="res-body">
+        <span class="res-tag">GUERRA IRÁN</span>EEUU destruyó 6.000+ objetivos incluyendo al Líder Supremo. Irán no pide cese al fuego. Trump tiene tres opciones imperfectas.
+        <span class="res-div"></span>
+        <span class="res-tag">RESERVA ESTRATÉGICA</span>EEUU activó <span class="kv">172M barriles</span> del SPR. <span class="hl-r">No movió el precio.</span> SPR aporta ~3M/día de 9-10M necesarios y tarda 4 meses en llegar al mercado.
+        <span class="res-div"></span>
+        <span class="res-tag">IA BOOM</span>San Francisco: alquileres <span class="kv">+14%</span> interanual. CEDEARs tech con soporte fundamental.
+        <div class="res-op"><span class="res-op-tag">// Lectura PULSO</span><div class="res-op-txt">Si el crudo sigue arriba, Vaca Muerta exporta más caro y el BCRA compra más divisas. Riesgo: si la Fed no baja tasas, endurece las condiciones globales y presiona bonos EM.</div><div class="res-op-by">— Federico R.</div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- COL 3: FEED -->
+  <div class="col col-right reveal">
+    <div class="feed-header"><div class="col-label" style="margin-bottom:0">Feed · Esta semana</div></div>
+    <div class="feed-scroll">
+      <div class="feed-inner">
+        <div class="feed-item"><div class="feed-source">IRÁN · HORMUZ</div><div class="feed-title">9-10M barriles/día atrapados en Hormuz</div><div class="feed-body">Trump pide coalición naval. SPR no alcanza para compensar.</div><span class="feed-imp fi-alto">Crítico</span></div>
+        <div class="feed-item"><div class="feed-source">FED · MIÉRC 18</div><div class="feed-title">Dot plot: ¿cero recortes en 2026?</div><div class="feed-body">40% chance de cero recortes. DXY fuerte presiona emergentes.</div><span class="feed-imp fi-alto">Crítico</span></div>
+        <div class="feed-item"><div class="feed-source">ALLARIA · ARG</div><div class="feed-title">Inflación feb 2.9% — arriba del REM</div><div class="feed-body">Tasas -180pb. Recomiendan instrumentos CER sobre tasa fija.</div><span class="feed-imp fi-alto">Alto</span></div>
+        <div class="feed-item"><div class="feed-source">BCRA · RESERVAS</div><div class="feed-title">BCRA compró USD 295M en la semana</div><div class="feed-body">Acumula USD 307M netos en 2026. Señal positiva para el programa.</div><span class="feed-imp fi-medio">Positivo</span></div>
+        <div class="feed-item"><div class="feed-source">WSJ · EEUU</div><div class="feed-title">GDP Q4 revisado a +0.7% anualizado</div><div class="feed-body">Stagflation lite: inflación sube, crecimiento frena.</div><span class="feed-imp fi-alto">Alto</span></div>
+        <div class="feed-item"><div class="feed-source">ARANCELES</div><div class="feed-title">Sección 301 contra 100+ países</div><div class="feed-body">Oportunidad si China diversifica compras de soja desde ARG.</div><span class="feed-imp fi-medio">Medio</span></div>
+        <div class="feed-item"><div class="feed-source">HSBC</div><div class="feed-title">El 60/40 dejó de funcionar</div><div class="feed-body">Merval 9.4x P/E vs EEUU 21x — el más barato de LatAm.</div><span class="feed-imp fi-alto">Alto</span></div>
+        <div class="feed-item"><div class="feed-source">TESORO · ARG</div><div class="feed-title">Bilateral Italia/Israel/EEUU próximo</div><div class="feed-body">AO27 USD 500M a TIR 5.58%. Cubriría jul-26 y ene-27.</div><span class="feed-imp fi-medio">Positivo</span></div>
+        <div class="feed-item"><div class="feed-source">FT · ENERGÍA</div><div class="feed-title">SPR 172M barriles — no movió el precio</div><div class="feed-body">Alivio de precios llegará recién en 4 meses si acaso.</div><span class="feed-imp fi-alto">Crítico</span></div>
+        <div class="feed-item"><div class="feed-source">IA · BOOM</div><div class="feed-title">San Francisco: alquileres +14% YoY</div><div class="feed-body">Robots en fábricas. CEDEARs tech con soporte fundamental.</div><span class="feed-imp fi-bajo">Monitorear</span></div>
+        <!-- duplicado para loop infinito -->
+        <div class="feed-item"><div class="feed-source">IRÁN · HORMUZ</div><div class="feed-title">9-10M barriles/día atrapados en Hormuz</div><div class="feed-body">Trump pide coalición naval. SPR no alcanza para compensar.</div><span class="feed-imp fi-alto">Crítico</span></div>
+        <div class="feed-item"><div class="feed-source">FED · MIÉRC 18</div><div class="feed-title">Dot plot: ¿cero recortes en 2026?</div><div class="feed-body">40% chance de cero recortes. DXY fuerte presiona emergentes.</div><span class="feed-imp fi-alto">Crítico</span></div>
+        <div class="feed-item"><div class="feed-source">ALLARIA · ARG</div><div class="feed-title">Inflación feb 2.9% — arriba del REM</div><div class="feed-body">Tasas -180pb. Recomiendan instrumentos CER sobre tasa fija.</div><span class="feed-imp fi-alto">Alto</span></div>
+        <div class="feed-item"><div class="feed-source">BCRA · RESERVAS</div><div class="feed-title">BCRA compró USD 295M en la semana</div><div class="feed-body">Acumula USD 307M netos en 2026. Señal positiva para el programa.</div><span class="feed-imp fi-medio">Positivo</span></div>
+        <div class="feed-item"><div class="feed-source">HSBC</div><div class="feed-title">El 60/40 dejó de funcionar</div><div class="feed-body">Merval 9.4x P/E vs EEUU 21x — el más barato de LatAm.</div><span class="feed-imp fi-alto">Alto</span></div>
+        <div class="feed-item"><div class="feed-source">ARANCELES</div><div class="feed-title">Sección 301 contra 100+ países</div><div class="feed-body">Oportunidad si China diversifica compras de soja desde ARG.</div><span class="feed-imp fi-medio">Medio</span></div>
+        <div class="feed-item"><div class="feed-source">TESORO · ARG</div><div class="feed-title">Bilateral Italia/Israel/EEUU próximo</div><div class="feed-body">AO27 USD 500M a TIR 5.58%. Cubriría jul-26 y ene-27.</div><span class="feed-imp fi-medio">Positivo</span></div>
+        <div class="feed-item"><div class="feed-source">FT · ENERGÍA</div><div class="feed-title">SPR 172M barriles — no movió el precio</div><div class="feed-body">Alivio de precios llegará recién en 4 meses si acaso.</div><span class="feed-imp fi-alto">Crítico</span></div>
+        <div class="feed-item"><div class="feed-source">WSJ · EEUU</div><div class="feed-title">GDP Q4 revisado a +0.7% anualizado</div><div class="feed-body">Stagflation lite: inflación sube, crecimiento frena.</div><span class="feed-imp fi-alto">Alto</span></div>
+        <div class="feed-item"><div class="feed-source">IA · BOOM</div><div class="feed-title">San Francisco: alquileres +14% YoY</div><div class="feed-body">Robots en fábricas. CEDEARs tech con soporte fundamental.</div><span class="feed-imp fi-bajo">Monitorear</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     § 3 — CARTERA MODELO
+════════════════════════════════ -->
+<div class="section-div reveal">
+  <span class="section-div-label">Cartera modelo</span>
+  <div class="section-div-line"></div>
+  <span class="section-div-meta">posicionamiento sugerido · semana 11 · perfil moderado</span>
+</div>
+
+<div class="cartera reveal">
+  <div class="cartera-grid">
+    <!-- tabla -->
+    <div>
+      <table class="cartera-tabla">
+        <thead>
+          <tr>
+            <th>Activo</th>
+            <th>Tipo</th>
+            <th>Peso</th>
+            <th>Retorno est.</th>
+            <th>Tesis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ct-asset">AL35 / GD35</td>
+            <td><span class="ct-tipo ct-rf">Soberano HD</span></td>
+            <td class="ct-peso">20%</td>
+            <td class="ct-ret up">+17–19%</td>
+            <td class="ct-rat">RP baja a 400pb en escenario base</td>
+          </tr>
+          <tr>
+            <td class="ct-asset">Lecer / Boncer</td>
+            <td><span class="ct-tipo ct-rf">CER</span></td>
+            <td class="ct-peso">25%</td>
+            <td class="ct-ret up">+inf+3%</td>
+            <td class="ct-rat">Inflación BE subestima; CER gana vs tasa fija</td>
+          </tr>
+          <tr>
+            <td class="ct-asset">LECAP S30A6</td>
+            <td><span class="ct-tipo ct-rf">Tasa fija</span></td>
+            <td class="ct-peso">10%</td>
+            <td class="ct-ret am">28.6% TNA</td>
+            <td class="ct-rat">Solo si desinflación acelera más de lo esperado</td>
+          </tr>
+          <tr>
+            <td class="ct-asset">Merval / CEDEARs ARG</td>
+            <td><span class="ct-tipo ct-pe">Renta variable</span></td>
+            <td class="ct-peso">20%</td>
+            <td class="ct-ret up">+25–40%</td>
+            <td class="ct-rat">9.4x P/E · flujo extranjero no llegó aún</td>
+          </tr>
+          <tr>
+            <td class="ct-asset">CEDEARs Tech (SPY, QQQ)</td>
+            <td><span class="ct-tipo ct-pe">Renta variable</span></td>
+            <td class="ct-peso">15%</td>
+            <td class="ct-ret am">cobertura CCL</td>
+            <td class="ct-rat">Cobertura ante devaluación + boom IA</td>
+          </tr>
+          <tr>
+            <td class="ct-asset">Efectivo / Caución</td>
+            <td><span class="ct-tipo ct-ca">Liquidez</span></td>
+            <td class="ct-peso">10%</td>
+            <td class="ct-ret dim">20.5% TNA</td>
+            <td class="ct-rat">Munición ante el dot plot del miércoles</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- barras de allocation -->
+    <div class="alloc-section">
+      <div class="alloc-title">Distribución del portafolio</div>
+      <div class="alloc-bar-wrap">
+        <div class="alloc-row">
+          <div class="alloc-label">Soberano HD</div>
+          <div class="alloc-track"><div class="alloc-fill" style="width:0%;background:var(--r)" data-w="20"></div></div>
+          <div class="alloc-pct">20%</div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-label">CER (Lecer/Boncer)</div>
+          <div class="alloc-track"><div class="alloc-fill" style="width:0%;background:var(--a)" data-w="25"></div></div>
+          <div class="alloc-pct">25%</div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-label">Tasa fija (LECAP)</div>
+          <div class="alloc-track"><div class="alloc-fill" style="width:0%;background:#888" data-w="10"></div></div>
+          <div class="alloc-pct">10%</div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-label">Renta variable ARG</div>
+          <div class="alloc-track"><div class="alloc-fill" style="width:0%;background:var(--g)" data-w="20"></div></div>
+          <div class="alloc-pct">20%</div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-label">CEDEARs Tech / SPY</div>
+          <div class="alloc-track"><div class="alloc-fill" style="width:0%;background:var(--cyan)" data-w="15"></div></div>
+          <div class="alloc-pct">15%</div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-label">Liquidez</div>
+          <div class="alloc-track"><div class="alloc-fill" style="width:0%;background:var(--t3)" data-w="10"></div></div>
+          <div class="alloc-pct">10%</div>
         </div>
       </div>
-    </div>
-
-  </div>
-
-  <!-- COL 3: NEWS FEED -->
-  <div class="col col-right reveal">
-    <div class="feed-header">
-      <div class="col-label" style="margin-bottom:0">Feed · Esta semana</div>
-    </div>
-    <div class="feed-scroll">
-      <div class="feed-inner" id="feedInner">
-        <div class="feed-item"><div class="feed-source">IRÁN · HORMUZ</div><div class="feed-title">Strait of Hormuz: 9-10M barriles/día atrapados</div><div class="feed-body">Trump pide coalición naval. India negoció paso para dos buques de gas. SPR no movió el precio.</div><span class="feed-imp fi-alto">Crítico</span></div>
-        <div class="feed-item"><div class="feed-source">FED · MIÉRC 18</div><div class="feed-title">Dot plot: ¿cuántos recortes en 2026?</div><div class="feed-body">Sin cambios esperados. 40% chance de cero recortes. DXY fuerte presiona emergentes.</div><span class="feed-imp fi-alto">Crítico</span></div>
-        <div class="feed-item"><div class="feed-source">ALLARIA · ARG</div><div class="feed-title">Inflación feb 2.9% — arriba del REM</div><div class="feed-body">Núcleo 3.1%, máximo desde abr-25. Tasas -180pb. Recomiendan instrumentos CER.</div><span class="feed-imp fi-alto">Alto</span></div>
-        <div class="feed-item"><div class="feed-source">BCRA · RESERVAS</div><div class="feed-title">BCRA compró USD 295M en la semana</div><div class="feed-body">Acumula USD 307M netos en 2026. Compra en meses que históricamente vendía: señal positiva.</div><span class="feed-imp fi-medio">Positivo</span></div>
-        <div class="feed-item"><div class="feed-source">WSJ · EEUU</div><div class="feed-title">GDP Q4 revisado a +0.7% anualizado</div><div class="feed-body">Consumo privado +1.6% en enero. La economía frena justo cuando el crudo sube.</div><span class="feed-imp fi-alto">Alto</span></div>
-        <div class="feed-item"><div class="feed-source">ARANCELES · EEUU</div><div class="feed-title">Sección 301 contra 100+ países</div><div class="feed-body">Para ARG: China puede diversificar compras de soja — oportunidad de corto plazo.</div><span class="feed-imp fi-medio">Medio</span></div>
-        <div class="feed-item"><div class="feed-source">HSBC · MERCADOS</div><div class="feed-title">El 60/40 dejó de funcionar</div><div class="feed-body">Hedge funds como nuevo diversificador. Merval 9.4x P/E vs EEUU 21x — el más barato de LatAm.</div><span class="feed-imp fi-alto">Alto</span></div>
-        <div class="feed-item"><div class="feed-source">TESORO · ARG</div><div class="feed-title">AO27 llega a USD 500M en circulación</div><div class="feed-body">Bilateral Italia/Israel/EEUU próximo a anunciar. Cubriría julio 2026 y enero 2027.</div><span class="feed-imp fi-medio">Positivo</span></div>
-        <div class="feed-item"><div class="feed-source">FT · ENERGÍA</div><div class="feed-title">SPR 172M barriles — no movió el precio</div><div class="feed-body">SPR aporta ~3M/día de 9-10M necesarios. El alivio de precios llegará recién en 4 meses.</div><span class="feed-imp fi-alto">Crítico</span></div>
-        <div class="feed-item"><div class="feed-source">IA · BOOM</div><div class="feed-title">San Francisco: alquileres +14% interanual</div><div class="feed-body">Mayor crecimiento del país. Robots humanoides en fábricas. CEDEARs tech con soporte.</div><span class="feed-imp fi-bajo">Monitorear</span></div>
-        <!-- duplicado para loop -->
-        <div class="feed-item"><div class="feed-source">IRÁN · HORMUZ</div><div class="feed-title">Strait of Hormuz: 9-10M barriles/día atrapados</div><div class="feed-body">Trump pide coalición naval. India negoció paso para dos buques de gas. SPR no movió el precio.</div><span class="feed-imp fi-alto">Crítico</span></div>
-        <div class="feed-item"><div class="feed-source">FED · MIÉRC 18</div><div class="feed-title">Dot plot: ¿cuántos recortes en 2026?</div><div class="feed-body">Sin cambios esperados. 40% chance de cero recortes. DXY fuerte presiona emergentes.</div><span class="feed-imp fi-alto">Crítico</span></div>
-        <div class="feed-item"><div class="feed-source">ALLARIA · ARG</div><div class="feed-title">Inflación feb 2.9% — arriba del REM</div><div class="feed-body">Núcleo 3.1%, máximo desde abr-25. Tasas -180pb. Recomiendan instrumentos CER.</div><span class="feed-imp fi-alto">Alto</span></div>
-        <div class="feed-item"><div class="feed-source">BCRA · RESERVAS</div><div class="feed-title">BCRA compró USD 295M en la semana</div><div class="feed-body">Acumula USD 307M netos en 2026. Compra en meses que históricamente vendía: señal positiva.</div><span class="feed-imp fi-medio">Positivo</span></div>
-        <div class="feed-item"><div class="feed-source">HSBC · MERCADOS</div><div class="feed-title">El 60/40 dejó de funcionar</div><div class="feed-body">Hedge funds como nuevo diversificador. Merval 9.4x P/E vs EEUU 21x — el más barato de LatAm.</div><span class="feed-imp fi-alto">Alto</span></div>
-        <div class="feed-item"><div class="feed-source">ARANCELES · EEUU</div><div class="feed-title">Sección 301 contra 100+ países</div><div class="feed-body">Para ARG: China puede diversificar compras de soja — oportunidad de corto plazo.</div><span class="feed-imp fi-medio">Medio</span></div>
-        <div class="feed-item"><div class="feed-source">WSJ · EEUU</div><div class="feed-title">GDP Q4 revisado a +0.7% anualizado</div><div class="feed-body">Consumo privado +1.6% en enero. Stagflation lite: inflación sube, crecimiento frena.</div><span class="feed-imp fi-alto">Alto</span></div>
-        <div class="feed-item"><div class="feed-source">TESORO · ARG</div><div class="feed-title">Financiamiento bilateral próximo</div><div class="feed-body">Italia, Israel y EEUU en negociación. Cubriría vencimientos julio 2026 y enero 2027.</div><span class="feed-imp fi-medio">Positivo</span></div>
-        <div class="feed-item"><div class="feed-source">FT · ENERGÍA</div><div class="feed-title">SPR 172M barriles — no movió el precio</div><div class="feed-body">El alivio de precios llegará recién después del verano boreal.</div><span class="feed-imp fi-alto">Crítico</span></div>
-        <div class="feed-item"><div class="feed-source">IA · BOOM</div><div class="feed-title">San Francisco: alquileres +14% interanual</div><div class="feed-body">Robots humanoides en fábricas. CEDEARs tech con soporte fundamental.</div><span class="feed-imp fi-bajo">Monitorear</span></div>
+      <div class="cartera-nota">
+        Perfil moderado · Horizonte 6 meses · Ajustar según tolerancia al riesgo individual.<br>
+        <span style="color:var(--r)">⚠</span> El dot plot del miércoles puede mover todo — mantener 10% en liquidez como táctica.
       </div>
     </div>
   </div>
-
 </div>
 
-<!-- GEO PANEL -->
-<div class="geo-panel reveal">
-  <div class="col-label" style="color:var(--orange)">Geopolítica · Commodities · Macro global</div>
+<!-- ════════════════════════════════
+     § 4 — GEOPOLÍTICA
+════════════════════════════════ -->
+<div class="section-div reveal">
+  <span class="section-div-label">Geopolítica · Commodities · Macro global</span>
+  <div class="section-div-line"></div>
+  <span class="section-div-meta">6 temas a monitorear</span>
+</div>
+<div class="geo-panel reveal" style="border-top:none">
   <div class="geo-grid">
-    <div class="geo-card"><div class="geo-card-tag">IRÁN — HORMUZ CERRADO</div><div class="geo-card-title">Crisis energética global activa</div><div class="geo-card-body">9-10M barriles/día atrapados. Brent +50% YTD. SPR no alcanza — aporta ~3M/día. Tarda 4 meses en llegar al mercado. Sin cese al fuego a la vista.</div><span class="geo-card-imp gc-c">Impacto crítico</span></div>
-    <div class="geo-card"><div class="geo-card-tag">FED — MIÉRCOLES 18 MAR</div><div class="geo-card-title">Sin cambios · dot plot decisivo</div><div class="geo-card-body">40% chance de cero recortes en 2026. Si el dot plot baja a 1 corte o menos, DXY sube y todos los emergentes caen. Argentina directamente expuesta via bonos soberanos.</div><span class="geo-card-imp gc-c">Impacto crítico</span></div>
-    <div class="geo-card"><div class="geo-card-tag">ARANCELES — SEC. 301</div><div class="geo-card-title">100+ países investigados simultáneamente</div><div class="geo-card-body">USTR busca reemplazar aranceles anulados. Doble lectura para ARG: presión global a EM, pero oportunidad si China diversifica compras de soja frente a EEUU.</div><span class="geo-card-imp gc-m">Impacto medio</span></div>
-    <div class="geo-card"><div class="geo-card-tag">OPEC+ — CRUDO</div><div class="geo-card-title">Iraq, Kuwait y Arabia cortan producción</div><div class="geo-card-body">No tienen donde almacenar el crudo atrapado. WTI cerca de USD 99. Para ARG: Vaca Muerta exporta más caro. Cada USD +10 en barril = ~USD 800M anuales extra en exportaciones.</div><span class="geo-card-imp gc-m">Impacto medio</span></div>
-    <div class="geo-card"><div class="geo-card-tag">ARG-FMI — BILATERAL</div><div class="geo-card-title">Italia · Israel · EEUU en proceso</div><div class="geo-card-body">Bloomberg adelantó los tres países. Furiase confirmó financiamiento próximo a anunciar. AO27 llegó a USD 500M a TIR 5.58%. Cubriría julio 2026 y enero 2027.</div><span class="geo-card-imp gc-m">Impacto medio</span></div>
-    <div class="geo-card"><div class="geo-card-tag">EMPLEO ARG — SEÑAL MIXTA</div><div class="geo-card-title">Creación neta positiva · baja calidad</div><div class="geo-card-body">Dic-25: +14.075 puestos. Pero asalariado privado cayó -12.399. El crecimiento viene de monotributo y autónomos. Si sigue, mantiene apoyo popular y presiona a la baja el riesgo país.</div><span class="geo-card-imp gc-l">Monitorear</span></div>
+    <div class="geo-card"><div class="geo-card-tag">IRÁN — HORMUZ</div><div class="geo-card-title">Crisis energética activa</div><div class="geo-card-body">9-10M barriles/día atrapados. Brent +50% YTD. SPR aporta ~3M/día — insuficiente. Sin cese al fuego a la vista.</div><span class="geo-card-imp gc-c">Crítico</span></div>
+    <div class="geo-card"><div class="geo-card-tag">FED — MIÉRC 18 MAR</div><div class="geo-card-title">Sin cambios · dot plot</div><div class="geo-card-body">40% chance de cero recortes en 2026. Si el dot plot baja a ≤1 corte, DXY sube y emergentes caen. ARG expuesta directamente.</div><span class="geo-card-imp gc-c">Crítico</span></div>
+    <div class="geo-card"><div class="geo-card-tag">ARANCELES — SEC. 301</div><div class="geo-card-title">100+ países investigados</div><div class="geo-card-body">Doble lectura: presión global a EM, pero oportunidad si China diversifica compras de soja frente a EEUU.</div><span class="geo-card-imp gc-m">Medio</span></div>
+    <div class="geo-card"><div class="geo-card-tag">OPEC+ — CRUDO</div><div class="geo-card-title">Producción reducida</div><div class="geo-card-body">WTI cerca de USD 99. Para ARG: Vaca Muerta exporta más caro. Cada USD +10 en barril = ~USD 800M anuales extra.</div><span class="geo-card-imp gc-m">Medio</span></div>
+    <div class="geo-card"><div class="geo-card-tag">ARG-FMI</div><div class="geo-card-title">Italia · Israel · EEUU</div><div class="geo-card-body">Bloomberg adelantó los tres países. AO27 llegó a USD 500M a TIR 5.58%. Cubriría jul-26 y ene-27.</div><span class="geo-card-imp gc-m">Medio</span></div>
+    <div class="geo-card"><div class="geo-card-tag">EMPLEO ARG</div><div class="geo-card-title">Señal mixta</div><div class="geo-card-body">Dic-25: +14.075 puestos, pero asalariado privado -12.399. Crecimiento via monotributo y autónomos.</div><span class="geo-card-imp gc-l">Monitorear</span></div>
   </div>
 </div>
 
-<!-- EVENTOS -->
-<div class="eventos reveal">
-  <div class="col-label" style="margin-bottom:.65rem">Qué mirar esta semana</div>
+<!-- ════════════════════════════════
+     § 5 — AGENDA
+════════════════════════════════ -->
+<div class="section-div reveal">
+  <span class="section-div-label">Agenda de la semana</span>
+  <div class="section-div-line"></div>
+  <span class="section-div-meta">3 eventos que pueden mover el mercado</span>
+</div>
+<div class="eventos reveal" style="border-top:none">
   <div class="ev-grid">
-    <div class="ev-card"><div class="ev-fecha">Mié 18 Mar · EEUU · 14hs ARG</div><div class="ev-titulo">FED — Tasa + Dot Plot</div><div class="ev-desc">Sin cambios. Lo que importa: ¿cuántos recortes para 2026? El dot plot mueve el DXY y los bonos EM — incluyendo soberanos ARG y CCL.</div><span class="ev-imp ea">Impacto alto</span></div>
-    <div class="ev-card"><div class="ev-fecha">Jue 19 Mar · EZ / UK / JP</div><div class="ev-titulo">ECB · BOE · BOJ — Tasas</div><div class="ev-desc">ECB Deposit Rate en 2.00%. BOE y BOJ sin cambios. Si alguno sorprende en la misma jornada, mueve todo el mercado global.</div><span class="ev-imp em">Impacto medio</span></div>
-    <div class="ev-card"><div class="ev-fecha">Lun 31 Mar · ARG</div><div class="ev-titulo">FMI — Revisión programa</div><div class="ev-desc">¿Desembolso o condicionamiento? Allaria espera que el gobierno llegue con el bilateral ya anunciado para negociar desde posición de fuerza.</div><span class="ev-imp ea">Impacto alto</span></div>
+    <div class="ev-card"><div class="ev-fecha">Mié 18 Mar · EEUU · 14hs ARG</div><div class="ev-titulo">FED — Tasa + Dot Plot</div><div class="ev-desc">Sin cambios. Lo que importa: dot plot 2026. Mueve el DXY, los bonos EM y el CCL argentino directamente.</div><span class="ev-imp ea">Impacto alto</span></div>
+    <div class="ev-card"><div class="ev-fecha">Jue 19 Mar · EZ / UK / JP</div><div class="ev-titulo">ECB · BOE · BOJ</div><div class="ev-desc">ECB Deposit Rate en 2.00%. BOE y BOJ sin cambios. Si alguno sorprende, sacude el mercado global.</div><span class="ev-imp em">Impacto medio</span></div>
+    <div class="ev-card"><div class="ev-fecha">Lun 31 Mar · ARG</div><div class="ev-titulo">FMI — Revisión programa</div><div class="ev-desc">¿Desembolso o condicionamiento? Allaria espera que el gobierno llegue con el bilateral ya anunciado.</div><span class="ev-imp ea">Impacto alto</span></div>
   </div>
 </div>
 
@@ -717,124 +864,149 @@ nav{
 </div>
 
 <script>
-// ── SPARKLINES ────────────────────────────────────────────
+// ══ THEME TOGGLE ════════════════════════════════
+function toggleTheme(){
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme', isDark?'light':'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '☾ OSCURO' : '☀ CLARO';
+}
+
+// ══ SPARKLINES ══════════════════════════════════
 function makeSpark(id, data, color, w=58, h=26){
   const el = document.getElementById(id);
   if(!el) return;
-  const mn = Math.min(...data), mx = Math.max(...data);
-  const range = mx-mn||1;
+  const mn=Math.min(...data), mx=Math.max(...data), range=mx-mn||1;
   const pts = data.map((v,i)=>{
-    const x = (i/(data.length-1))*(w-4)+2;
-    const y = h-4-((v-mn)/range)*(h-8);
+    const x=(i/(data.length-1))*(w-4)+2;
+    const y=h-4-((v-mn)/range)*(h-8);
     return `${x.toFixed(1)},${y.toFixed(1)}`;
   }).join(' ');
-  const lastPt = pts.split(' ').pop().split(',');
-  el.innerHTML = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+  const lp = pts.split(' ').pop().split(',');
+  el.innerHTML=`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
     <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" opacity=".85"/>
-    <circle cx="${lastPt[0]}" cy="${lastPt[1]}" r="2.5" fill="${color}" opacity="1"/>
+    <circle cx="${lp[0]}" cy="${lp[1]}" r="2.5" fill="${color}"/>
   </svg>`;
 }
-makeSpark('spark-res',    [41.2,42.0,43.1,44.5,44.0,45.5,46.0,45.7], '#00B8D4');
-makeSpark('spark-infl',   [3.7,2.8,1.5,1.6,1.9,1.9,2.9,2.9],         '#E04030');
-makeSpark('spark-tasa',   [42.0,38.0,34.5,32.6,31.0,30.4,28.6,28.6],  '#D4BC00');
-makeSpark('spark-brecha', [22.5,4.2,3.7,3.9,4.7,5.2,4.7,5.6],         '#D4BC00');
-makeSpark('spark-rp',     [900,750,650,600,580,520,573,582],            '#E04030');
-makeSpark('spark-bcra',   [-200,-150,-50,50,100,180,280,307],           '#28A060');
+makeSpark('spark-res',    [41.2,42.0,43.1,44.5,44.0,45.5,46.0,45.7],'#00B8D4');
+makeSpark('spark-infl',   [3.7,2.8,1.5,1.6,1.9,1.9,2.9,2.9],        '#E04030');
+makeSpark('spark-tasa',   [42.0,38.0,34.5,32.6,31.0,30.4,28.6,28.6], '#D4BC00');
+makeSpark('spark-brecha', [22.5,4.2,3.7,3.9,4.7,5.2,4.7,5.6],        '#D4BC00');
+makeSpark('spark-rp',     [900,750,650,600,580,520,573,582],           '#E04030');
+makeSpark('hsp-brecha',   [22.5,4.2,3.7,3.9,4.7,5.2,4.7,5.6],        '#D4BC00',70,32);
+makeSpark('hsp-rp',       [900,750,650,600,580,520,573,582],           '#E04030',70,32);
+makeSpark('hsp-bcra',     [-200,-150,-50,50,100,180,280,307],          '#28A060',70,32);
 
-// ── COUNT-UP ─────────────────────────────────────────────
+// ══ COUNT-UP ════════════════════════════════════
 function countUp(el, target, prefix, suffix, duration=1100){
-  const start = performance.now();
-  const isFloat = String(target).includes('.');
+  const start=performance.now(), isFloat=String(target).includes('.');
   function step(now){
-    const t = Math.min((now-start)/duration, 1);
-    const ease = 1-Math.pow(1-t, 4);
-    const val = target * ease;
-    el.textContent = prefix + (isFloat ? val.toFixed(1) : Math.round(val)) + suffix;
-    if(t < 1) requestAnimationFrame(step);
+    const t=Math.min((now-start)/duration,1);
+    const ease=1-Math.pow(1-t,4);
+    el.textContent=prefix+(isFloat?(target*ease).toFixed(1):Math.round(target*ease))+suffix;
+    if(t<1) requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
 }
 function initCountup(){
-  const els = document.querySelectorAll('.counting[data-target]');
-  const obs = new IntersectionObserver(entries=>{
+  const obs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting){
-        const el = e.target;
-        countUp(el, parseFloat(el.dataset.target), el.dataset.prefix||'', el.dataset.suffix||'');
+        const el=e.target;
+        countUp(el,parseFloat(el.dataset.target),el.dataset.prefix||'',el.dataset.suffix||'');
         obs.unobserve(el);
       }
     });
   },{threshold:.1});
-  els.forEach(el=>obs.observe(el));
+  document.querySelectorAll('.counting[data-target]').forEach(el=>obs.observe(el));
 }
 
-// ── STAGGER REVEAL ───────────────────────────────────────
+// ══ ALLOC BARS ══════════════════════════════════
+function initAllocBars(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.alloc-fill[data-w]').forEach(bar=>{
+          setTimeout(()=>bar.style.width=bar.dataset.w+'%', 100);
+        });
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:.2});
+  document.querySelectorAll('.cartera').forEach(el=>obs.observe(el));
+}
+
+// ══ STAGGER REVEAL ══════════════════════════════
 function initReveal(){
-  const els = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver(entries=>{
+  const obs=new IntersectionObserver(entries=>{
     entries.forEach((e,i)=>{
       if(e.isIntersecting){
-        setTimeout(()=>e.target.classList.add('visible'), i*55);
+        setTimeout(()=>e.target.classList.add('visible'),i*50);
         obs.unobserve(e.target);
       }
     });
   },{threshold:.04});
-  els.forEach(el=>obs.observe(el));
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 }
 
-// ── CARD TOGGLE ──────────────────────────────────────────
+// ══ CARD TOGGLE ════════════════════════════════
 function toggleCard(card){
-  const wasOpen = card.classList.contains('open');
-  document.querySelectorAll('.res-card.open').forEach(c=>{
-    if(c!==card) c.classList.remove('open');
-  });
-  card.classList.toggle('open', !wasOpen);
+  const wasOpen=card.classList.contains('open');
+  document.querySelectorAll('.res-card.open').forEach(c=>{if(c!==card)c.classList.remove('open')});
+  card.classList.toggle('open',!wasOpen);
 }
 
-// ── APIS ─────────────────────────────────────────────────
-function setEl(id, val, cls){ const el=document.getElementById(id); if(!el)return; el.textContent=val; if(cls!==undefined)el.className=cls; }
-function setMany(ids, val, cls){ ids.forEach(id=>setEl(id,val,cls)); }
-function nowStr(){ return new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'}); }
-function todayStr(){ return new Date().toISOString().split('T')[0]; }
+// ══ APIS ════════════════════════════════════════
+function setEl(id,val,cls){const el=document.getElementById(id);if(!el)return;el.textContent=val;if(cls!==undefined)el.className=cls;}
+function setMany(ids,val,cls){ids.forEach(id=>setEl(id,val,cls));}
+function nowStr(){return new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});}
+function todayStr(){return new Date().toISOString().split('T')[0];}
 
 async function fetchBCRA(){
   const base='https://api.bcra.gob.ar/estadisticas/v2.0/datosvariable';
-  const desde='2025-01-01', hasta=todayStr();
   async function getVar(id){
-    try{ const r=await fetch(`${base}/${id}/${desde}/${hasta}`,{headers:{'Accept':'application/json'}}); if(!r.ok)return null; const d=await r.json(); const items=d?.results; return items&&items.length?items[items.length-1]:null; }catch{return null;}
+    try{const r=await fetch(`${base}/${id}/2025-01-01/${todayStr()}`,{headers:{'Accept':'application/json'}});if(!r.ok)return null;const d=await r.json();const items=d?.results;return items?.length?items[items.length-1]:null;}catch{return null;}
   }
   const res=await getVar(1);
-  if(res){ const fmt='USD '+(res.valor/1000).toFixed(1)+'B'; setMany(['tk-res','tk-res2'],fmt); setEl('n-resbru',fmt,'nv t counting'); setEl('st-bcra','OK · '+res.fecha,'up'); }
+  if(res){const fmt='USD '+(res.valor/1000).toFixed(1)+'B';setMany(['tk-res','tk-res2'],fmt);setEl('st-bcra','OK · '+res.fecha,'up');}
   const bm=await getVar(15);
-  if(bm){ const fmt='$'+(bm.valor/1000000).toFixed(2)+'B'; setMany(['tk-bm','tk-bm2'],fmt); }
+  if(bm){const fmt='$'+(bm.valor/1000000).toFixed(2)+'B';setMany(['tk-bm','tk-bm2'],fmt);}
   setEl('st-time',nowStr());
 }
 async function fetchDolar(){
   try{
-    const r=await fetch('https://api.bluelytics.com.ar/v2/latest'); const d=await r.json();
-    const of=d.oficial?.value_sell, bl=d.blue?.value_sell, mep=d.blue_euro?.value_sell;
-    if(of){ const v='$'+Math.round(of).toLocaleString('es-AR'); setMany(['tk-of','tk-of2'],v); setEl('n-oficial',v); }
-    if(bl){ setMany(['tk-bl','tk-bl2'],'$'+Math.round(bl).toLocaleString('es-AR'));
-      if(of){ const br=((bl-of)/of*100).toFixed(1)+'%'; setMany(['tk-br','tk-br2'],br); } }
-    if(mep) setMany(['tk-mep','tk-mep2'],'$'+Math.round(mep).toLocaleString('es-AR'));
-    setEl('st-dolar','OK · '+nowStr()); setEl('st-time',nowStr());
+    const r=await fetch('https://api.bluelytics.com.ar/v2/latest');const d=await r.json();
+    const of=d.oficial?.value_sell,bl=d.blue?.value_sell,mep=d.blue_euro?.value_sell;
+    if(of){const v='$'+Math.round(of).toLocaleString('es-AR');setMany(['tk-of','tk-of2'],v);setEl('n-oficial2','$'+Math.round(of),'nv counting');}
+    if(bl)setMany(['tk-bl','tk-bl2'],'$'+Math.round(bl).toLocaleString('es-AR'));
+    if(bl&&of){const br=((bl-of)/of*100).toFixed(1)+'%';setMany(['tk-br','tk-br2'],br);setEl('n-br2',br,'nv a nv-sm');}
+    if(mep)setMany(['tk-mep','tk-mep2'],'$'+Math.round(mep).toLocaleString('es-AR'));
+    setEl('st-dolar','OK · '+nowStr());setEl('st-time',nowStr());
   }catch(e){}
 }
 async function fetchMerval(){
-  try{ const r=await fetch('https://query1.finance.yahoo.com/v8/finance/chart/%5EMERV?interval=1d&range=2d'); const d=await r.json(); const p=d?.chart?.result?.[0]?.meta?.regularMarketPrice; if(p) setMany(['tk-mv','tk-mv2'],Math.round(p).toLocaleString('es-AR')); }catch(e){}
+  try{const r=await fetch('https://query1.finance.yahoo.com/v8/finance/chart/%5EMERV?interval=1d&range=2d');const d=await r.json();const p=d?.chart?.result?.[0]?.meta?.regularMarketPrice;if(p)setMany(['tk-mv','tk-mv2'],Math.round(p).toLocaleString('es-AR'));}catch(e){}
 }
 const SYMS={'CL=F':{ids:['gk-wti','gk-wti2'],fmt:v=>'USD '+v.toFixed(1)},'BZ=F':{ids:['gk-brent','gk-brent2'],fmt:v=>'USD '+v.toFixed(1)},'GC=F':{ids:['gk-gold','gk-gold2'],fmt:v=>'USD '+Math.round(v).toLocaleString('en-US')},'HG=F':{ids:['gk-copper','gk-copper2'],fmt:v=>'USD '+v.toFixed(3)+'/lb'},'DX-Y.NYB':{ids:['gk-dxy','gk-dxy2'],fmt:v=>v.toFixed(2)},'^GSPC':{ids:['gk-spx','gk-spx2'],fmt:v=>Math.round(v).toLocaleString('en-US')}};
 async function fetchCommodities(){
   let ok=0;
   for(const[sym,cfg]of Object.entries(SYMS)){
-    try{ const r=await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=2d`); const d=await r.json(); const price=d?.chart?.result?.[0]?.meta?.regularMarketPrice; const prev=d?.chart?.result?.[0]?.meta?.previousClose; if(!price)continue; const pct=prev?((price-prev)/prev*100):null; const pctStr=pct!==null?' ('+(pct>=0?'+':'')+pct.toFixed(1)+'%)':''; const cls=pct!==null?(pct>=0?'gv up':'gv dn'):'gv'; cfg.ids.forEach(id=>setEl(id,cfg.fmt(price)+pctStr,cls)); ok++; }catch(e){}
+    try{const r=await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=2d`);const d=await r.json();const price=d?.chart?.result?.[0]?.meta?.regularMarketPrice;const prev=d?.chart?.result?.[0]?.meta?.previousClose;if(!price)continue;const pct=prev?((price-prev)/prev*100):null;const pctStr=pct!==null?' ('+(pct>=0?'+':'')+pct.toFixed(1)+'%)':'';const cls=pct!==null?(pct>=0?'gv up':'gv dn'):'gv';cfg.ids.forEach(id=>setEl(id,cfg.fmt(price)+pctStr,cls));ok++;}catch(e){}
   }
-  if(ok>0)setEl('st-comm','OK · '+nowStr()); setEl('st-time',nowStr());
+  if(ok>0)setEl('st-comm','OK · '+nowStr());setEl('st-time',nowStr());
 }
-function flicker(){ ['n-brecha'].forEach(id=>{ if(Math.random()<.15){ const el=document.getElementById(id); if(!el)return; el.classList.remove('flash-up','flash-dn'); void el.offsetWidth; el.classList.add(Math.random()>.5?'flash-up':'flash-dn'); setTimeout(()=>el.classList.remove('flash-up','flash-dn'),500); } }); }
 
-window.addEventListener('DOMContentLoaded',()=>{ initReveal(); initCountup(); fetchBCRA(); fetchDolar(); fetchMerval(); fetchCommodities(); });
-setInterval(fetchDolar,60_000); setInterval(fetchMerval,60_000); setInterval(fetchCommodities,120_000); setInterval(fetchBCRA,300_000); setInterval(flicker,3_500);
+function flicker(){
+  ['h-brecha'].forEach(id=>{if(Math.random()<.14){const el=document.getElementById(id);if(!el)return;el.classList.remove('flash-up','flash-dn');void el.offsetWidth;el.classList.add(Math.random()>.5?'flash-up':'flash-dn');setTimeout(()=>el.classList.remove('flash-up','flash-dn'),500);}});
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  initReveal();initCountup();initAllocBars();
+  fetchBCRA();fetchDolar();fetchMerval();fetchCommodities();
+});
+setInterval(fetchDolar,60_000);setInterval(fetchMerval,60_000);
+setInterval(fetchCommodities,120_000);setInterval(fetchBCRA,300_000);
+setInterval(flicker,3_500);
 </script>
 </body>
 </html>
