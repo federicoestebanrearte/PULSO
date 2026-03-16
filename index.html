@@ -4,408 +4,336 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PULSO — Inteligencia Financiera</title>
-  <meta name="description" content="Dashboard de inteligencia financiera. Macro Argentina, mercados globales, CEDEARs, commodities y geopolítica.">
+  <meta name="description" content="Análisis macro argentino. Directo, sin filtro, una vez por semana.">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0B0C0E; --surface: #13151A; --surface2: #1A1D24;
-      --border: #2A2D35; --text: #E8E8E0; --muted: #666870;
-      --accent: #C8B400; --red: #D04030; --green: #3A8C5C;
-      --dimgreen: #1E3D28; --dimred: #3D1A1A;
+      --bg: #0B0C0E;
+      --s: #13151A;
+      --b: #2A2D35;
+      --t: #E8E8E0;
+      --m: #666870;
+      --a: #C8B400;
+      --r: #D04030;
+      --g: #3A8C5C;
       --mono: 'IBM Plex Mono', monospace;
       --sans: 'IBM Plex Sans Condensed', sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: var(--mono); line-height: 1.5; }
+    body { background: var(--bg); color: var(--t); font-family: var(--mono); line-height: 1.5; }
 
     /* NAV */
-    nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 50px; }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg); border-bottom: 1px solid var(--b);
+      padding: 0 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 50px;
+    }
     .nav-brand { display: flex; align-items: flex-end; gap: 8px; text-decoration: none; }
-    .nav-name { font-size: 18px; font-weight: 700; letter-spacing: .2em; color: var(--accent); text-transform: uppercase; }
-    .nav-sub { font-size: 8px; letter-spacing: .16em; color: var(--muted); text-transform: uppercase; padding-bottom: 2px; }
-    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
-    .nav-links a { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color .2s; }
-    .nav-links a:hover { color: var(--accent); }
+    .nav-name { font-size: 18px; font-weight: 700; letter-spacing: .2em; color: var(--a); text-transform: uppercase; }
+    .nav-sub { font-size: 8px; letter-spacing: .14em; color: var(--m); text-transform: uppercase; padding-bottom: 2px; }
     .nav-right { display: flex; align-items: center; gap: 1rem; }
-    .nav-clock { font-size: 11px; color: var(--muted); letter-spacing: .08em; }
-    .nav-status { font-size: 9px; color: var(--green); letter-spacing: .12em; text-transform: uppercase; }
-    .nav-status::before { content: "● "; animation: blink 2s infinite; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .nav-defcon { font-size: 9px; font-weight: 700; padding: 2px 8px; border: 1px solid #5A3D00; color: #E8A020; letter-spacing: .1em; }
+    .nav-ed { font-size: 9px; color: var(--m); letter-spacing: .06em; }
+    .nav-sig { font-size: 8px; color: var(--g); letter-spacing: .1em; }
+    .nav-sig::before { content: "● "; animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
 
     /* TICKER */
-    .ticker-wrap { background: var(--surface); border-bottom: 1px solid var(--border); overflow: hidden; height: 32px; display: flex; align-items: center; }
-    .ticker-label { background: var(--accent); color: #000; font-size: 9px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; padding: 0 12px; height: 100%; display: flex; align-items: center; white-space: nowrap; flex-shrink: 0; }
-    .ticker-track { display: flex; animation: ticker 45s linear infinite; }
+    .ticker-wrap { background: var(--s); border-bottom: 1px solid var(--b); overflow: hidden; height: 28px; display: flex; align-items: center; }
+    .ticker-label { background: var(--a); color: #000; font-size: 8px; font-weight: 700; letter-spacing: .15em; padding: 0 12px; height: 100%; display: flex; align-items: center; flex-shrink: 0; }
+    .ticker-track { display: flex; animation: ticker 35s linear infinite; }
     .ticker-track:hover { animation-play-state: paused; }
     @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-    .t-item { display: flex; align-items: center; gap: 5px; padding: 0 1.4rem; font-size: 11px; white-space: nowrap; border-right: 1px solid var(--border); }
-    .t-sym { color: var(--muted); font-size: 10px; }
-    .t-val { color: var(--text); font-weight: 600; }
-    .t-chg { font-size: 10px; }
-    .up { color: var(--green); }
-    .dn { color: var(--red); }
-    @keyframes flashUp { 0%{color:#6FD4A0} 100%{color:var(--green)} }
-    @keyframes flashDn { 0%{color:#FF7060} 100%{color:var(--red)} }
+    .t-item { display: flex; align-items: center; gap: 4px; padding: 0 1.2rem; font-size: 10px; white-space: nowrap; border-right: 1px solid var(--b); }
+    .t-sym { color: var(--m); font-size: 9px; }
+    .t-val { font-weight: 600; }
+    .up { color: var(--g); }
+    .dn { color: var(--r); }
+
+    /* TESIS */
+    .tesis {
+      background: var(--a); padding: 1rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .tesis-label { font-size: 8px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: rgba(0,0,0,.4); white-space: nowrap; }
+    .tesis-txt { font-family: var(--sans); font-size: 16px; font-weight: 700; color: #000; line-height: 1.3; flex: 1; }
+    .tesis-meta { font-size: 8px; color: rgba(0,0,0,.4); letter-spacing: .08em; text-align: right; white-space: nowrap; line-height: 1.7; text-transform: uppercase; }
+
+    /* MAIN */
+    .main { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--b); }
+    .col { background: var(--bg); padding: 1.1rem 1.2rem; }
+    .col-label { font-size: 8px; letter-spacing: .22em; text-transform: uppercase; color: var(--a); margin-bottom: 1rem; font-weight: 700; }
+    .col-label::before { content: "// "; }
+
+    /* NÚMEROS */
+    .num-block { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--b); }
+    .num-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .num-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .25rem; flex-wrap: wrap; gap: .3rem; }
+    .num-name { font-size: 9px; color: var(--m); letter-spacing: .1em; text-transform: uppercase; }
+    .num-val { font-size: 22px; font-weight: 700; line-height: 1; }
+    .num-val.r { color: var(--r); }
+    .num-val.g { color: var(--g); }
+    .num-val.a { color: var(--a); }
+    .num-ctx { font-family: var(--sans); font-size: 12px; color: var(--m); line-height: 1.45; }
+    .num-ctx .arr { margin-right: 3px; }
+
+    /* RESEARCH */
+    .res-block { margin-bottom: 1.1rem; padding-bottom: 1.1rem; border-bottom: 1px solid var(--b); }
+    .res-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .res-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem; }
+    .res-banco { font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--a); }
+    .res-fecha { font-size: 8px; color: var(--m); }
+    .res-txt { font-family: var(--sans); font-size: 13px; color: var(--m); line-height: 1.65; }
+    .res-txt b { color: var(--t); font-weight: 600; }
+    .res-opinion {
+      margin-top: .6rem; padding: .6rem .8rem;
+      background: var(--s); border-left: 2px solid var(--a);
+    }
+    .res-opinion-txt { font-family: var(--sans); font-size: 12px; color: var(--t); line-height: 1.55; font-style: italic; }
+    .res-opinion-by { font-size: 8px; color: var(--m); letter-spacing: .1em; text-transform: uppercase; margin-top: .25rem; }
+    .res-pendiente { font-family: var(--sans); font-size: 12px; color: var(--b); }
+
+    /* EVENTOS */
+    .eventos { background: var(--s); border-top: 1px solid var(--b); padding: .9rem 1.2rem; }
+    .ev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--b); margin-top: .7rem; }
+    .ev-card { background: var(--bg); padding: .7rem .9rem; }
+    .ev-fecha { font-size: 8px; color: var(--a); letter-spacing: .06em; margin-bottom: .25rem; }
+    .ev-titulo { font-family: var(--sans); font-size: 12px; font-weight: 700; color: var(--t); text-transform: uppercase; margin-bottom: .25rem; line-height: 1.2; }
+    .ev-desc { font-family: var(--sans); font-size: 11px; color: var(--m); line-height: 1.4; }
+    .ev-imp { display: inline-block; font-size: 7px; letter-spacing: .1em; text-transform: uppercase; padding: 1px 5px; border: 1px solid; margin-top: .35rem; }
+    .imp-alto { color: var(--r); border-color: #3D1A1A; }
+    .imp-medio { color: var(--a); border-color: #3D3000; }
+
+    /* FIRMA */
+    .firma { background: var(--bg); border-top: 2px solid var(--a); padding: .65rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem; }
+    .firma-left { font-size: 9px; color: var(--m); letter-spacing: .08em; }
+    .firma-left b { color: var(--a); }
+    .firma-right { font-size: 9px; color: var(--m); letter-spacing: .06em; }
+
+    /* ANIMACIONES */
+    @keyframes flashUp { 0%{color:#6FD4A0} 100%{color:var(--g)} }
+    @keyframes flashDn { 0%{color:#FF7060} 100%{color:var(--r)} }
     .flash-up { animation: flashUp .6s ease forwards; }
     .flash-dn { animation: flashDn .6s ease forwards; }
 
-    /* LAYOUT */
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-    .section { padding: 2.5rem 0; border-bottom: 1px solid var(--border); }
-    .sec-label { font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 10px; }
-    .sec-label::before { content: "// "; }
-    .sec-upd { font-size: 8px; color: var(--muted); letter-spacing: .08em; text-transform: none; font-weight: 400; }
-
-    /* HERO */
-    .hero { padding: 2.5rem 0 2rem; border-bottom: 1px solid var(--border); }
-    .hero-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; }
-    .hero-left h1 { font-family: var(--sans); font-size: clamp(24px, 4vw, 42px); font-weight: 700; text-transform: uppercase; line-height: 1.1; letter-spacing: .02em; color: var(--text); margin-bottom: .6rem; }
-    .hero-left h1 span { color: var(--accent); }
-    .hero-desc { font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.65; max-width: 480px; }
-    .hero-tags { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: 1rem; }
-    .tag { font-size: 8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 7px; border: 1px solid var(--border); color: var(--muted); }
-    .mission-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 1rem 1.2rem; max-width: 280px; }
-    .mission-label { font-size: 8px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: .4rem; }
-    .mission-text { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.6; }
-
-    /* STATS */
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--border); margin-top: 1.5rem; }
-    .stat-cell { background: var(--surface); padding: 1rem 1.2rem; transition: background .2s; }
-    .stat-cell:hover { background: var(--surface2); }
-    .stat-label { font-size: 8px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
-    .stat-val { font-size: 20px; font-weight: 700; line-height: 1; }
-    .stat-val.accent { color: var(--accent); }
-    .stat-sub { font-size: 10px; color: var(--muted); margin-top: .3rem; font-family: var(--sans); }
-
-    /* MERCADOS */
-    .mercados-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px; background: var(--border); }
-    .mercado-card { background: var(--bg); padding: 1.1rem 1.2rem; transition: background .2s; }
-    .mercado-card:hover { background: var(--surface); }
-    .mc-cat { font-size: 8px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .3rem; }
-    .mc-name { font-family: var(--sans); font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--text); margin-bottom: .4rem; }
-    .mc-price { font-size: 22px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: .2rem; }
-    .mc-change { font-size: 11px; font-weight: 600; }
-    .mc-sub { font-family: var(--sans); font-size: 11px; color: var(--muted); margin-top: .3rem; }
-
-    /* MACRO */
-    .macro-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
-    .macro-panel { background: var(--bg); padding: 1.2rem; }
-    .panel-label { font-size: 8px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .8rem; }
-    .macro-table { width: 100%; border-collapse: collapse; }
-    .macro-table tr { border-bottom: 1px solid var(--border); transition: background .15s; }
-    .macro-table tr:hover { background: var(--surface); }
-    .macro-table tr:last-child { border-bottom: none; }
-    .macro-table td { padding: .55rem .3rem; font-family: var(--sans); font-size: 13px; }
-    .macro-table td:first-child { color: var(--muted); }
-    .macro-table td:last-child { text-align: right; font-family: var(--mono); font-size: 12px; font-weight: 600; }
-
-    /* CEDEARS */
-    .cedears-table { width: 100%; border-collapse: collapse; margin-top: .8rem; }
-    .cedears-table th { font-size: 8px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); padding: .5rem .6rem; border-bottom: 1px solid var(--border); text-align: left; font-weight: 400; }
-    .cedears-table th:not(:first-child) { text-align: right; }
-    .cedears-table td { padding: .6rem .6rem; border-bottom: 1px solid var(--border); font-family: var(--sans); color: var(--text); transition: background .15s; }
-    .cedears-table td:not(:first-child) { text-align: right; font-family: var(--mono); font-size: 11px; }
-    .cedears-table tr:hover td { background: var(--surface); }
-    .cedears-table tr:last-child td { border-bottom: none; }
-    .t-big { color: var(--accent); font-weight: 700; font-size: 12px; font-family: var(--mono); }
-    .t-co { color: var(--muted); font-size: 10px; display: block; }
-    .pill { display: inline-block; font-size: 7px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 6px; border: 1px solid; font-family: var(--mono); }
-    .pill-sobre { color: var(--green); border-color: var(--dimgreen); }
-    .pill-reducir { color: var(--red); border-color: var(--dimred); }
-    .pill-mantener { color: var(--muted); border-color: var(--border); }
-
-    /* COMMODITIES */
-    .comm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 1px; background: var(--border); }
-    .comm-card { background: var(--bg); padding: 1rem 1.1rem; transition: background .2s; }
-    .comm-card:hover { background: var(--surface); }
-    .comm-name { font-size: 8px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
-    .comm-price { font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: .2rem; }
-    .comm-unit { font-family: var(--sans); font-size: 10px; color: var(--muted); margin-bottom: .2rem; }
-    .comm-chg { font-size: 11px; font-weight: 600; }
-
-    /* GEO */
-    .geo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1px; background: var(--border); }
-    .geo-card { background: var(--bg); padding: 1.2rem; transition: background .2s; }
-    .geo-card:hover { background: var(--surface); }
-    .geo-region { font-size: 8px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: .4rem; }
-    .geo-title { font-family: var(--sans); font-size: 14px; font-weight: 700; text-transform: uppercase; color: var(--text); margin-bottom: .4rem; line-height: 1.2; }
-    .geo-body { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.55; }
-    .geo-body b { color: var(--text); }
-    .geo-footer { display: flex; justify-content: space-between; align-items: center; margin-top: .8rem; }
-    .impact { font-size: 7px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 6px; border: 1px solid; }
-    .impact-alto { color: var(--red); border-color: var(--dimred); }
-    .impact-medio { color: var(--accent); border-color: #3D3000; }
-    .geo-date { font-size: 9px; color: var(--muted); }
-
-    /* FOOTER */
-    footer { background: var(--surface); border-top: 1px solid var(--border); padding: 1.2rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .8rem; }
-    .footer-brand { font-size: 14px; font-weight: 700; letter-spacing: .2em; color: var(--accent); }
-    .footer-mid { font-family: var(--sans); font-size: 11px; color: var(--muted); text-align: center; }
-    .footer-right { font-size: 9px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
-
+    /* RESPONSIVE */
     @media (max-width: 640px) {
-      .nav-links { display: none; }
-      .container { padding: 0 1rem; }
-      .hero-top { flex-direction: column; }
-      .mission-box { max-width: 100%; }
-      .macro-wrap { grid-template-columns: 1fr; }
-      footer { flex-direction: column; text-align: center; }
+      nav { padding: 0 1rem; }
+      .nav-ed { display: none; }
+      .main { grid-template-columns: 1fr; }
+      .ev-grid { grid-template-columns: 1fr; }
+      .tesis { flex-direction: column; }
+      .firma { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a class="nav-brand" href="#inicio">
+  <a class="nav-brand" href="#">
     <span class="nav-name">PULSO</span>
-    <span class="nav-sub">Inteligencia Financiera</span>
+    <span class="nav-sub">Inteligencia Financiera · ARG</span>
   </a>
-  <ul class="nav-links">
-    <li><a href="#mercados">Mercados</a></li>
-    <li><a href="#macro">Macro ARG</a></li>
-    <li><a href="#cedears">CEDEARs</a></li>
-    <li><a href="#commodities">Commodities</a></li>
-    <li><a href="#geopolitica">Geopolítica</a></li>
-  </ul>
   <div class="nav-right">
-    <div class="nav-clock" id="nav-clock">--:--:--</div>
-    <div class="nav-status">Señal activa</div>
+    <span class="nav-defcon" id="defcon">DEFCON 3</span>
+    <span class="nav-ed" id="nav-ed">Edición 001 · Lun 17 Mar 2025</span>
+    <span class="nav-sig">Activo</span>
   </div>
 </nav>
 
+<!-- TICKER -->
 <div class="ticker-wrap">
-  <div class="ticker-label">// LIVE</div>
+  <div class="ticker-label">ARG</div>
   <div class="ticker-track">
-    <div class="t-item"><span class="t-sym">S&P500</span><span class="t-val" id="tk-sp">—</span>&nbsp;<span class="t-chg" id="tk-sp-c">—</span></div>
-    <div class="t-item"><span class="t-sym">NASDAQ</span><span class="t-val" id="tk-nq">—</span>&nbsp;<span class="t-chg" id="tk-nq-c">—</span></div>
-    <div class="t-item"><span class="t-sym">DOW</span><span class="t-val" id="tk-dw">—</span>&nbsp;<span class="t-chg" id="tk-dw-c">—</span></div>
-    <div class="t-item"><span class="t-sym">BTC</span><span class="t-val" id="tk-btc">—</span>&nbsp;<span class="t-chg" id="tk-btc-c">—</span></div>
-    <div class="t-item"><span class="t-sym">ETH</span><span class="t-val" id="tk-eth">—</span>&nbsp;<span class="t-chg" id="tk-eth-c">—</span></div>
-    <div class="t-item"><span class="t-sym">XAU</span><span class="t-val" id="tk-gold">—</span>&nbsp;<span class="t-chg" id="tk-gold-c">—</span></div>
-    <div class="t-item"><span class="t-sym">WTI</span><span class="t-val" id="tk-oil">—</span>&nbsp;<span class="t-chg" id="tk-oil-c">—</span></div>
-    <div class="t-item"><span class="t-sym">USD/ARS</span><span class="t-val" id="tk-ars">—</span>&nbsp;<span class="t-chg up">Oficial</span></div>
-    <div class="t-item"><span class="t-sym">BLUE</span><span class="t-val" id="tk-blue">—</span>&nbsp;<span class="t-chg" id="tk-blue-c">—</span></div>
-    <div class="t-item"><span class="t-sym">RIESGO PAÍS</span><span class="t-val" id="tk-rp">680</span>&nbsp;<span class="t-chg dn">bps</span></div>
-    <!-- duplicado para loop -->
-    <div class="t-item"><span class="t-sym">S&P500</span><span class="t-val" id="tk-sp2">—</span>&nbsp;<span class="t-chg" id="tk-sp-c2">—</span></div>
-    <div class="t-item"><span class="t-sym">NASDAQ</span><span class="t-val" id="tk-nq2">—</span>&nbsp;<span class="t-chg" id="tk-nq-c2">—</span></div>
-    <div class="t-item"><span class="t-sym">DOW</span><span class="t-val" id="tk-dw2">—</span>&nbsp;<span class="t-chg" id="tk-dw-c2">—</span></div>
-    <div class="t-item"><span class="t-sym">BTC</span><span class="t-val" id="tk-btc2">—</span>&nbsp;<span class="t-chg" id="tk-btc-c2">—</span></div>
-    <div class="t-item"><span class="t-sym">ETH</span><span class="t-val" id="tk-eth2">—</span>&nbsp;<span class="t-chg" id="tk-eth-c2">—</span></div>
-    <div class="t-item"><span class="t-sym">XAU</span><span class="t-val" id="tk-gold2">—</span>&nbsp;<span class="t-chg" id="tk-gold-c2">—</span></div>
-    <div class="t-item"><span class="t-sym">WTI</span><span class="t-val" id="tk-oil2">—</span>&nbsp;<span class="t-chg" id="tk-oil-c2">—</span></div>
-    <div class="t-item"><span class="t-sym">USD/ARS</span><span class="t-val" id="tk-ars2">—</span>&nbsp;<span class="t-chg up">Oficial</span></div>
-    <div class="t-item"><span class="t-sym">BLUE</span><span class="t-val" id="tk-blue2">—</span>&nbsp;<span class="t-chg" id="tk-blue-c2">—</span></div>
-    <div class="t-item"><span class="t-sym">RIESGO PAÍS</span><span class="t-val" id="tk-rp2">680</span>&nbsp;<span class="t-chg dn">bps</span></div>
+    <div class="t-item"><span class="t-sym">OFICIAL</span><span class="t-val" id="tk-of">—</span></div>
+    <div class="t-item"><span class="t-sym">BLUE</span><span class="t-val dn" id="tk-bl">—</span></div>
+    <div class="t-item"><span class="t-sym">MEP</span><span class="t-val" id="tk-mep">—</span></div>
+    <div class="t-item"><span class="t-sym">CCL</span><span class="t-val" id="tk-ccl">—</span></div>
+    <div class="t-item"><span class="t-sym">BRECHA</span><span class="t-val dn" id="tk-br">—</span></div>
+    <div class="t-item"><span class="t-sym">RIESGO PAÍS</span><span class="t-val dn">680 bps</span></div>
+    <div class="t-item"><span class="t-sym">MERVAL</span><span class="t-val up" id="tk-mv">—</span></div>
+    <div class="t-item"><span class="t-sym">INFLACIÓN</span><span class="t-val dn">4.7% mensual</span></div>
+    <div class="t-item"><span class="t-sym">SUPERÁVIT</span><span class="t-val up">+0.4% PBI</span></div>
+    <div class="t-item"><span class="t-sym">PLAZO FIJO</span><span class="t-val">33% TNA</span></div>
+    <!-- dup -->
+    <div class="t-item"><span class="t-sym">OFICIAL</span><span class="t-val" id="tk-of2">—</span></div>
+    <div class="t-item"><span class="t-sym">BLUE</span><span class="t-val dn" id="tk-bl2">—</span></div>
+    <div class="t-item"><span class="t-sym">MEP</span><span class="t-val" id="tk-mep2">—</span></div>
+    <div class="t-item"><span class="t-sym">CCL</span><span class="t-val" id="tk-ccl2">—</span></div>
+    <div class="t-item"><span class="t-sym">BRECHA</span><span class="t-val dn" id="tk-br2">—</span></div>
+    <div class="t-item"><span class="t-sym">RIESGO PAÍS</span><span class="t-val dn">680 bps</span></div>
+    <div class="t-item"><span class="t-sym">MERVAL</span><span class="t-val up" id="tk-mv2">—</span></div>
+    <div class="t-item"><span class="t-sym">INFLACIÓN</span><span class="t-val dn">4.7% mensual</span></div>
+    <div class="t-item"><span class="t-sym">SUPERÁVIT</span><span class="t-val up">+0.4% PBI</span></div>
+    <div class="t-item"><span class="t-sym">PLAZO FIJO</span><span class="t-val">33% TNA</span></div>
   </div>
 </div>
 
-<!-- HERO -->
-<section class="hero" id="inicio">
-  <div class="container">
-    <div class="hero-top">
-      <div class="hero-left">
-        <h1>Inteligencia<br><span>Financiera.</span></h1>
-        <div class="hero-desc">Macro argentina, mercados globales, CEDEARs y geopolítica. Datos en tiempo real. Sin ruido, sin filtro.</div>
-        <div class="hero-tags">
-          <span class="tag">Macro ARG</span><span class="tag">Mercados globales</span>
-          <span class="tag">CEDEARs</span><span class="tag">Commodities</span>
-          <span class="tag">Geopolítica</span><span class="tag">Tiempo real</span>
-        </div>
+<!-- TESIS -->
+<div class="tesis">
+  <span class="tesis-label">// Tesis de la semana</span>
+  <!--
+    PARA ACTUALIZAR CADA LUNES:
+    Cambiá el texto entre las comillas de abajo.
+  -->
+  <span class="tesis-txt">"El BCRA compra pero las netas siguen negativas. El ancla cambiaria tiene fecha de vencimiento."</span>
+  <div class="tesis-meta">Federico R.<br>17 Mar 2025</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- COL IZQ: NÚMEROS -->
+  <div class="col">
+    <div class="col-label">Los números que importan</div>
+
+    <!--
+      PARA ACTUALIZAR CADA LUNES:
+      Cambiá los valores en num-val y el texto en num-ctx.
+    -->
+
+    <div class="num-block">
+      <div class="num-top">
+        <span class="num-name">Reservas netas BCRA</span>
+        <span class="num-val r" id="n-resnetas">−USD 3.200M</span>
       </div>
-      <div class="mission-box">
-        <div class="mission-label">// Misión</div>
-        <div class="mission-text">Estar un paso adelante. Leer las señales antes de que el mercado las descuente. Análisis independiente, sin agenda.</div>
+      <div class="num-ctx"><span class="arr dn">▼</span>Tercer mes negativo. El stock bruto engaña — lo que importa es el flujo semanal.</div>
+    </div>
+
+    <div class="num-block">
+      <div class="num-top">
+        <span class="num-name">Brecha cambiaria</span>
+        <span class="num-val a" id="n-brecha">16.4%</span>
+      </div>
+      <div class="num-ctx"><span class="arr">►</span>Mínimo desde el cepo 2019. El mercado cree en el esquema — por ahora.</div>
+    </div>
+
+    <div class="num-block">
+      <div class="num-top">
+        <span class="num-name">Resultado fiscal feb.</span>
+        <span class="num-val g">+0.4% PBI</span>
+      </div>
+      <div class="num-ctx"><span class="arr up">▲</span>Cuatro meses seguidos de superávit. El pilar más sólido del programa.</div>
+    </div>
+
+    <div class="num-block">
+      <div class="num-top">
+        <span class="num-name">Inflación mensual est.</span>
+        <span class="num-val r">4.7%</span>
+      </div>
+      <div class="num-ctx"><span class="arr dn">▼</span>Sigue bajando pero se frenó el ritmo. El núcleo no cede.</div>
+    </div>
+
+    <div class="num-block">
+      <div class="num-top">
+        <span class="num-name">Vto. deuda marzo</span>
+        <span class="num-val">USD 4.300M</span>
+      </div>
+      <div class="num-ctx"><span class="arr">►</span>El Tesoro necesita renovar. La licitación del 26/3 es la señal clave.</div>
+    </div>
+
+  </div>
+
+  <!-- COL DER: RESEARCH -->
+  <div class="col">
+    <div class="col-label">Lo que dicen los bancos</div>
+
+    <!--
+      PARA ACTUALIZAR CADA LUNES:
+      Pegá el resumen del research nuevo acá abajo.
+      Formato: res-banco (nombre), res-fecha, res-txt (resumen),
+      res-opinion-txt (tu opinión), res-opinion-by (tu firma).
+    -->
+
+    <div class="res-block">
+      <div class="res-header">
+        <span class="res-banco">HSBC Asset Management</span>
+        <span class="res-fecha">13 Mar 2026</span>
+      </div>
+      <div class="res-txt">
+        Lo que dice HSBC es que el petróleo subió 50% pero no va a haber recesión. Su argumento: EEUU hoy produce su propio petróleo, así que no depende de nadie. Eso cambia todo comparado con los shocks de los 70s.<br><br>
+        Pero hay algo que sí cambió y que te afecta directamente si tenés inversiones: <b>el portafolio clásico 60/40 dejó de funcionar.</b> Cuando caen las acciones, ahora también caen los bonos. Ya no se protegen entre sí. ¿Entonces qué hacés? HSBC dice que la respuesta son los hedge funds.<br><br>
+        ¿Y los emergentes? Acá viene lo bueno. Los bonos emergentes aguantaron mucho mejor que los de EEUU y Europa. Y el dato que más me llamó la atención de todo el informe: <b>el Merval aparece con P/E de 9.4x — el más barato de toda América Latina.</b> Brasil cotiza a 10x. Y sin embargo HSBC no menciona Argentina en ningún análisis.
+      </div>
+      <div class="res-opinion">
+        <div class="res-opinion-txt">"Lo que no dice HSBC pero se lee entre líneas: si el 60/40 murió y los emergentes son la oportunidad del año, Argentina a 9x de P/E debería estar en el radar de cualquiera. El problema es que todavía no está. Cuando esté, ya va a ser tarde."</div>
+        <div class="res-opinion-by">— Federico R.</div>
       </div>
     </div>
-    <div class="stats-grid">
-      <div class="stat-cell"><div class="stat-label">S&P 500</div><div class="stat-val" id="stat-sp">—</div><div class="stat-sub" id="stat-sp-c">actualizando</div></div>
-      <div class="stat-cell"><div class="stat-label">Bitcoin</div><div class="stat-val accent" id="stat-btc">—</div><div class="stat-sub" id="stat-btc-c">actualizando</div></div>
-      <div class="stat-cell"><div class="stat-label">Oro (XAU/USD)</div><div class="stat-val accent" id="stat-gold">—</div><div class="stat-sub" id="stat-gold-c">actualizando</div></div>
-      <div class="stat-cell"><div class="stat-label">USD/ARS Oficial</div><div class="stat-val" id="stat-ars">—</div><div class="stat-sub">Banco Nación</div></div>
-      <div class="stat-cell"><div class="stat-label">USD Blue</div><div class="stat-val dn" id="stat-blue">—</div><div class="stat-sub">Mercado informal</div></div>
-      <div class="stat-cell"><div class="stat-label">WTI Crudo</div><div class="stat-val" id="stat-oil">—</div><div class="stat-sub" id="stat-oil-c">actualizando</div></div>
+
+    <div class="res-block">
+      <div class="res-header">
+        <span class="res-banco">Goldman Sachs</span>
+        <span class="res-fecha">Próxima edición</span>
+      </div>
+      <div class="res-pendiente">Resumen disponible el próximo lunes.</div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-header">
+        <span class="res-banco">JPMorgan</span>
+        <span class="res-fecha">Próxima edición</span>
+      </div>
+      <div class="res-pendiente">Resumen disponible el próximo lunes.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- EVENTOS -->
+<div class="eventos">
+  <div class="col-label" style="margin-bottom:.6rem;">Qué mirar esta semana</div>
+  <!--
+    PARA ACTUALIZAR CADA LUNES:
+    Cambiá las 3 tarjetas con los eventos relevantes de la semana.
+  -->
+  <div class="ev-grid">
+    <div class="ev-card">
+      <div class="ev-fecha">Jue 20 Mar · 16:00h</div>
+      <div class="ev-titulo">INDEC — Inflación feb.</div>
+      <div class="ev-desc">¿Confirma la baja o sorprende al alza? El consenso espera 4.5–5%.</div>
+      <span class="ev-imp imp-alto">Impacto alto</span>
+    </div>
+    <div class="ev-card">
+      <div class="ev-fecha">Mié 26 Mar</div>
+      <div class="ev-titulo">Tesoro — Licitación LECAP</div>
+      <div class="ev-desc">Si la tasa de corte sube, el mercado está nervioso con los pesos.</div>
+      <span class="ev-imp imp-medio">Impacto medio</span>
+    </div>
+    <div class="ev-card">
+      <div class="ev-fecha">Lun 31 Mar</div>
+      <div class="ev-titulo">FMI — Revisión programa</div>
+      <div class="ev-desc">¿Desembolso o condicionamiento? Mueve reservas y riesgo país.</div>
+      <span class="ev-imp imp-alto">Impacto alto</span>
     </div>
   </div>
-</section>
+</div>
 
-<!-- MERCADOS -->
-<section class="section" id="mercados">
-  <div class="container">
-    <div class="sec-label">Mercados Globales <span class="sec-upd" id="upd-mercados">actualizando...</span></div>
-    <div class="mercados-grid">
-      <div class="mercado-card"><div class="mc-cat">Índice EEUU</div><div class="mc-name">S&P 500</div><div class="mc-price" id="m-sp">—</div><div class="mc-change" id="m-sp-c">—</div><div class="mc-sub">500 mayores empresas</div></div>
-      <div class="mercado-card"><div class="mc-cat">Índice EEUU</div><div class="mc-name">NASDAQ 100</div><div class="mc-price" id="m-nq">—</div><div class="mc-change" id="m-nq-c">—</div><div class="mc-sub">100 mayores tech</div></div>
-      <div class="mercado-card"><div class="mc-cat">Índice EEUU</div><div class="mc-name">Dow Jones</div><div class="mc-price" id="m-dw">—</div><div class="mc-change" id="m-dw-c">—</div><div class="mc-sub">30 industriales</div></div>
-      <div class="mercado-card"><div class="mc-cat">Cripto</div><div class="mc-name">Bitcoin</div><div class="mc-price accent" id="m-btc">—</div><div class="mc-change" id="m-btc-c">—</div><div class="mc-sub">BTC/USD spot</div></div>
-      <div class="mercado-card"><div class="mc-cat">Cripto</div><div class="mc-name">Ethereum</div><div class="mc-price accent" id="m-eth">—</div><div class="mc-change" id="m-eth-c">—</div><div class="mc-sub">ETH/USD spot</div></div>
-      <div class="mercado-card"><div class="mc-cat">Volatilidad</div><div class="mc-name">VIX</div><div class="mc-price" id="m-vix">—</div><div class="mc-change" id="m-vix-c">—</div><div class="mc-sub">Índice de miedo</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- MACRO -->
-<section class="section" id="macro">
-  <div class="container">
-    <div class="sec-label">Macro Argentina <span class="sec-upd">datos oficiales + estimados</span></div>
-    <div class="macro-wrap">
-      <div class="macro-panel">
-        <div class="panel-label">Indicadores de mercado</div>
-        <table class="macro-table">
-          <tr><td>USD/ARS Oficial</td><td id="mac-ars">—</td></tr>
-          <tr><td>USD/ARS Blue</td><td class="dn" id="mac-blue">—</td></tr>
-          <tr><td>USD/ARS MEP</td><td id="mac-mep">—</td></tr>
-          <tr><td>USD/ARS CCL</td><td id="mac-ccl">—</td></tr>
-          <tr><td>Riesgo País</td><td class="dn">680 bps</td></tr>
-          <tr><td>Merval (USD)</td><td class="up" id="mac-merval">—</td></tr>
-        </table>
-      </div>
-      <div class="macro-panel">
-        <div class="panel-label">Indicadores estructurales</div>
-        <table class="macro-table">
-          <tr><td>Inflación mensual est.</td><td class="dn">4.7%</td></tr>
-          <tr><td>Inflación anual est.</td><td class="dn">~85%</td></tr>
-          <tr><td>Superávit fiscal feb.</td><td class="up">0.4% PBI</td></tr>
-          <tr><td>Reservas brutas est.</td><td>USD 28.000M</td></tr>
-          <tr><td>Reservas netas est.</td><td class="dn">USD −3.200M</td></tr>
-          <tr><td>Prod. Vaca Muerta</td><td class="up">700k+ bbl/día</td></tr>
-        </table>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CEDEARS -->
-<section class="section" id="cedears">
-  <div class="container">
-    <div class="sec-label">Radar CEDEARs <span class="sec-upd">señales de posicionamiento</span></div>
-    <table class="cedears-table">
-      <thead>
-        <tr><th>Ticker</th><th>Empresa</th><th>Sector</th><th>Precio USD</th><th>Var. hoy</th><th>P/E</th><th>Señal</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><span class="t-big">XOM</span></td><td><span style="font-family:var(--sans);font-size:12px">ExxonMobil</span></td><td><span style="font-family:var(--sans);font-size:11px;color:var(--muted)">Energía</span></td><td id="c-xom">—</td><td id="c-xom-c" class="up">—</td><td>12.4x</td><td><span class="pill pill-sobre">Sobreponderar</span></td></tr>
-        <tr><td><span class="t-big">CVX</span></td><td><span style="font-family:var(--sans);font-size:12px">Chevron</span></td><td><span style="font-family:var(--sans);font-size:11px;color:var(--muted)">Energía</span></td><td id="c-cvx">—</td><td id="c-cvx-c" class="up">—</td><td>13.1x</td><td><span class="pill pill-sobre">Sobreponderar</span></td></tr>
-        <tr><td><span class="t-big">JPM</span></td><td><span style="font-family:var(--sans);font-size:12px">JPMorgan</span></td><td><span style="font-family:var(--sans);font-size:11px;color:var(--muted)">Financiero</span></td><td id="c-jpm">—</td><td id="c-jpm-c" class="up">—</td><td>11.8x</td><td><span class="pill pill-sobre">Sobreponderar</span></td></tr>
-        <tr><td><span class="t-big">GLD</span></td><td><span style="font-family:var(--sans);font-size:12px">SPDR Gold</span></td><td><span style="font-family:var(--sans);font-size:11px;color:var(--muted)">Commodities</span></td><td id="c-gld">—</td><td id="c-gld-c" class="up">—</td><td>—</td><td><span class="pill pill-mantener">Mantener</span></td></tr>
-        <tr><td><span class="t-big">BAC</span></td><td><span style="font-family:var(--sans);font-size:12px">Bank of America</span></td><td><span style="font-family:var(--sans);font-size:11px;color:var(--muted)">Financiero</span></td><td id="c-bac">—</td><td id="c-bac-c" class="up">—</td><td>10.2x</td><td><span class="pill pill-mantener">Mantener</span></td></tr>
-        <tr><td><span class="t-big">QQQ</span></td><td><span style="font-family:var(--sans);font-size:12px">Nasdaq 100 ETF</span></td><td><span style="font-family:var(--sans);font-size:11px;color:var(--muted)">Tech</span></td><td id="c-qqq">—</td><td id="c-qqq-c" class="dn">—</td><td>31.4x</td><td><span class="pill pill-reducir">Reducir</span></td></tr>
-        <tr><td><span class="t-big">AAPL</span></td><td><span style="font-family:var(--sans);font-size:12px">Apple</span></td><td><span style="font-family:var(--sans);font-size:11px;color:var(--muted)">Tech</span></td><td id="c-aapl">—</td><td id="c-aapl-c" class="dn">—</td><td>28.7x</td><td><span class="pill pill-reducir">Reducir</span></td></tr>
-        <tr><td><span class="t-big">GOOGL</span></td><td><span style="font-family:var(--sans);font-size:12px">Alphabet</span></td><td><span style="font-family:var(--sans);font-size:11px;color:var(--muted)">Tech</span></td><td id="c-googl">—</td><td id="c-googl-c" class="dn">—</td><td>22.1x</td><td><span class="pill pill-reducir">Reducir</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- COMMODITIES -->
-<section class="section" id="commodities">
-  <div class="container">
-    <div class="sec-label">Commodities <span class="sec-upd" id="upd-comm">actualizando...</span></div>
-    <div class="comm-grid">
-      <div class="comm-card"><div class="comm-name">Petróleo WTI</div><div class="comm-price" id="co-wti">—</div><div class="comm-unit">USD / barril</div><div class="comm-chg" id="co-wti-c">—</div></div>
-      <div class="comm-card"><div class="comm-name">Petróleo Brent</div><div class="comm-price" id="co-brent">—</div><div class="comm-unit">USD / barril</div><div class="comm-chg" id="co-brent-c">—</div></div>
-      <div class="comm-card"><div class="comm-name">Oro</div><div class="comm-price" id="co-gold">—</div><div class="comm-unit">USD / onza troy</div><div class="comm-chg" id="co-gold-c">—</div></div>
-      <div class="comm-card"><div class="comm-name">Plata</div><div class="comm-price" id="co-silver">—</div><div class="comm-unit">USD / onza troy</div><div class="comm-chg" id="co-silver-c">—</div></div>
-      <div class="comm-card"><div class="comm-name">Soja</div><div class="comm-price" id="co-soy">—</div><div class="comm-unit">USD / bushel</div><div class="comm-chg" id="co-soy-c">—</div></div>
-      <div class="comm-card"><div class="comm-name">Cobre</div><div class="comm-price" id="co-copper">—</div><div class="comm-unit">USD / libra</div><div class="comm-chg" id="co-copper-c">—</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- GEOPOLITICA -->
-<section class="section" id="geopolitica">
-  <div class="container">
-    <div class="sec-label">Geopolítica &amp; Análisis <span class="sec-upd">edición semanal</span></div>
-    <div class="geo-grid">
-      <div class="geo-card">
-        <div class="geo-region">EEUU / China</div>
-        <div class="geo-title">Guerra comercial: nuevos aranceles sobre manufactura china</div>
-        <div class="geo-body">Washington anunció aranceles del <b>25% adicional</b> sobre electrónica y semiconductores. Beijing respondió con restricciones a tierras raras. Disrupción de cadenas de suministro tech y presión inflacionaria en EEUU.</div>
-        <div class="geo-footer"><span class="impact impact-alto">Impacto alto</span><span class="geo-date">Mar 2025</span></div>
-      </div>
-      <div class="geo-card">
-        <div class="geo-region">Medio Oriente</div>
-        <div class="geo-title">Tensión en Golfo Pérsico: prima de riesgo sobre crudo</div>
-        <div class="geo-body">Incidentes en estrecho de Ormuz elevan la prima geopolítica. <b>WTI y Brent mantienen piso</b> más alto que los fundamentos. Favorable para posiciones largas en energía.</div>
-        <div class="geo-footer"><span class="impact impact-medio">Impacto medio</span><span class="geo-date">Mar 2025</span></div>
-      </div>
-      <div class="geo-card">
-        <div class="geo-region">Europa</div>
-        <div class="geo-title">BCE en pausa: divergencia con Fed se amplía</div>
-        <div class="geo-body">BCE dejó tasas sin cambios pero señaló recortes posibles en H2 2025. Divergencia con la Fed fortalece al dólar. <b>Favorable para activos dolarizados</b> desde Argentina.</div>
-        <div class="geo-footer"><span class="impact impact-medio">Impacto medio</span><span class="geo-date">Mar 2025</span></div>
-      </div>
-      <div class="geo-card">
-        <div class="geo-region">Argentina</div>
-        <div class="geo-title">Decreto 59/2026: reforma de regalías en Santa Cruz</div>
-        <div class="geo-body">La provincia redujo regalías para cuencas maduras para reactivar Golfo San Jorge. <b>YPF y operadores</b> evalúan volver a pozos abandonados con Brent bajo $55.</div>
-        <div class="geo-footer"><span class="impact impact-alto">Impacto alto</span><span class="geo-date">Feb 2025</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-brand">PULSO</div>
-  <div class="footer-mid">Inteligencia Financiera · La Plata, Argentina · Datos en tiempo real</div>
-  <div class="footer-right">No es asesoramiento de inversión</div>
-</footer>
+<!-- FIRMA -->
+<div class="firma">
+  <div class="firma-left">PULSO · <b>Federico R.</b> · La Plata, Argentina · Edición semanal los lunes</div>
+  <div class="firma-right">No es asesoramiento de inversión</div>
+</div>
 
 <script>
-  // RELOJ
-  function tick() {
-    const n = new Date();
-    document.getElementById('nav-clock').textContent =
-      String(n.getHours()).padStart(2,'0')+':'+
-      String(n.getMinutes()).padStart(2,'0')+':'+
-      String(n.getSeconds()).padStart(2,'0')+' ART';
-  }
-  setInterval(tick, 1000); tick();
-
-  // HELPERS
-  function fmt(n, d=2) {
-    if (n==null||isNaN(n)) return '—';
-    return Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
-  }
-  function pct(c) { return (c>=0?'▲ +':'▼ ')+fmt(Math.abs(c))+'%'; }
-  function colorClass(c) { return c>=0?'up':'dn'; }
-
-  function setEl(id, text, cls) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.textContent = text;
-    if (cls) { el.className = cls; el.classList.add(cls==='up'?'flash-up':'flash-dn'); setTimeout(()=>el.classList.remove('flash-up','flash-dn'),700); }
+  // RELOJ en nav
+  function updateDate() {
+    const now = new Date();
+    const dias = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+    const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const d = dias[now.getDay()];
+    const fecha = now.getDate();
+    const m = meses[now.getMonth()];
+    const y = now.getFullYear();
+    // No sobreescribimos la edición — es manual
   }
 
-  function syncTicker(n, val, chg) {
-    const isUp = chg >= 0;
-    [n, n+'2'].forEach(k => {
-      setEl('tk-'+k, val, isUp?'t-val up':'t-val dn');
-      setEl('tk-'+k+'-c', pct(chg), 't-chg '+(isUp?'up':'dn'));
-    });
-  }
-
-  // CRIPTO — CoinGecko (100% gratis, sin API key)
-  async function fetchCrypto() {
-    try {
-      const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true');
-      const d = await r.json();
-      const btc = d.bitcoin.usd, btcC = d.bitcoin.usd_24h_change;
-      const eth = d.ethereum.usd, ethC = d.ethereum.usd_24h_change;
-
-      syncTicker('btc', '$'+fmt(btc,0), btcC);
-      syncTicker('eth', '$'+fmt(eth,0), ethC);
-
-      setEl('m-btc', '$'+fmt(btc,0)); document.getElementById('m-btc-c').textContent = pct(btcC); document.getElementById('m-btc-c').className = 'mc-change '+colorClass(btcC);
-      setEl('m-eth', '$'+fmt(eth,0)); document.getElementById('m-eth-c').textContent = pct(ethC); document.getElementById('m-eth-c').className = 'mc-change '+colorClass(ethC);
-
-      setEl('stat-btc', '$'+fmt(btc,0));
-      setEl('stat-btc-c', pct(btcC)+' 24h');
-    } catch(e) {}
-  }
-
-  // DÓLAR ARG — bluelytics (gratis)
+  // DÓLAR — bluelytics (gratis, sin key)
   async function fetchDolar() {
     try {
       const r = await fetch('https://api.bluelytics.com.ar/v2/latest');
@@ -415,114 +343,79 @@
       const mep = d.oficial_euro?.value_sell;
 
       if (of) {
-        const v = '$'+fmt(of,0);
-        ['mac-ars','stat-ars'].forEach(id => setEl(id, v));
-        syncTicker('ars', v, 0);
+        const v = '$' + Math.round(of).toLocaleString('es-AR');
+        ['tk-of','tk-of2'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = v;
+        });
       }
       if (bl) {
-        const v = '$'+fmt(bl,0);
-        ['mac-blue','stat-blue'].forEach(id => setEl(id, v));
-        syncTicker('blue', v, 0);
-        document.getElementById('tk-blue-c').textContent = 'Informal';
-        document.getElementById('tk-blue-c2').textContent = 'Informal';
+        const v = '$' + Math.round(bl).toLocaleString('es-AR');
+        ['tk-bl','tk-bl2'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = v;
+        });
+
+        // brecha
+        if (of) {
+          const brecha = ((bl - of) / of * 100).toFixed(1);
+          ['tk-br','tk-br2'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = brecha + '%';
+          });
+          // actualizar número grande
+          const nb = document.getElementById('n-brecha');
+          if (nb) nb.textContent = brecha + '%';
+        }
       }
-      if (mep) setEl('mac-mep', '$'+fmt(mep,0));
-    } catch(e) {}
+      if (mep) {
+        const v = '$' + Math.round(mep).toLocaleString('es-AR');
+        ['tk-mep','tk-mep2'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = v;
+        });
+      }
+    } catch(e) { console.log('Dolar error', e); }
   }
 
-  // MERCADOS — Yahoo Finance (proxy público)
-  const SYMBOLS = [
-    ['%5EGSPC','sp'], ['%5EIXIC','nq'], ['%5EDJI','dw'],
-    ['GC%3DF','gold'], ['CL%3DF','oil'], ['BZ%3DF','brent'],
-    ['SI%3DF','silver'], ['ZS%3DF','soy'], ['HG%3DF','copper'],
-    ['%5EVIX','vix'], ['XOM','xom'], ['CVX','cvx'],
-    ['JPM','jpm'], ['GLD','gld'], ['BAC','bac'],
-    ['QQQ','qqq'], ['AAPL','aapl'], ['GOOGL','googl'],
-  ];
-
-  async function fetchOne(sym, name) {
+  // MERVAL — Yahoo Finance
+  async function fetchMerval() {
     try {
-      const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d&range=2d`);
+      const r = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/%5EMERV?interval=1d&range=2d');
       const d = await r.json();
-      const q = d?.chart?.result?.[0];
-      if (!q) return;
-      const price = q.meta?.regularMarketPrice;
-      const prev  = q.meta?.chartPreviousClose || q.meta?.previousClose;
-      const chg   = prev ? ((price-prev)/prev*100) : 0;
-      const isUp  = chg >= 0;
-      const p2    = fmt(price);
-      const p0    = fmt(price,0);
-
-      // ticker
-      syncTicker(name, p2, chg);
-
-      // mercados cards
-      if (document.getElementById('m-'+name)) {
-        document.getElementById('m-'+name).textContent = p2;
-        const mc = document.getElementById('m-'+name+'-c');
-        if (mc) { mc.textContent = pct(chg); mc.className = 'mc-change '+colorClass(chg); }
+      const price = d?.chart?.result?.[0]?.meta?.regularMarketPrice;
+      if (price) {
+        const v = Math.round(price).toLocaleString('es-AR');
+        ['tk-mv','tk-mv2'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = v;
+        });
       }
-
-      // commodities
-      const coMap = {oil:'wti', gold:'gold', brent:'brent', silver:'silver', soy:'soy', copper:'copper'};
-      const coKey = coMap[name];
-      if (coKey) {
-        setEl('co-'+coKey, p2);
-        const cc = document.getElementById('co-'+coKey+'-c');
-        if (cc) { cc.textContent = pct(chg); cc.className = 'comm-chg '+colorClass(chg); }
-      }
-
-      // stats hero
-      if (name==='sp') { setEl('stat-sp', fmt(price,0)); setEl('stat-sp-c', pct(chg)+' hoy'); }
-      if (name==='oil') { setEl('stat-oil', '$'+p2); setEl('stat-oil-c', pct(chg)+' hoy'); }
-      if (name==='gold') { setEl('stat-gold', '$'+p0); setEl('stat-gold-c', pct(chg)+' hoy'); }
-
-      // CEDEARs
-      const cears = ['xom','cvx','jpm','gld','bac','qqq','aapl','googl'];
-      if (cears.includes(name)) {
-        setEl('c-'+name, '$'+p2);
-        const cc = document.getElementById('c-'+name+'-c');
-        if (cc) { cc.textContent = pct(chg); cc.className = colorClass(chg); }
-      }
-
-      // timestamp
-      const now = new Date();
-      const ts = now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
-      document.getElementById('upd-mercados').textContent = 'últ. act. '+ts;
-      document.getElementById('upd-comm').textContent = 'últ. act. '+ts;
-
     } catch(e) {}
   }
 
-  async function fetchMarkets() {
-    for (const [sym, name] of SYMBOLS) {
-      await fetchOne(sym, name);
-    }
-  }
-
-  // FLICKER Wall Street
+  // FLICKER Wall Street — micro animaciones
   function flicker() {
-    const ids = ['stat-sp','stat-btc','stat-gold','stat-oil','m-btc','m-eth','co-wti','co-gold'];
+    const ids = ['n-resnetas', 'n-brecha'];
     ids.forEach(id => {
-      if (Math.random() < 0.25) {
+      if (Math.random() < 0.3) {
         const el = document.getElementById(id);
-        if (!el || el.textContent==='—') return;
-        const up = Math.random()>.5;
-        el.classList.add(up?'flash-up':'flash-dn');
-        setTimeout(()=>el.classList.remove('flash-up','flash-dn'),600);
+        if (!el) return;
+        const up = Math.random() > 0.5;
+        el.classList.remove('flash-up', 'flash-dn');
+        void el.offsetWidth;
+        el.classList.add(up ? 'flash-up' : 'flash-dn');
+        setTimeout(() => el.classList.remove('flash-up', 'flash-dn'), 600);
       }
     });
   }
 
   // INIT
-  fetchCrypto();
   fetchDolar();
-  fetchMarkets();
-
-  setInterval(fetchCrypto, 30000);
+  fetchMerval();
   setInterval(fetchDolar, 60000);
-  setInterval(fetchMarkets, 60000);
-  setInterval(flicker, 2500);
+  setInterval(fetchMerval, 60000);
+  setInterval(flicker, 3000);
 </script>
 </body>
 </html>
