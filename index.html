@@ -79,6 +79,12 @@ nav{position:sticky;top:0;z-index:400;background:rgba(0,0,0,.92);backdrop-filter
 .tesis-tag{font-size:8px;font-weight:700;letter-spacing:.2em;color:#000;background:var(--a);padding:2px 8px;white-space:nowrap;flex-shrink:0}
 .tesis-txt{font-size:11.5px;font-weight:500;color:var(--t);letter-spacing:.01em;line-height:1.35;flex:1;min-width:0}
 .tesis-meta{font-size:7.5px;color:var(--t3);letter-spacing:.06em;white-space:nowrap;flex-shrink:0}
+@media(max-width:640px){
+  .tesis-bar{padding:.45rem .9rem;gap:.7rem}
+  .tesis-txt{font-size:10px;line-height:1.3}
+  .tesis-tag{font-size:7px;padding:2px 6px}
+  .tesis-meta{display:none}
+}
 
 /* SDIV */
 .sdiv{display:flex;align-items:center;gap:1rem;padding:.6rem 1.4rem;background:var(--bg3);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
@@ -127,6 +133,8 @@ nav{position:sticky;top:0;z-index:400;background:rgba(0,0,0,.92);backdrop-filter
 .ib-a .ibdot{background:var(--r);box-shadow:0 0 4px var(--r)}
 .ib-m{color:var(--a);border-color:rgba(212,188,0,.4);background:rgba(212,188,0,.06)}
 .ib-m .ibdot{background:var(--a);box-shadow:0 0 4px var(--a)}
+.ib-b{color:var(--g);border-color:rgba(34,160,85,.4);background:rgba(34,160,85,.07)}
+.ib-b .ibdot{background:var(--g);box-shadow:0 0 4px var(--g)}
 .rc-pulso-hook{font-size:10px;font-style:italic;color:var(--t3);line-height:1.35;flex:1;min-width:120px;padding-left:.6rem;border-left:2px solid var(--border2);}
 .rc-pulso-hook::before{content:"→ ";color:var(--a);font-style:normal;font-weight:700;font-size:9px}
 
@@ -231,7 +239,8 @@ nav{position:sticky;top:0;z-index:400;background:rgba(0,0,0,.92);backdrop-filter
 .collapsible-section.open{max-height:8000px}
 
 /* NÚMEROS */
-.numeros-band{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border);}
+.nb-grid-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border);}
+.nb-grid-row-2{border-top:none;}
 .nb{background:var(--bg2);padding:.6rem 1rem;display:flex;flex-direction:column;gap:.12rem;transition:background .15s}
 .nb:hover{background:var(--card)}
 .nb-lbl{font-size:7.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3)}
@@ -239,6 +248,20 @@ nav{position:sticky;top:0;z-index:400;background:rgba(0,0,0,.92);backdrop-filter
 .nb-val.r{color:var(--r)}.nb-val.g{color:var(--g)}.nb-val.a{color:var(--a)}
 .nb-sub{font-size:9px;color:var(--t3);line-height:1.3}
 .nb-src{font-size:6.5px;font-weight:700;letter-spacing:.12em;color:var(--t4);text-transform:uppercase}
+/* Reservas — neto destacado */
+.nb-neto-wrap{display:flex;flex-direction:column;gap:.18rem;margin:.15rem 0 .1rem;}
+.nb-neto-row{display:flex;align-items:center;justify-content:space-between;gap:.4rem}
+.nb-neto-lbl{font-size:8px;color:var(--t3);letter-spacing:.06em;flex-shrink:0}
+.nb-neto-val{font-size:10px;font-weight:700;letter-spacing:-.01em}
+.nb-neto-neg{
+  color:var(--r);
+  background:rgba(224,48,32,.1);
+  border:1px solid rgba(224,48,32,.3);
+  padding:1px 5px;
+  font-size:9.5px;
+}
+@media(max-width:980px){.nb-grid-row{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.nb-grid-row{grid-template-columns:1fr 1fr}}
 
 /* CARTERA */
 .cartera{background:var(--bg2);padding:.95rem 1.4rem;border-bottom:1px solid var(--border)}
@@ -297,6 +320,87 @@ nav{position:sticky;top:0;z-index:400;background:rgba(0,0,0,.92);backdrop-filter
 /* MOBILE */
 @media(max-width:980px){.research-grid{grid-template-columns:1fr 1fr}.geo-grid{grid-template-columns:1fr 1fr}.cartera-grid{grid-template-columns:1fr}.numeros-band{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:640px){.research-grid{grid-template-columns:1fr}.ev-grid,.geo-grid{grid-template-columns:1fr}.cartera-grid{grid-template-columns:1fr}.numeros-band{grid-template-columns:1fr 1fr}nav{padding:0 .9rem}.nav-ed{display:none}.rc-gancho{font-size:13.5px}.rc-banco{font-size:10.5px}}
+
+/* ═══════════════════════════════════
+   MACRO PANEL — 7 bloques colapsables
+═══════════════════════════════════ */
+.macro-panel{background:var(--bg2);padding:.5rem 0;border-bottom:1px solid var(--border)}
+.macro-block{border-bottom:1px solid var(--border)}
+.macro-block:last-child{border-bottom:none}
+
+.macro-header{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;background:none;font-family:inherit;cursor:pointer;
+  padding:.55rem 1.4rem;
+  transition:background .14s;
+  border:none;
+}
+.macro-header:hover{background:var(--card)}
+.macro-header.is-open{background:var(--card2)}
+.macro-header-left{display:flex;align-items:center;gap:.65rem;min-width:0}
+.macro-emoji{font-size:15px;flex-shrink:0;line-height:1}
+.macro-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.macro-title{
+  font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--t);white-space:nowrap
+}
+.macro-sub{
+  font-size:9px;color:var(--t3);letter-spacing:.04em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.macro-arr{
+  font-size:9px;color:var(--t3);flex-shrink:0;
+  transition:transform .22s,color .15s;margin-left:.5rem
+}
+.macro-header.is-open .macro-arr{transform:rotate(90deg);color:var(--a)}
+
+/* body colapsable */
+.macro-body{
+  max-height:0;overflow:hidden;
+  transition:max-height .38s cubic-bezier(.4,0,.2,1)
+}
+.macro-body.is-open{max-height:800px}
+
+/* KPI row dentro del body */
+.macro-kpi-row{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:1px;background:var(--border);
+  border-top:1px solid var(--border);
+}
+.macro-kpi{
+  background:var(--card3);
+  padding:.55rem .85rem;
+  display:flex;flex-direction:column;gap:.1rem;
+  transition:background .14s;
+}
+.macro-kpi:hover{background:var(--card2)}
+.macro-kpi-lbl{font-size:7.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--t3)}
+.macro-kpi-val{font-size:16px;font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:.1rem 0}
+.macro-kpi-sub{font-size:9px;color:var(--t3);line-height:1.3}
+.macro-kpi-neto{font-size:9px;color:var(--t3);margin:.12rem 0}
+.macro-kpi-src{font-size:6.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-top:auto;padding-top:.2rem}
+
+/* nota explicativa */
+.macro-nota{
+  display:flex;gap:.4rem;align-items:flex-start;
+  padding:.6rem 1.4rem;
+  background:rgba(212,188,0,.04);
+  border-top:1px dashed var(--border2);
+}
+.macro-nota-ico{font-size:14px;flex-shrink:0;margin-top:.1rem}
+.macro-nota-t{font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--a);margin-bottom:.22rem}
+.macro-nota-b{font-size:11px;font-weight:300;color:var(--t2);line-height:1.65}
+.macro-nota-b strong{font-weight:700;color:var(--t)}
+
+/* mobile */
+@media(max-width:980px){.macro-kpi-row{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){
+  .macro-kpi-row{grid-template-columns:1fr 1fr}
+  .macro-title{font-size:10px}
+  .macro-sub{display:none}
+  .macro-header{padding:.5rem .9rem}
+  .macro-nota{padding:.5rem .9rem}
+}
 </style>
 </head>
 <body>
@@ -339,7 +443,7 @@ nav{position:sticky;top:0;z-index:400;background:rgba(0,0,0,.92);backdrop-filter
 
 <div class="tesis-bar reveal">
   <span class="tesis-tag">TESIS · SEM 12</span>
-  <span class="tesis-txt">"El gasto primario está en mínimos desde 2007 y el BCRA sigue comprando. Pero el dot plot del miércoles puede frenar todo el rally."</span>
+  <span class="tesis-txt">"Los fundamentos locales son los mejores en años — fiscal en mínimos 2007, BCRA compra reservas, RIGI da piso de divisas. El riesgo es externo: el dot plot del miércoles define si el rally sigue o para."</span>
   <div class="tesis-meta">Federico R. · 17 Mar 2026</div>
 </div>
 
@@ -1141,48 +1245,596 @@ nav{position:sticky;top:0;z-index:400;background:rgba(0,0,0,.92);backdrop-filter
     </div>
   </div>
 
+
+
+  <!-- ══ WSJ #1 — PETROLEO / HORMUZ / FED ══ -->
+  <div class="rc bajo" data-impact="bajo">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">WSJ — The Outlook</span>
+        <div class="rc-hookright"><span class="rc-fecha">16 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">Hormuz cerrado, Brent a USD 98 y la Fed que ya no puede bajar tasas este año</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-b"><span class="ibdot"></span>WSJ · EXTERNO</span></div>
+        <div class="rc-pulso-hook">La guerra en Irán pone un piso de inflación global que bloquea los recortes que el mercado descontaba — el dot plot del miércoles 18/3 es el evento clave</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          El WSJ describe una economía norteamericana que llega al shock ya debilitada: PBI del 4T25 creció solo <span class="dato">0.7% anualizado</span> (revisado a la baja desde 1.4%) y el consumo se expandió al <span class="dato">1.6%</span>. El Brent escaló de <span class="dato">USD 55</span> a <span class="dato">USD 98</span> en 52 semanas. Los futuros pricean hoy un <span class="dato bear">40% de probabilidad de cero recortes en 2026</span>. Para Argentina el canal es directo: <span class="bull">Vaca Muerta y el superávit energético (USD 7.8B) ganan con cada dólar de Brent</span>, pero <span class="bear">la Fed en pausa extiende tasas altas globales y presiona el riesgo país</span>.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">WSJ · The Outlook · 16 Mar 2026</span>
+          <span class="rc-full-source">Justin Lahart · Matt Grossman</span>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice el WSJ sobre el shock de petróleo</div>
+          <div class="rc-block-body">
+            <p>La guerra en Irán cerró el Estrecho de Hormuz, por donde transita el 20% del petróleo mundial. En tres semanas de conflicto el promedio de nafta en EE.UU. pasó de USD 2.98 a USD 3.70 por galón. El WSJ compara el momento con Iraq-Kuwait 1990, pero señala diferencias clave: EE.UU. es hoy el mayor productor de petróleo del mundo, lo que amortigua parte del shock. Aun así, la inflación PCE core se mantiene en 3.1% anual — muy por encima del 2% objetivo de la Fed. La confianza del consumidor de Michigan cayó a 55.5 en marzo. JPMorgan no proyecta recesión pero advierte que la economía puede ser "más como una piñata que eventualmente explota" si los shocks siguen acumulándose.</p>
+          </div>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">Por qué importa para Argentina</div>
+          <div class="rc-block-body">
+            <p>El canal positivo es claro: cada dólar adicional de Brent equivale a +USD 300K/día de ingresos energéticos argentinos. Con el superávit energético en USD 7.8B y Vaca Muerta en expansión acelerada, la ecuación fiscal y de reservas mejora. El canal negativo también es claro: si la Fed no baja tasas, el DXY se mantiene alto, los spreads de emergentes no comprimen y el riesgo país de Argentina frena su descenso. El dot plot del miércoles 18/3 define cuántas bajas proyectan los miembros del FOMC — ese número mueve bonos EM en horas.</p>
+          </div>
+        </div>
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Qué pasa con Argentina y qué tenés que tener en cuenta</div>
+          <div class="rc-conclusion-body">Petróleo caro es aliado fiscal — YPF, Vista Energy, PAE y el RIGI son los ganadores directos. Pero la Fed en pausa es el lastre para los bonos HD. Estrategia: mantener exposición energética en renta variable, reducir duration en renta fija si el dot plot del miércoles es hawkish (0 o 1 baja). Si confirma 2 bajas → rally de AL30/GD35 es la oportunidad.</div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ WSJ #2 — FED / POWELL / DOT PLOT ══ -->
+  <div class="rc bajo" data-impact="bajo">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">WSJ — Fed Independence</span>
+        <div class="rc-hookright"><span class="rc-fecha">16 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">Trump vs Powell: la Fed se defiende con un juez — ya no con consenso político</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-b"><span class="ibdot"></span>WSJ · EXTERNO</span></div>
+        <div class="rc-pulso-hook">La independencia del banco central más importante del mundo depende ahora de tribunales · riesgo sistémico de largo plazo que el mercado subestima</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          Un juez federal rechazó las subpoenas criminales contra Jerome Powell. Pero el WSJ advierte: la independencia de la Fed ahora depende de decisiones judiciales, no de normas políticas — eso es estructuralmente frágil. Trump nominó a <span class="key">Kevin Warsh</span> para reemplazar a Powell, cuyo mandato vence en 2 meses. El mercado pasó de descontar <span class="dato">2 bajas</span> en 2026 a un <span class="dato bear">40% de probabilidad de cero cortes</span>. Para Argentina: <span class="bear">Fed hawkish = DXY fuerte = spreads EM anchos = riesgo país presionado</span>.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">WSJ · Fed Independence · 16 Mar 2026</span>
+          <span class="rc-full-source">Nick Timiraos</span>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice el WSJ sobre la Fed y Powell</div>
+          <div class="rc-block-body">
+            <p>Situación sin precedentes: la Fed defiende su autonomía con abogados y órdenes judiciales, no con consenso político. El juez Boasberg determinó que las subpoenas buscaban "presionar y hostigar" a Powell para bajar tasas o renunciar. En paralelo, la Corte Suprema analiza si Trump puede remover a la gobernadora Lisa Cook — ese fallo puede darle al presidente un control directo sobre la política monetaria que ningún presidente anterior tuvo. El senador Tillis prometió bloquear los nominados a la Fed, complicando la transición hacia Warsh.</p>
+          </div>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">El dot plot del miércoles y Argentina</div>
+          <div class="rc-block-body">
+            <p>El miércoles 18/3 la Fed publica el dot plot actualizado. El mercado busca saber cuántos recortes proyectan los miembros del FOMC para 2026. Escenario hawkish (0 o 1 baja): DXY sube, Treasury 10Y sube, spreads EM se abren — GD30 y AL30 bajo presión, LECAP más atractiva en términos relativos. Escenario dovish (2 bajas confirmadas): rally de bonos EM incluyendo Argentina. El research de Barclays ya en PULSO proyecta primera baja recién en septiembre — eso es más hawkish que el consenso actual.</p>
+          </div>
+        </div>
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Qué pasa con Argentina y qué tenés que tener en cuenta</div>
+          <div class="rc-conclusion-body">El miércoles es el evento binario de la semana para los bonos HD. Posición defensiva antes del dato. Si el dot plot es hawkish → reducir AL30/GD35, refugio en LECAP S30A6 y CER corto (TZX26). Si es dovish → el rally de bonos HD es la oportunidad táctica más clara de la semana.</div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ WSJ #3 — CHINA / XI / COMMODITIES ARG ══ -->
+  <div class="rc bajo" data-impact="bajo">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">WSJ — Geopolítica</span>
+        <div class="rc-hookright"><span class="rc-fecha">16 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">Xi calibra su posición: China pierde el petróleo barato de Irán y necesita diversificar</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-b"><span class="ibdot"></span>WSJ · EXTERNO</span></div>
+        <div class="rc-pulso-hook">La guerra en Irán obliga a China a buscar energía y alimentos en otros mercados — Argentina entra en el mapa como proveedor estratégico</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          El WSJ revela que China compra el <span class="dato">90% del petróleo exportado por Irán</span> con descuentos de <span class="dato">USD 8–14/barril</span> y el <span class="dato">45% de sus importaciones de crudo</span> pasan por Hormuz. La guerra fuerza a Beijing a diversificar. Xi usa el tiempo para "endurecerse" antes del próximo round con Trump — en el summit de Beijing busca concesiones en Taiwan, chips y tierras raras. Para Argentina: <span class="bull">demanda china de soja, GNL, cobre y litio puede acelerarse como sustituto del petróleo iraní</span>.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">WSJ · Geopolítica · 16 Mar 2026</span>
+          <span class="rc-full-source">Austin Ramzy</span>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice el WSJ sobre China y el conflicto en Irán</div>
+          <div class="rc-block-body">
+            <p>Xi Jinping observa el conflicto con atención estratégica. No quiere escalar, pero usa la situación para fortalecer su posición negociadora con EE.UU. China compraba petróleo iraní con descuentos de USD 8–14 por barril pagando en yuanes — eso sostenía el yuan y avanzaba la desdolarización. La guerra cortó ese flujo. Los tankers iraníes siguen navegando en escala reducida pero el volumen es una fracción del normal. Beijing aumentó reservas estratégicas de crudo y aceleró la transición a renovables y EVs para reducir dependencia del Hormuz. En el summit con Trump, Xi busca que EE.UU. condene la independencia de Taiwan y relaje restricciones a chips de IA — las tierras raras siguen siendo el as en la manga.</p>
+          </div>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">Por qué esto impacta a Argentina</div>
+          <div class="rc-block-body">
+            <p>Si China diversifica sus compras de energía fuera del Golfo, Argentina aparece como proveedor natural: Vaca Muerta tiene reservas de GNL y el RIGI trae infraestructura de exportación. La demanda china de soja y maíz también es relevante si el petróleo caro incentiva la sustitución hacia biodiesel y proteína animal. En litio, la carrera china por asegurar materiales para baterías de EVs beneficia directamente los proyectos en la Puna argentina. El canal del tipo de cambio también importa: un yuan más apreciado mejora el poder de compra chino en commodities argentinos.</p>
+          </div>
+        </div>
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Qué pasa con Argentina y qué tenés que tener en cuenta</div>
+          <div class="rc-conclusion-body">El conflicto geopolítico global es paradójicamente positivo para la Argentina agroexportadora y energética. Los ganadores estructurales: YPF, Vista Energy, el sector agro y los proyectos de litio del NOA. La geopolítica es viento de cola — siempre que los fundamentos locales aguanten el ruido externo de corto plazo.</div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div><!-- /rc-grid -->
 
-<!-- ══ NÚMEROS ══ -->
-<div class="sdiv reveal">
-  <span class="sdiv-label">Los números en contexto</span>
-  <div class="sdiv-line"></div>
-  <span class="sdiv-meta">BCRA · INDEC · Bluelytics en vivo</span>
-</div>
-<div class="numeros-band reveal">
-  <div class="nb"><div class="nb-lbl">Reservas brutas</div><div class="nb-val a counting" id="n-res" data-target="45.7" data-suffix="B" data-prefix="USD ">—</div><div class="nb-sub">Netas FMI: −USD 10.284M<br>Brutas −USD 352M en la semana</div><div class="nb-src">BCRA · en vivo</div></div>
-  <div class="nb"><div class="nb-lbl">Inflación feb.</div><div class="nb-val r counting" id="n-infl" data-target="2.9" data-suffix="%" data-prefix="">—</div><div class="nb-sub">Núcleo 3.1% · REM 2.7%<br>máximo desde abr-25</div><div class="nb-src">INDEC</div></div>
-  <div class="nb"><div class="nb-lbl">LECAP 1M</div><div class="nb-val a counting" id="n-lecap" data-target="28.6" data-suffix="% TNA" data-prefix="">—</div><div class="nb-sub">−180pb en la semana<br>Caución 1d: 20.5%</div><div class="nb-src">IAMC</div></div>
-  <div class="nb"><div class="nb-lbl">Riesgo País EMBI</div><div class="nb-val r counting" id="n-rp" data-target="582" data-suffix=" bps" data-prefix="">—</div><div class="nb-sub">GD30 9.6% TIR · AL30 11.0%<br>venta en largos esta semana</div><div class="nb-src">JP Morgan</div></div>
-  <div class="nb"><div class="nb-lbl">Dólar oficial</div><div class="nb-val counting" id="n-oficial" data-target="1395" data-suffix="" data-prefix="$">—</div><div class="nb-sub">Brecha CCL: <span id="n-brecha-sub" class="am">5.5%</span><br>Mínimo desde cepo 2019</div><div class="nb-src">Bluelytics · en vivo</div></div>
-</div>
+<!-- ══ NÚMEROS EN CONTEXTO — 7 BLOQUES COLAPSABLES ══ -->
+<button class="section-toggle-btn reveal" onclick="toggleSection('numeros-section', this)">
+  <div class="stb-left">
+    <span class="stb-label">Los números en contexto</span>
+    <span class="stb-meta">7 bloques macro · click en cada uno para ver los indicadores</span>
+  </div>
+  <span class="stb-arrow" id="arrow-numeros-section">▶</span>
+</button>
+<div class="collapsible-section" id="numeros-section">
+  <div class="macro-panel">
+
+    <!-- 1. SECTOR EXTERNO -->
+    <div class="macro-block">
+      <button class="macro-header" onclick="toggleMacro(this)">
+        <div class="macro-header-left">
+          
+          <span class="macro-dot" style="background:#E03020"></span>
+          <span class="macro-title">1. SECTOR EXTERNO</span>
+          <span class="macro-sub">Dólares · reservas · tipo de cambio</span>
+        </div>
+        <span class="macro-arr">▶</span>
+      </button>
+      <div class="macro-body">
+        <div class="macro-kpi-row">
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Reservas brutas</div>
+            <div class="macro-kpi-val" style="color:var(--a)">USD 45.7B</div>
+            <div class="macro-kpi-neto">Neto c/ FMI <span style="color:var(--r);font-weight:700;background:rgba(224,48,32,.1);padding:1px 5px;border:1px solid rgba(224,48,32,.3)">−USD 10.284M</span></div>
+            <div class="macro-kpi-src">BCRA · en vivo</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Balanza comercial</div>
+            <div class="macro-kpi-val" style="color:var(--g)">+USD 1.6B</div>
+            <div class="macro-kpi-sub">Enero 2026 · expo +18% a/a<br>Energía traccionando</div>
+            <div class="macro-kpi-src">INDEC · ene-26</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Brecha cambiaria</div>
+            <div class="macro-kpi-val" style="color:var(--a)">~5.5%</div>
+            <div class="macro-kpi-sub">Mínimo desde cepo 2019<br>Dólar oficial $1.395</div>
+            <div class="macro-kpi-src">Bluelytics · en vivo</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Compras BCRA 2026</div>
+            <div class="macro-kpi-val" style="color:var(--g)">+USD 307M</div>
+            <div class="macro-kpi-sub">Compra en meses que históricamente vendía</div>
+            <div class="macro-kpi-src">BCRA</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Superávit energético</div>
+            <div class="macro-kpi-val" style="color:var(--g)">+USD 7.8B</div>
+            <div class="macro-kpi-sub">vs déficit −7B en 2013<br>+USD 300K/día por c/USD Brent</div>
+            <div class="macro-kpi-src">Libertad y Progreso</div>
+          </div>
+        </div>
+        <div class="macro-nota">
+          
+          <div>
+            <div class="macro-nota-t">Qué mirás en este bloque</div>
+            <div class="macro-nota-b">Las <strong>reservas netas</strong> son el número que más importa — las brutas engañan porque incluyen encajes bancarios y swaps. La <strong>cuenta corriente</strong> te dice si el país genera o pierde dólares estructuralmente (incluye servicios e intereses de deuda). La <strong>brecha cambiaria</strong> es el termómetro de expectativas de devaluación: cuanto más alta, más el mercado desconfía del tipo de cambio oficial. El <strong>TCR</strong> (tipo de cambio real) mide competitividad — clave para el agro y las exportaciones.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. SECTOR MONETARIO -->
+    <div class="macro-block">
+      <button class="macro-header" onclick="toggleMacro(this)">
+        <div class="macro-header-left">
+          
+          <span class="macro-dot" style="background:#00B0CC"></span>
+          <span class="macro-title">2. SECTOR MONETARIO</span>
+          <span class="macro-sub">La raíz de la inflación · tasas · pesos</span>
+        </div>
+        <span class="macro-arr">▶</span>
+      </button>
+      <div class="macro-body">
+        <div class="macro-kpi-row">
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">LECAP 1M (S30A6)</div>
+            <div class="macro-kpi-val" style="color:var(--a)">28.6% TNA</div>
+            <div class="macro-kpi-sub">−180pb en la semana<br>Caución 1d: 20.5% TNA</div>
+            <div class="macro-kpi-src">IAMC</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Inflación implícita (BE)</div>
+            <div class="macro-kpi-val" style="color:var(--r)">~2.5% m/m</div>
+            <div class="macro-kpi-sub">Marzo 2026 · curva CER<br>Mercado descuenta &lt;2% hacia julio</div>
+            <div class="macro-kpi-src">Mercado</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">REM inflación marzo</div>
+            <div class="macro-kpi-val" style="color:var(--r)">2.56%</div>
+            <div class="macro-kpi-sub">Expectativa de analistas<br>Facimex proyecta 3.0%</div>
+            <div class="macro-kpi-src">BCRA · REM</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Tasa real ex-ante</div>
+            <div class="macro-kpi-val" style="color:var(--r)">NEGATIVA</div>
+            <div class="macro-kpi-sub">28.6% TNA vs ~36% inflación anualizada<br>Incentivo a salir de pesos</div>
+            <div class="macro-kpi-src">Estimado</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Pasivos BCRA</div>
+            <div class="macro-kpi-val" style="color:var(--t3)">Sin LEFIs</div>
+            <div class="macro-kpi-sub">Migración a Letras del Tesoro<br>Bola de nieve monetaria reducida</div>
+            <div class="macro-kpi-src">BCRA</div>
+          </div>
+        </div>
+        <div class="macro-nota">
+          
+          <div>
+            <div class="macro-nota-t">Qué mirás en este bloque</div>
+            <div class="macro-nota-b">La <strong>tasa real</strong> (tasa nominal menos inflación) define si hay incentivo a quedarse en pesos. Si es negativa, el sistema empuja hacia el dólar. Los <strong>pasivos remunerados del BCRA</strong> (antes LELIQs, hoy Pases) son la "bola de nieve monetaria" — si crecen mucho, tarde o temprano se monetizan y generan inflación. El <strong>REM</strong> del BCRA es el consenso de analistas sobre inflación futura — cuando el dato real supera el REM, las curvas CER se reprician al alza.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. SECTOR FISCAL -->
+    <div class="macro-block">
+      <button class="macro-header" onclick="toggleMacro(this)">
+        <div class="macro-header-left">
+          
+          <span class="macro-dot" style="background:#D4BC00"></span>
+          <span class="macro-title">3. SECTOR FISCAL</span>
+          <span class="macro-sub">Sostenibilidad · gasto · deuda</span>
+        </div>
+        <span class="macro-arr">▶</span>
+      </button>
+      <div class="macro-body">
+        <div class="macro-kpi-row">
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Resultado primario</div>
+            <div class="macro-kpi-val" style="color:var(--g)">+0.40% PIB</div>
+            <div class="macro-kpi-sub">1er bimestre 2026<br>Superávit financiero +0.11% PIB</div>
+            <div class="macro-kpi-src">Mecon · feb-26</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Gasto primario</div>
+            <div class="macro-kpi-val" style="color:var(--g)">14.2% PIB</div>
+            <div class="macro-kpi-sub">Mínimo desde jun-2007<br>−8.8% a/a real en febrero</div>
+            <div class="macro-kpi-src">Mecon</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Subsidios energéticos</div>
+            <div class="macro-kpi-val" style="color:var(--r)">+68% a/a</div>
+            <div class="macro-kpi-sub">Riesgo al alza en gasto<br>Prob. reversión por tarifas</div>
+            <div class="macro-kpi-src">Mecon · feb-26</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Salarios públicos</div>
+            <div class="macro-kpi-val" style="color:var(--g)">1.9% PIB</div>
+            <div class="macro-kpi-sub">Mínimo histórico<br>−7.9% a/a real en feb</div>
+            <div class="macro-kpi-src">Mecon · feb-26</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Deuda neta Santa Fe</div>
+            <div class="macro-kpi-val" style="color:var(--g)">NEGATIVA</div>
+            <div class="macro-kpi-sub">4 años consecutivos<br>Liquidez 1.4x stock deuda</div>
+            <div class="macro-kpi-src">Facimex · ene-26</div>
+          </div>
+        </div>
+        <div class="macro-nota">
+          
+          <div>
+            <div class="macro-nota-t">Qué mirás en este bloque</div>
+            <div class="macro-nota-b">El <strong>resultado primario</strong> no incluye pago de intereses de deuda — el <strong>resultado financiero</strong> sí. Para Argentina, el primario es el objetivo del programa con el FMI. El <strong>financiamiento del déficit</strong> es clave: si se financia con emisión monetaria genera inflación; si se financia con deuda, genera presión sobre tasas. Los <strong>subsidios</strong> a energía y transporte son el ítem más difícil de ajustar políticamente — cuando suben, erosionan el ajuste fiscal.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. ACTIVIDAD ECONÓMICA -->
+    <div class="macro-block">
+      <button class="macro-header" onclick="toggleMacro(this)">
+        <div class="macro-header-left">
+          
+          <span class="macro-dot" style="background:#22A055"></span>
+          <span class="macro-title">4. ACTIVIDAD ECONÓMICA</span>
+          <span class="macro-sub">Real economy · PBI · producción</span>
+        </div>
+        <span class="macro-arr">▶</span>
+      </button>
+      <div class="macro-body">
+        <div class="macro-kpi-row">
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">EMAE (proxy PBI)</div>
+            <div class="macro-kpi-val" style="color:var(--g)">+6.2% a/a</div>
+            <div class="macro-kpi-sub">Diciembre 2025<br>Acum. 2025: +5.8% a/a</div>
+            <div class="macro-kpi-src">INDEC · dic-25</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Producción industrial</div>
+            <div class="macro-kpi-val" style="color:var(--g)">+4.1% a/a</div>
+            <div class="macro-kpi-sub">Noviembre 2025<br>Automotriz y alimentos lideran</div>
+            <div class="macro-kpi-src">INDEC · nov-25</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Construcción (ISAC)</div>
+            <div class="macro-kpi-val" style="color:var(--g)">+12.3% a/a</div>
+            <div class="macro-kpi-sub">Noviembre 2025<br>Muy sensible a crédito hipotecario</div>
+            <div class="macro-kpi-src">INDEC · nov-25</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Ventas minoristas</div>
+            <div class="macro-kpi-val" style="color:var(--g)">+8.5% a/a</div>
+            <div class="macro-kpi-sub">Enero 2026<br>Recuperación demanda interna</div>
+            <div class="macro-kpi-src">CAME · ene-26</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Capacidad instalada</div>
+            <div class="macro-kpi-val" style="color:var(--a)">67.3%</div>
+            <div class="macro-kpi-sub">Diciembre 2025<br>+4.2pp a/a · margen de expansión</div>
+            <div class="macro-kpi-src">INDEC · dic-25</div>
+          </div>
+        </div>
+        <div class="macro-nota">
+          
+          <div>
+            <div class="macro-nota-t">Qué mirás en este bloque</div>
+            <div class="macro-nota-b">El <strong>EMAE</strong> es el estimador mensual de actividad económica del INDEC — es el proxy más rápido del PBI. La <strong>construcción</strong> es el sector más sensible a crédito y expectativas: cuando sube, es señal de confianza empresaria y acceso a financiamiento. La <strong>capacidad instalada</strong> mide cuánto de la capacidad productiva industrial está en uso — si es baja, hay margen para crecer sin inflación; si es alta, cualquier demanda adicional se va a precios.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. MERCADO LABORAL -->
+    <div class="macro-block">
+      <button class="macro-header" onclick="toggleMacro(this)">
+        <div class="macro-header-left">
+          
+          <span class="macro-dot" style="background:#888"></span>
+          <span class="macro-title">5. MERCADO LABORAL</span>
+          <span class="macro-sub">Empleo · salario real · informalidad</span>
+        </div>
+        <span class="macro-arr">▶</span>
+      </button>
+      <div class="macro-body">
+        <div class="macro-kpi-row">
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Desempleo</div>
+            <div class="macro-kpi-val" style="color:var(--g)">6.4%</div>
+            <div class="macro-kpi-sub">3T25 · −0.3pp a/a<br>Mínimo desde 2001</div>
+            <div class="macro-kpi-src">INDEC · 3T25</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Empleo informal</div>
+            <div class="macro-kpi-val" style="color:var(--r)">~36%</div>
+            <div class="macro-kpi-sub">Persistentemente alto<br>Sin mejora significativa</div>
+            <div class="macro-kpi-src">INDEC</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Salario real privado</div>
+            <div class="macro-kpi-val" style="color:var(--g)">+8.2% a/a</div>
+            <div class="macro-kpi-sub">Enero 2026<br>Recuperación desde mínimos 2024</div>
+            <div class="macro-kpi-src">INDEC · ene-26</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Salario público real</div>
+            <div class="macro-kpi-val" style="color:var(--r)">−7.9% a/a</div>
+            <div class="macro-kpi-sub">Febrero 2026<br>Ajuste fiscal en salarios</div>
+            <div class="macro-kpi-src">Mecon · feb-26</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Asalariados registrados</div>
+            <div class="macro-kpi-val" style="color:var(--g)">+1.8% a/a</div>
+            <div class="macro-kpi-sub">Noviembre 2025<br>Creación neta de empleo formal</div>
+            <div class="macro-kpi-src">SIPA · nov-25</div>
+          </div>
+        </div>
+        <div class="macro-nota">
+          
+          <div>
+            <div class="macro-nota-t">Por qué el salario real es clave</div>
+            <div class="macro-nota-b">Si el <strong>salario real cae → baja consumo → recesión</strong>. La recuperación del salario real privado en 2025-2026 es lo que explica la mejora en ventas minoristas y actividad. El <strong>empleo informal</strong> (~36%) es estructuralmente alto en Argentina — muchos trabajadores no tienen acceso al sistema financiero ni protección social, lo que limita el consumo y la bancarización. Un <strong>desempleo bajo</strong> como el actual (6.4%) es positivo pero puede generar presión salarial si persiste.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. INFLACIÓN -->
+    <div class="macro-block">
+      <button class="macro-header" onclick="toggleMacro(this)">
+        <div class="macro-header-left">
+          
+          <span class="macro-dot" style="background:#9B5DE5"></span>
+          <span class="macro-title">6. INFLACIÓN</span>
+          <span class="macro-sub">La variable central en Argentina</span>
+        </div>
+        <span class="macro-arr">▶</span>
+      </button>
+      <div class="macro-body">
+        <div class="macro-kpi-row">
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">IPC general feb.</div>
+            <div class="macro-kpi-val" style="color:var(--r)">2.9% m/m</div>
+            <div class="macro-kpi-sub">Arriba del mercado (2.4%)<br>Interanual: 33.1%</div>
+            <div class="macro-kpi-src">INDEC · feb-26</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Inflación núcleo</div>
+            <div class="macro-kpi-val" style="color:var(--r)">3.1% m/m</div>
+            <div class="macro-kpi-sub">Máximo desde abr-25<br>Tendencia al alza</div>
+            <div class="macro-kpi-src">INDEC · feb-26</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Regulados feb.</div>
+            <div class="macro-kpi-val" style="color:var(--r)">4.3% m/m</div>
+            <div class="macro-kpi-sub">Gas, agua, electricidad<br>30% del total de inflación</div>
+            <div class="macro-kpi-src">INDEC · feb-26</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Proyección marzo</div>
+            <div class="macro-kpi-val" style="color:var(--r)">~3.0% m/m</div>
+            <div class="macro-kpi-sub">Pico del año según analistas<br>Colectivos +7.6% el 17/3</div>
+            <div class="macro-kpi-src">Alta frecuencia</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Acumulado 2026</div>
+            <div class="macro-kpi-val" style="color:var(--r)">33.1%</div>
+            <div class="macro-kpi-sub">Interanual a feb-26<br>Tendencia descendente pero lenta</div>
+            <div class="macro-kpi-src">INDEC</div>
+          </div>
+        </div>
+        <div class="macro-nota">
+          
+          <div>
+            <div class="macro-nota-t">Diferencia clave entre núcleo y mayorista</div>
+            <div class="macro-nota-b"><strong>Inflación núcleo</strong> = tendencia subyacente, sin estacionales ni regulados. Es la que más mira el mercado para evaluar si el proceso desinflacionario es genuino. <strong>Inflación mayorista (IPIM)</strong> anticipa al IPC porque los precios de fábrica tardan en llegar al consumidor. Si el mayorista acelera hoy, el IPC sube en 2-3 meses. Los <strong>regulados</strong> (tarifas) no reflejan mercado — los fija el gobierno. Cuando los regulados están atrasados respecto a la inflación real, acumulan una corrección futura que presiona el IPC.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--  7. SISTEMA FINANCIERO -->
+    <div class="macro-block">
+      <button class="macro-header" onclick="toggleMacro(this)">
+        <div class="macro-header-left">
+          
+          <span class="macro-dot" style="background:#E06000"></span>
+          <span class="macro-title">7. SISTEMA FINANCIERO</span>
+          <span class="macro-sub">Crédito · depósitos · dolarización</span>
+        </div>
+        <span class="macro-arr">▶</span>
+      </button>
+      <div class="macro-body">
+        <div class="macro-kpi-row">
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Riesgo País EMBI</div>
+            <div class="macro-kpi-val" style="color:var(--r)">582 bps</div>
+            <div class="macro-kpi-sub">GD30 9.6% TIR<br>AL30 11.0% TIR</div>
+            <div class="macro-kpi-src">JP Morgan</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Crédito privado</div>
+            <div class="macro-kpi-val" style="color:var(--g)">+28% real</div>
+            <div class="macro-kpi-sub">2025 · boom histórico<br>Empresas +10% · Familias +35%</div>
+            <div class="macro-kpi-src">BCRA · 2025</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Morosidad — Familias</div>
+            <div class="macro-kpi-val" style="color:var(--r)">10.6%</div>
+            <div class="macro-kpi-sub">Ene-26 · máximo desde 2001<br>Dic-25: 9.3% · Dic-24: 2.5%</div>
+            <div class="macro-kpi-src">BCRA / 1816</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Morosidad — Empresas</div>
+            <div class="macro-kpi-val" style="color:var(--a)">2.5%</div>
+            <div class="macro-kpi-sub">Dic-25 · sector corporativo sano<br>vs 10.6% de familias</div>
+            <div class="macro-kpi-src">BCRA · dic-25</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Mora — Billeteras (PSP)</div>
+            <div class="macro-kpi-val" style="color:var(--r)">24–27%</div>
+            <div class="macro-kpi-sub">Ene-26 · EcoGo 23.9% · 1816 +27%<br>vs 10.6% bancos · récord 20 años</div>
+            <div class="macro-kpi-src">EcoGo / 1816 / La Nación</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Depósitos en dólares</div>
+            <div class="macro-kpi-val" style="color:var(--a)">USD 34.2B</div>
+            <div class="macro-kpi-sub">Post-blanqueo · récord histórico<br>Señal de confianza en el sistema</div>
+            <div class="macro-kpi-src">BCRA</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">Hipotecarios UVA</div>
+            <div class="macro-kpi-val" style="color:var(--g)">Boom</div>
+            <div class="macro-kpi-sub">+400% a/a en unidades<br>Motor de la construcción</div>
+            <div class="macro-kpi-src">BCRA · 2025</div>
+          </div>
+          <div class="macro-kpi">
+            <div class="macro-kpi-lbl">AO27 · tasa soberana</div>
+            <div class="macro-kpi-val" style="color:var(--g)">5.58% TIR</div>
+            <div class="macro-kpi-sub">USD 500M colocados<br>Señal de acceso al mercado</div>
+            <div class="macro-kpi-src">Tesoro · mar-26</div>
+          </div>
+        </div>
+        <div class="macro-nota">
+          
+          <div>
+            <div class="macro-nota-t">Qué te dice el sistema financiero</div>
+            <div class="macro-nota-b">La señal de alerta del momento es la <strong>morosidad</strong>: familias pasaron de 2.5% a 10.6% en un año (bancos), pero la foto más preocupante está en las <strong>billeteras virtuales (PSP)</strong> — mora de 24–27% según EcoGo y 1816, más del doble de la banca tradicional. El mecanismo: boom de crédito digital + tasas reales altas + sectores de bajos ingresos que hoy destinan el 34% de su ingreso mensual a deudas con fintechs. El BCRA respondió con el <strong>CCT (Cobro con Transferencia)</strong>, que desde agosto 2026 permite a billeteras debitar cuotas automáticamente — similar al débito automático bancario. Las <strong>empresas</strong> siguen sanas (mora 2.5%). El riesgo país de <strong>582 bps</strong> sigue comprimiendo desde los 900+ de 2023 — todavía caro pero en tendencia correcta.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /macro-panel -->
+</div><!-- /numeros-section -->
 
 <!-- ══ PORTAFOLIO — COLAPSABLE ══ -->
 <button class="section-toggle-btn reveal" onclick="toggleSection('portafolio-section', this)">
   <div class="stb-left">
     <span class="stb-label">Portafolio modelo</span>
-    <span class="stb-meta">construido a partir del research · sem.12 · click para ver</span>
+    <span class="stb-meta">mi lectura del research de la semana · sem.12 · click para ver</span>
   </div>
   <span class="stb-arrow" id="arrow-portafolio-section">▶</span>
 </button>
 <div class="collapsible-section" id="portafolio-section">
   <div class="cartera">
     <div class="cartera-top">
-      <div style="font-size:8.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--a)">// Posicionamiento sugerido</div>
-      <div class="cartera-nota-top">Deriva directo de los research · <b>Inviu/Criteria → CER</b> · <b>one618 → YPF OW</b> · <b>Criteria → AL30+AE38</b> · <b>Barron's → MSFT</b> · <b>Facimex → SFD34</b></div>
+      <div style="font-size:8.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--a)">// Mi posicionamiento — basado en el research que leo</div>
+      <div class="cartera-nota-top">Construido a partir del research que leo · refleja mi lectura personal de los reportes de la semana</div>
     </div>
     <div class="cartera-grid">
       <div>
         <table class="ct">
           <thead><tr><th>Activo</th><th>Tipo</th><th>Peso</th><th>Retorno est.</th><th>Tesis (research)</th></tr></thead>
           <tbody>
-            <tr><td class="ct-asset">AL30 / AE38</td><td><span class="ct-tipo ct-rf">Soberano HD</span></td><td class="ct-peso">22%</td><td class="ct-ret up">+12–18%</td><td class="ct-rat"><span class="ct-rt">CRITERIA</span>Extender curva ley local — AL30 base + AE38</td></tr>
-            <tr><td class="ct-asset">Lecer / Boncer / TZX26</td><td><span class="ct-tipo ct-rf">CER</span></td><td class="ct-peso">25%</td><td class="ct-ret up">+inf+3%</td><td class="ct-rat"><span class="ct-rt">INVIU</span>Núcleo 3.1% · BE demasiado optimista · +214pb stress</td></tr>
-            <tr><td class="ct-asset">LECAP S30A6</td><td><span class="ct-tipo ct-rf">Tasa fija</span></td><td class="ct-peso">8%</td><td class="ct-ret am">28.6% TNA</td><td class="ct-rat"><span class="ct-rt">ALLARIA</span>Solo si desinflación sorprende</td></tr>
-            <tr><td class="ct-asset">Merval / YPF / CVH</td><td><span class="ct-tipo ct-pe">RV Argentina</span></td><td class="ct-peso">18%</td><td class="ct-ret up">+20–35%</td><td class="ct-rat"><span class="ct-rt">ONE618</span>YPF OW USD 61 · RIGI cataliza</td></tr>
-            <tr><td class="ct-asset">MSFT / SPY / QQQ CEDEARs</td><td><span class="ct-tipo ct-pe">RV Externa</span></td><td class="ct-peso">15%</td><td class="ct-ret am">cobertura CCL</td><td class="ct-rat"><span class="ct-rt">BARRON'S</span>MSFT P/E mín 10 años · Azure + OpenAI</td></tr>
-            <tr><td class="ct-asset">SFD34</td><td><span class="ct-tipo ct-rf">Provincial HD</span></td><td class="ct-peso">5%</td><td class="ct-ret up">compresión Z</td><td class="ct-rat"><span class="ct-rt">FACIMEX</span>Top pick · Z+448pb · deuda neta negativa</td></tr>
-            <tr><td class="ct-asset">Efectivo / Caución</td><td><span class="ct-tipo ct-ca">Liquidez</span></td><td class="ct-peso">7%</td><td class="ct-ret dim">20.5% TNA</td><td class="ct-rat"><span class="ct-rt">BARCLAYS</span>Táctica dot plot miércoles</td></tr>
+            <tr><td class="ct-asset">AL30 / AE38</td><td><span class="ct-tipo ct-rf">Soberano HD</span></td><td class="ct-peso">22%</td><td class="ct-ret up">+12–18%</td><td class="ct-rat"><span class="ct-rt">EXTERNO</span>Extender curva ley local — AL30 base + AE38</td></tr>
+            <tr><td class="ct-asset">Lecer / Boncer / TZX26</td><td><span class="ct-tipo ct-rf">CER</span></td><td class="ct-peso">25%</td><td class="ct-ret up">+inf+3%</td><td class="ct-rat"><span class="ct-rt">INFLACIÓN</span>Núcleo 3.1% · BE demasiado optimista · +214pb stress</td></tr>
+            <tr><td class="ct-asset">LECAP S30A6</td><td><span class="ct-tipo ct-rf">Tasa fija</span></td><td class="ct-peso">8%</td><td class="ct-ret am">28.6% TNA</td><td class="ct-rat"><span class="ct-rt">TASAS</span>Solo si desinflación sorprende</td></tr>
+            <tr><td class="ct-asset">Merval / YPF / CVH</td><td><span class="ct-tipo ct-pe">RV Argentina</span></td><td class="ct-peso">18%</td><td class="ct-ret up">+20–35%</td><td class="ct-rat"><span class="ct-rt">RENTA VAR.</span>YPF OW USD 61 · RIGI cataliza</td></tr>
+            <tr><td class="ct-asset">MSFT / SPY / QQQ CEDEARs</td><td><span class="ct-tipo ct-pe">RV Externa</span></td><td class="ct-peso">15%</td><td class="ct-ret am">cobertura CCL</td><td class="ct-rat"><span class="ct-rt">GLOBAL</span>MSFT P/E mín 10 años · Azure + OpenAI</td></tr>
+            <tr><td class="ct-asset">SFD34</td><td><span class="ct-tipo ct-rf">Provincial HD</span></td><td class="ct-peso">5%</td><td class="ct-ret up">compresión Z</td><td class="ct-rat"><span class="ct-rt">CRÉDITO</span>Top pick · Z+448pb · deuda neta negativa</td></tr>
+            <tr><td class="ct-asset">Efectivo / Caución</td><td><span class="ct-tipo ct-ca">Liquidez</span></td><td class="ct-peso">7%</td><td class="ct-ret dim">20.5% TNA</td><td class="ct-rat"><span class="ct-rt">LIQUIDEZ</span>Táctica dot plot miércoles</td></tr>
           </tbody>
         </table>
       </div>
@@ -1261,6 +1913,13 @@ function toggleSection(id,btn){
   if(!isOpen&&id==='portafolio-section'){
     setTimeout(()=>{sec.querySelectorAll('.alloc-fill[data-w]').forEach(b=>b.style.width=b.dataset.w+'%');},100);
   }
+  if(!isOpen&&id==='numeros-section'){
+    setTimeout(()=>{sec.querySelectorAll('.counting[data-target]').forEach(el=>{
+      const tgt=parseFloat(el.dataset.target),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'',isF=String(tgt).includes('.');
+      const t0=performance.now();
+      (function step(now){const p=Math.min((now-t0)/950,1),e=1-Math.pow(1-p,4);el.textContent=pre+(isF?(tgt*e).toFixed(1):Math.round(tgt*e))+suf;if(p<1)requestAnimationFrame(step);})(t0);
+    });},80);
+  }
 }
 
 function filterRC(t,btn){
@@ -1302,6 +1961,13 @@ window.addEventListener('DOMContentLoaded',()=>{
   fetchBCRA();fetchDolar();fetchMerval();fetchCommodities();
 });
 setInterval(fetchDolar,60_000);setInterval(fetchMerval,60_000);setInterval(fetchCommodities,120_000);setInterval(fetchBCRA,300_000);
+
+function toggleMacro(btn){
+  const body = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('is-open');
+  btn.classList.toggle('is-open', !isOpen);
+  body.classList.toggle('is-open', !isOpen);
+}
 </script>
 </body>
 </html>
