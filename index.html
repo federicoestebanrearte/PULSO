@@ -1,1088 +1,1307 @@
-!DOCTYPE html
-html lang=es data-theme=dark
-head
-meta charset=UTF-8
-meta name=viewport content=width=device-width, initial-scale=1.0
-titlePULSO — Inteligencia Financiera ARGtitle
-link href=httpsfonts.googleapis.comcss2family=IBM+Plex+Monoital,wght@0,300;0,400;0,500;0,600;0,700&display=swap rel=stylesheet
-style
- ═══════════════════════════════════════════════
-   TOKENS — dark  light
-═══════════════════════════════════════════════ 
-[data-theme=dark]{
-  --bg#000;--bg2#0A0A0A;--bg3#111;
-  --card#0E0E0E;--card2#141414;
-  --border#222;--border2#2C2C2C;
-  --t#F2F2EA;--t2#D8D8D0;--t3#AAAAAA;
-  --a#D4BC00;--r#E04030;--g#28A060;
-  --cyan#00B8D4;--orange#E86000;
-  --hero-bg#050505;
-  --section-alt#070707;
-  --badge-darkrgba(0,0,0,.5);
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PULSO — Inteligencia Financiera ARG</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+<style>
+[data-theme="dark"]{
+  --bg:#000;--bg2:#0A0A0A;--bg3:#111;
+  --card:#0E0E0E;--card2:#141414;--card3:#191919;
+  --border:#1E1E1E;--border2:#2A2A2A;
+  --t:#F0F0E8;--t2:#C8C8C0;--t3:#888;--t4:#555;
+  --a:#D4BC00;--r:#E03020;--g:#22A055;
+  --cyan:#00B0CC;--orange:#E06000;
+  --a-dim:rgba(212,188,0,.12);--r-dim:rgba(224,48,32,.1);
+  --stripe:rgba(255,255,255,.018);
 }
-[data-theme=light]{
-  --bg#F4F4EE;--bg2#EEEEE8;--bg3#E4E4DC;
-  --card#FFFFFF;--card2#F8F8F2;
-  --border#D8D8D0;--border2#C8C8C0;
-  --t#111108;--t2#333330;--t3#666660;
-  --a#8A7800;--r#C02818;--g#1A6040;
-  --cyan#007A90;--orange#B04000;
-  --hero-bg#EBEBE4;
-  --section-alt#EEEEEA;
-  --badge-darkrgba(255,255,255,.6);
+[data-theme="light"]{
+  --bg:#F2F2EC;--bg2:#EAEAE4;--bg3:#E2E2DA;
+  --card:#FFFFFF;--card2:#F5F5EE;--card3:#F0F0E8;
+  --border:#D5D5CC;--border2:#C5C5BC;
+  --t:#0E0E08;--t2:#2E2E28;--t3:#666;--t4:#AAA;
+  --a:#8A7800;--r:#C02010;--g:#1A7040;
+  --cyan:#007090;--orange:#B04000;
+  --a-dim:rgba(138,120,0,.1);--r-dim:rgba(192,32,16,.08);
+  --stripe:rgba(0,0,0,.02);
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.6;min-height:100vh;background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,var(--stripe) 3px,var(--stripe) 4px);transition:background .25s,color .25s;}
+a{text-decoration:none;color:inherit}
+.up{color:var(--g)}.dn{color:var(--r)}.am{color:var(--a)}.cy{color:var(--cyan)}.dim{color:var(--t3)}
+.kv{display:inline-block;font-size:9px;font-weight:700;color:var(--cyan);border:1px solid rgba(0,176,204,.22);background:rgba(0,176,204,.07);padding:0 4px;margin:0 2px;letter-spacing:.04em;vertical-align:middle}
+.hl{color:var(--a);font-weight:600}.hl-r{color:var(--r);font-weight:600}.hl-g{color:var(--g);font-weight:600}
+.reveal{opacity:0;transform:translateY(6px);transition:opacity .38s ease,transform .38s ease}
+.reveal.visible{opacity:1;transform:none}
+@keyframes pulse-glow{0%,100%{opacity:1;box-shadow:0 0 6px var(--g)}50%{opacity:.15;box-shadow:none}}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--g);animation:pulse-glow 1.8s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse-imp{0%,100%{opacity:1}50%{opacity:.1}}
+.ibdot{width:5px;height:5px;border-radius:50%;animation:pulse-imp 1.5s ease-in-out infinite}
 
- ═══════════════════════════════════════════════
-   RESET & BASE
-═══════════════════════════════════════════════ 
-,before,after{box-sizingborder-box;margin0;padding0}
-html{scroll-behaviorsmooth}
-body{
-  backgroundvar(--bg);colorvar(--t);
-  font-family'IBM Plex Mono',monospace;
-  font-size13px;line-height1.6;
-  min-height100vh;
-  background-imagerepeating-linear-gradient(
-    0deg,transparent,transparent 3px,
-    rgba(128,128,128,.04) 3px,rgba(128,128,128,.04) 4px
-  );
-  transitionbackground .25s,color .25s;
-}
-a{text-decorationnone;colorinherit}
+/* NAV */
+nav{position:sticky;top:0;z-index:400;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1.4rem;height:46px;display:flex;align-items:center;justify-content:space-between;}
+[data-theme="light"] nav{background:rgba(242,242,236,.92)}
+.nav-brand{display:flex;align-items:baseline;gap:10px}
+.nav-name{font-size:16px;font-weight:700;letter-spacing:.26em;color:var(--a);text-shadow:0 0 24px rgba(212,188,0,.3)}
+.nav-sub{font-size:7.5px;letter-spacing:.13em;color:var(--t3);text-transform:uppercase}
+.nav-right{display:flex;align-items:center;gap:.8rem}
+.nav-defcon{font-size:7.5px;font-weight:700;letter-spacing:.1em;padding:2px 7px;border:1px solid rgba(224,96,0,.4);color:var(--orange);background:rgba(224,96,0,.06)}
+.nav-ed{font-size:8px;color:var(--t3);letter-spacing:.04em}
+.nav-live{font-size:8.5px;color:var(--g);display:flex;align-items:center;gap:5px;font-weight:700}
+.theme-btn{background:none;border:1px solid var(--border2);color:var(--t3);font-family:inherit;font-size:10px;letter-spacing:.06em;padding:3px 9px;cursor:pointer;transition:all .18s}
+.theme-btn:hover{border-color:var(--a);color:var(--a)}
 
- ═══════════════════════════════════════════════
-   UTILITIES
-═══════════════════════════════════════════════ 
-.up{colorvar(--g)}.dn{colorvar(--r)}.am{colorvar(--a)}.cy{colorvar(--cyan)}.dim{colorvar(--t3)}
-.kv{displayinline-block;font-size9.5px;font-weight700;colorvar(--cyan);
-  border1px solid rgba(0,184,212,.25);backgroundrgba(0,184,212,.07);
-  padding0 4px;margin0 2px;letter-spacing.04em}
-.hl{colorvar(--a);font-weight600}.hl-r{colorvar(--r);font-weight600}.hl-g{colorvar(--g);font-weight600}
+/* STATUS */
+.status-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.22rem 1.4rem;display:flex;gap:1.4rem;align-items:center;font-size:7.5px;color:var(--t3);letter-spacing:.07em;overflow-x:auto;}
+.si{display:flex;gap:4px;align-items:center;white-space:nowrap}
+.si-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.dg{background:var(--g);box-shadow:0 0 5px var(--g)}.dr{background:var(--r)}.da{background:var(--a);box-shadow:0 0 4px var(--a)}
 
-.reveal{opacity0;transformtranslateY(7px);transitionopacity .4s ease,transform .4s ease}
-.reveal.visible{opacity1;transformtranslateY(0)}
+/* TICKERS */
+.ticker-wrap{background:var(--bg);border-bottom:1px solid var(--border);overflow:hidden;height:26px;display:flex;align-items:center}
+.ticker-lbl{background:var(--a);color:#000;font-size:8px;font-weight:700;letter-spacing:.18em;padding:0 11px;height:100%;display:flex;align-items:center;flex-shrink:0}
+.geo-wrap{background:var(--bg2);border-bottom:1px solid var(--border);overflow:hidden;height:26px;display:flex;align-items:center}
+.geo-lbl{background:rgba(224,96,0,.14);color:var(--orange);font-size:8px;font-weight:700;letter-spacing:.14em;padding:0 11px;height:100%;display:flex;align-items:center;flex-shrink:0;border-right:1px solid var(--border)}
+.tt,.gt{display:flex;white-space:nowrap}
+.tt{animation:sl 38s linear infinite}.gt{animation:sl 65s linear infinite}
+.tt:hover,.gt:hover{animation-play-state:paused}
+@keyframes sl{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ti,.gi{display:flex;align-items:center;gap:4px;padding:0 1.1rem;font-size:10px;border-right:1px solid var(--border)}
+.ts{color:var(--t3);font-size:9px}.tv{font-weight:600;color:var(--t)}
+.gi{gap:6px;font-size:9.5px;color:var(--t3)}
+.gtag{font-size:7px;font-weight:700;letter-spacing:.1em;color:var(--orange);padding:0 4px;border:1px solid rgba(224,96,0,.22);background:rgba(224,96,0,.05)}
+.gv{font-weight:600;color:var(--t2)}
 
-@keyframes flashUp{0%{color#60E8A8}100%{colorvar(--g)}}
-@keyframes flashDn{0%{color#FF7060}100%{colorvar(--r)}}
-.flash-up{animationflashUp .5s ease forwards}
-.flash-dn{animationflashDn .5s ease forwards}
+/* TESIS */
+.tesis-bar{background:var(--bg3);border-bottom:2px solid var(--a);padding:.5rem 1.4rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;}
+.tesis-tag{font-size:8px;font-weight:700;letter-spacing:.2em;color:#000;background:var(--a);padding:2px 8px;white-space:nowrap;flex-shrink:0}
+.tesis-txt{font-size:11.5px;font-weight:500;color:var(--t);letter-spacing:.01em;line-height:1.35;flex:1;min-width:0}
+.tesis-meta{font-size:7.5px;color:var(--t3);letter-spacing:.06em;white-space:nowrap;flex-shrink:0}
 
-@keyframes pulse-glow{
-  0%,100%{opacity1;transformscale(1);box-shadow0 0 5px var(--g),0 0 10px var(--g)}
-  50%{opacity.2;transformscale(.6);box-shadownone}
-}
-.pulse-dot{width7px;height7px;border-radius50%;backgroundvar(--g);
-  box-shadow0 0 5px var(--g),0 0 10px var(--g);
-  animationpulse-glow 1.8s ease-in-out infinite;flex-shrink0}
+/* SDIV */
+.sdiv{display:flex;align-items:center;gap:1rem;padding:.6rem 1.4rem;background:var(--bg3);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.sdiv-label{font-size:8px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--a);white-space:nowrap}
+.sdiv-label::before{content:"§ "}
+.sdiv-line{flex:1;height:1px;background:var(--border2)}
+.sdiv-meta{font-size:7.5px;color:var(--t3);letter-spacing:.06em;white-space:nowrap}
 
-@keyframes pulse-imp{0%,100%{opacity1}50%{opacity.15}}
-.ibdot{width5px;height5px;border-radius50%;animationpulse-imp 1.4s ease-in-out infinite}
+/* RESEARCH HEADER */
+.research-hero{padding:.52rem 1.4rem .42rem;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;}
+.rh-title{font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--a)}
+.rh-title::before{content:"// "}
+.filter-row{display:flex;gap:.35rem;align-items:center;flex-wrap:wrap}
+.fbtn{background:none;border:1px solid var(--border2);color:var(--t3);font-family:inherit;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;cursor:pointer;transition:all .15s;}
+.fbtn:hover{border-color:var(--a);color:var(--a)}
+.fbtn.fa{border-color:var(--a);color:#000;background:var(--a)}
+.fbtn.fr{border-color:rgba(224,48,32,.6);color:var(--r);background:var(--r-dim)}
+.fbtn.fm{border-color:rgba(212,188,0,.5);color:var(--a);background:var(--a-dim)}
 
- ═══════════════════════════════════════════════
-   NAV
-═══════════════════════════════════════════════ 
-nav{
-  positionsticky;top0;z-index300;
-  backgroundvar(--bg);border-bottom1px solid var(--border);
-  padding0 1.5rem;height48px;
-  displayflex;align-itemscenter;justify-contentspace-between;
-  transitionbackground .25s;
-}
-.nav-brand{displayflex;align-itemsbaseline;gap10px}
-.nav-name{font-size17px;font-weight700;letter-spacing.24em;colorvar(--a);
-  text-shadow0 0 20px rgba(212,188,0,.25)}
-.nav-sub{font-size8px;letter-spacing.12em;colorvar(--t3);text-transformuppercase}
-.nav-right{displayflex;align-itemscenter;gap.9rem}
-.nav-defcon{font-size8px;font-weight700;letter-spacing.1em;
-  padding2px 7px;border1px solid rgba(232,96,0,.4);colorvar(--orange);
-  backgroundrgba(232,96,0,.06)}
-.nav-ed{font-size8.5px;colorvar(--t3);letter-spacing.05em}
-.nav-dot{font-size9px;colorvar(--g);letter-spacing.1em;
-  displayflex;align-itemscenter;gap5px;font-weight600}
-.theme-btn{
-  backgroundnone;border1px solid var(--border2);colorvar(--t3);
-  font-familyinherit;font-size10.5px;letter-spacing.06em;
-  padding3px 9px;cursorpointer;transitionall .2s;
-  white-spacenowrap;
-}
-.theme-btnhover{border-colorvar(--a);colorvar(--a)}
+/* GRID */
+.research-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
 
- ═══════════════════════════════════════════════
-   STATUS BAR
-═══════════════════════════════════════════════ 
-.status-bar{
-  backgroundvar(--bg2);border-bottom1px solid var(--border);
-  padding.28rem 1.5rem;displayflex;gap1.6rem;align-itemscenter;
-  font-size8px;colorvar(--t3);letter-spacing.07em;overflow-xauto;
-}
-.si{displayflex;gap5px;align-itemscenter;white-spacenowrap}
-.si-dot{width5px;height5px;border-radius50%;flex-shrink0}
-.dg{backgroundvar(--g);box-shadow0 0 5px var(--g)}
-.dr{backgroundvar(--r)}
-.da{backgroundvar(--a);box-shadow0 0 4px var(--a)}
+/* ═══════════════════════════════
+   RESEARCH CARD — 3 NIVELES
+═══════════════════════════════ */
+.rc{background:var(--card);display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .15s;}
+.rc::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+.rc.alto::after{background:var(--r)}.rc.medio::after{background:var(--a)}.rc.bajo::after{background:var(--cyan)}
+.rc:hover{background:var(--card2)}.rc.open{background:var(--card2)}.rc.deep{background:var(--card3)}
 
- ═══════════════════════════════════════════════
-   TICKERS
-═══════════════════════════════════════════════ 
-.ticker-wrap{backgroundvar(--bg);border-bottom1px solid var(--border);
-  overflowhidden;height28px;displayflex;align-itemscenter}
-.ticker-lbl{backgroundvar(--a);color#000;font-size8.5px;font-weight700;
-  letter-spacing.16em;padding0 12px;height100%;displayflex;align-itemscenter;flex-shrink0}
-.geo-wrap{backgroundvar(--bg2);border-bottom1px solid var(--border);
-  overflowhidden;height28px;displayflex;align-itemscenter}
-.geo-lbl{backgroundrgba(232,96,0,.15);colorvar(--orange);font-size8.5px;font-weight700;
-  letter-spacing.14em;padding0 12px;height100%;displayflex;align-itemscenter;
-  flex-shrink0;border-right1px solid var(--border)}
-.tt,.gt{displayflex;white-spacenowrap}
-.tt{animationsl 40s linear infinite}.gt{animationsl 68s linear infinite}
-.tthover,.gthover{animation-play-statepaused}
-@keyframes sl{0%{transformtranslateX(0)}100%{transformtranslateX(-50%)}}
-.ti,.gi{displayflex;align-itemscenter;gap5px;padding0 1.2rem;font-size10.5px;border-right1px solid var(--border)}
-.ts{colorvar(--t3);font-size9.5px}.tv{font-weight600;colorvar(--t)}
-.gi{gap7px;font-size10px;colorvar(--t3);border-right-colorvar(--border)}
-.gtag{font-size7.5px;font-weight700;letter-spacing.1em;colorvar(--orange);
-  padding0 4px;border1px solid rgba(232,96,0,.25);backgroundrgba(232,96,0,.06)}
-.gv{font-weight600;colorvar(--t2)}
+/* NIVEL 0 */
+.rc-hook{padding:.85rem 1.1rem .8rem 1.3rem;cursor:pointer;user-select:none;flex-shrink:0;}
+.rc-hook-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.4rem;}
+.rc-banco{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);flex:1;line-height:1.3;}
+.rc-hookright{display:flex;align-items:center;gap:.4rem;flex-shrink:0}
+.rc-fecha{font-size:8px;color:var(--t4);letter-spacing:.03em}
+.rc-arr{font-size:9px;color:var(--t3);transition:transform .22s,color .15s;flex-shrink:0}
+.rc.open .rc-arr,.rc.deep .rc-arr{transform:rotate(90deg);color:var(--a)}
+.rc-gancho{font-size:15.5px;font-weight:700;color:var(--t);line-height:1.26;letter-spacing:-.025em;margin-bottom:.5rem;cursor:pointer;}
+.rc-gancho em{font-style:normal;color:var(--a)}
+.rc-gancho strong{font-weight:700;color:var(--r)}
+.rc-bottom-row{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem;flex-wrap:wrap}
+.rc-badges{display:flex;gap:.3rem;flex-shrink:0}
+.ibadge{display:inline-flex;align-items:center;gap:3px;font-size:7px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:2px 5px;border:1px solid}
+.ib-a{color:var(--r);border-color:rgba(224,48,32,.4);background:rgba(224,48,32,.07)}
+.ib-a .ibdot{background:var(--r);box-shadow:0 0 4px var(--r)}
+.ib-m{color:var(--a);border-color:rgba(212,188,0,.4);background:rgba(212,188,0,.06)}
+.ib-m .ibdot{background:var(--a);box-shadow:0 0 4px var(--a)}
+.rc-pulso-hook{font-size:10px;font-style:italic;color:var(--t3);line-height:1.35;flex:1;min-width:120px;padding-left:.6rem;border-left:2px solid var(--border2);}
+.rc-pulso-hook::before{content:"→ ";color:var(--a);font-style:normal;font-weight:700;font-size:9px}
 
- ═══════════════════════════════════════════════
-   TESIS
-═══════════════════════════════════════════════ 
-.tesis{
-  backgroundvar(--bg2);border-bottom2px solid var(--a);
-  padding.55rem 1.5rem;
-  displayflex;align-itemscenter;justify-contentspace-between;gap1.5rem;
-}
-.tesis-tag{font-size8.5px;font-weight700;letter-spacing.18em;color#000;
-  backgroundvar(--a);padding3px 8px;white-spacenowrap;flex-shrink0}
-.tesis-txt{font-size12px;font-weight500;colorvar(--t);letter-spacing.01em;
-  line-height1.3;flex1;min-width0}
-.tesis-meta{font-size8.5px;colorvar(--t3);letter-spacing.07em;white-spacenowrap;flex-shrink0}
+/* NIVEL 1 — resumen */
+.rc-l1{max-height:0;overflow:hidden;transition:max-height .32s cubic-bezier(.4,0,.2,1)}
+.rc.open .rc-l1,.rc.deep .rc-l1{max-height:1200px}
+.rc-summary{padding:.7rem 1.1rem .65rem 1.3rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem;}
+.rc-sum-tag{font-size:7.5px;font-weight:700;letter-spacing:.22em;color:var(--a);text-transform:uppercase}
+.rc-sum-txt{font-size:12.5px;font-weight:400;color:var(--t2);line-height:1.72;}
+.rc-sum-txt .dato{display:inline-block;font-size:9px;font-weight:700;color:var(--cyan);border:1px solid rgba(0,176,204,.2);background:rgba(0,176,204,.07);padding:0 4px;margin:0 2px;letter-spacing:.04em;vertical-align:middle}
+.rc-sum-txt .bull{color:var(--g);font-weight:700}.rc-sum-txt .bear{color:var(--r);font-weight:700}.rc-sum-txt .key{color:var(--a);font-weight:600}
+.rc-sum-by{font-size:7.5px;color:var(--t3);letter-spacing:.12em;text-transform:uppercase}
 
- ═══════════════════════════════════════════════
-   SECTION DIVIDER
-═══════════════════════════════════════════════ 
-.section-div{
-  displayflex;align-itemscenter;gap1rem;
-  padding.7rem 1.5rem;
-  backgroundvar(--bg3);
-  border-top1px solid var(--border);
-  border-bottom1px solid var(--border);
-}
-.section-div-label{
-  font-size8.5px;font-weight700;letter-spacing.3em;
-  text-transformuppercase;colorvar(--a);white-spacenowrap;
-}
-.section-div-labelbefore{content§ }
-.section-div-line{flex1;height1px;backgroundvar(--border2)}
-.section-div-meta{font-size8px;colorvar(--t3);letter-spacing.06em;white-spacenowrap}
+.rc-expand{display:flex;align-items:center;justify-content:space-between;padding:.42rem 1.1rem .42rem 1.3rem;border-top:1px dashed var(--border2);background:none;width:100%;font-family:inherit;cursor:pointer;transition:background .14s;}
+.rc-expand:hover{background:var(--bg3)}
+.rc-exp-label{font-size:7.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--t3)}
+.rc.deep .rc-exp-label{color:var(--a)}
+.rc-exp-arr{font-size:9px;color:var(--t3);transition:transform .22s}
+.rc.deep .rc-exp-arr{transform:rotate(90deg);color:var(--a)}
 
- ═══════════════════════════════════════════════
-   HERO
-═══════════════════════════════════════════════ 
-.hero{
-  backgroundvar(--border);
-  border-bottom1px solid var(--border);
-  padding0;
-  displaygrid;
-  grid-template-columnsrepeat(3,1fr);
-  gap1px;
-}
-.hero-card{
-  backgroundvar(--hero-bg);
-  padding1rem 1.2rem;
-  displayflex;flex-directioncolumn;gap.3rem;
-  transitionbackground .2s;
-}
-.hero-cardhover{backgroundvar(--card)}
-.hero-label{font-size8.5px;font-weight700;letter-spacing.22em;
-  text-transformuppercase;colorvar(--t3)}
-.hero-value{font-size42px;font-weight700;line-height1;letter-spacing-.03em}
-.hero-value.r{colorvar(--r)}.hero-value.g{colorvar(--g)}.hero-value.a{colorvar(--a)}
-.hero-sub{font-size11px;font-weight400;colorvar(--t2);line-height1.4}
-.hero-spark{margin-top.3rem}
+/* NIVEL 2 — análisis completo extenso */
+.rc-l2{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1)}
+.rc.deep .rc-l2{max-height:6000px}
 
- ═══════════════════════════════════════════════
-   MAIN 3-COL GRID
-═══════════════════════════════════════════════ 
-.main{
-  displaygrid;grid-template-columns1fr 1.45fr .88fr;
-  gap1px;backgroundvar(--border);
-}
-.col{backgroundvar(--bg);padding1rem 1.2rem;transitionbackground .25s}
-.col-mid{backgroundvar(--bg2)}
-.col-right{backgroundvar(--bg);padding0;displayflex;flex-directioncolumn}
-.col-label{font-size8.5px;font-weight700;letter-spacing.22em;
-  text-transformuppercase;colorvar(--a);margin-bottom.9rem}
-.col-labelbefore{content ;colorvar(--t3)}
-
- ── número blocks ── 
-.nb{padding-bottom.85rem;margin-bottom.85rem;border-bottom1px solid var(--border)}
-.nblast-child{border-bottomnone;margin-bottom0;padding-bottom0}
-.nb-top{displayflex;justify-contentspace-between;align-itemsflex-start;gap.5rem}
-.nb-left{flex1}
-.nb-spark{flex-shrink0;opacity.75}
-.nr{displayflex;justify-contentspace-between;align-itemsbaseline;margin-bottom.1rem}
-.nn{font-size9px;font-weight400;letter-spacing.1em;text-transformuppercase;colorvar(--t3)}
-.nv{font-size21px;font-weight700;line-height1;letter-spacing-.02em;colorvar(--t)}
-.nv.r{colorvar(--r)}.nv.g{colorvar(--g)}.nv.a{colorvar(--a)}
-.nv-sm{font-size14px;font-weight700;line-height1.2}
-.nc{font-size11px;font-weight300;colorvar(--t2);line-height1.45;margin-top.25rem}
-.nc .arr{margin-right3px}.nc .arr.up{colorvar(--g)}.nc .arr.dn{colorvar(--r)}
-.nsrc{displayinline-block;font-size7.5px;font-weight700;letter-spacing.12em;
-  colorvar(--t3);border1px solid var(--border);padding0 3px;
-  margin-left4px;vertical-alignmiddle;positionrelative;top-1px}
-
- ── research cards ── 
-.res-card{
-  margin-bottom.6rem;border1px solid var(--border);
-  backgroundvar(--card);cursorpointer;
-  transitionborder-color .2s,background .2s;positionrelative;overflowhidden;
-}
-.res-cardbefore{content'';positionabsolute;left0;top0;bottom0;width3px;transitionbackground .2s}
-.res-card.impact-altobefore{backgroundvar(--r)}
-.res-card.impact-mediobefore{backgroundvar(--a)}
-.res-card.impact-bajobefore{backgroundvar(--cyan)}
-.res-cardhover{border-colorvar(--border2);backgroundvar(--card2)}
-.res-header{displayflex;justify-contentspace-between;align-itemscenter;
-  padding.55rem .75rem .55rem 1rem;gap.5rem}
-.res-banco{font-size10px;font-weight700;letter-spacing.14em;text-transformuppercase;colorvar(--orange)}
-.res-header-right{displayflex;align-itemscenter;gap.5rem;flex-shrink0}
-.res-fecha{font-size8px;colorvar(--t3);letter-spacing.04em}
-.res-toggle{font-size11px;colorvar(--t3);transitiontransform .25s;flex-shrink0}
-.res-card.open .res-toggle{transformrotate(90deg);colorvar(--a)}
-.impact-badge{displayflex;align-itemscenter;gap4px;font-size7.5px;font-weight700;
-  letter-spacing.12em;text-transformuppercase;padding2px 6px;border1px solid}
-.ib-alto{colorvar(--r);border-colorrgba(224,64,48,.4);backgroundrgba(224,64,48,.07)}
-.ib-alto .ibdot{backgroundvar(--r);box-shadow0 0 4px var(--r)}
-.ib-medio{colorvar(--a);border-colorrgba(212,188,0,.4);backgroundrgba(212,188,0,.06)}
-.ib-medio .ibdot{backgroundvar(--a);box-shadow0 0 4px var(--a)}
-.ib-bajo{colorvar(--cyan);border-colorrgba(0,184,212,.3);backgroundrgba(0,184,212,.06)}
-.ib-bajo .ibdot{backgroundvar(--cyan);box-shadow0 0 4px var(--cyan)}
-.res-preview{padding0 .75rem .45rem 1rem;font-size10.5px;colorvar(--t2);line-height1.4}
-.res-body-wrap{max-height0;overflowhidden;transitionmax-height .35s cubic-bezier(.4,0,.2,1)}
-.res-card.open .res-body-wrap{max-height1200px}
-.res-body{font-size11.5px;font-weight400;colorvar(--t2);line-height1.75;
-  padding.55rem .75rem .65rem 1rem;border-top1px solid var(--border)}
-.res-tag{displayinline-block;font-size7.5px;font-weight700;letter-spacing.12em;
-  text-transformuppercase;padding1px 5px;border1px solid rgba(232,96,0,.3);
-  colorvar(--orange);backgroundrgba(232,96,0,.07);margin-right5px}
-.res-div{displayblock;margin.5rem 0;border-top1px dashed var(--border2)}
-.res-op{margin.65rem 0 .2rem;padding.5rem .75rem;
-  backgroundvar(--bg3);border-left2px solid var(--a);border-top1px solid var(--border)}
-.res-op-tag{font-size8px;font-weight700;letter-spacing.2em;colorvar(--a);displayblock;margin-bottom.3rem}
-.res-op-txt{font-size11px;font-weight400;colorvar(--t2);line-height1.62}
-.res-op-by{font-size8px;colorvar(--t3);letter-spacing.1em;text-transformuppercase;margin-top.3rem}
-
- ── news feed ── 
-.feed-header{padding.6rem .85rem .4rem;border-bottom1px solid var(--border);flex-shrink0}
-.feed-scroll{overflowhidden;flex1;positionrelative;min-height0}
-.feed-inner{positionabsolute;width100%;animationfeed-scroll 70s linear infinite}
-.feed-innerhover{animation-play-statepaused}
-@keyframes feed-scroll{0%{transformtranslateY(0)}100%{transformtranslateY(-50%)}}
-.feed-item{padding.55rem .85rem;border-bottom1px solid var(--border)}
-.feed-source{font-size7.5px;font-weight700;letter-spacing.14em;colorvar(--orange);
-  margin-bottom.2rem;text-transformuppercase}
-.feed-title{font-size11px;font-weight600;colorvar(--t);line-height1.3;margin-bottom.2rem}
-.feed-body{font-size10px;font-weight300;colorvar(--t2);line-height1.45}
-.feed-imp{displayinline-block;font-size7.5px;font-weight700;letter-spacing.1em;
-  text-transformuppercase;padding1px 5px;border1px solid;margin-top.25rem}
-.fi-alto{colorvar(--r);border-colorrgba(224,64,48,.4)}
-.fi-medio{colorvar(--a);border-colorrgba(212,188,0,.4)}
-.fi-bajo{colorvar(--cyan);border-colorrgba(0,184,212,.3)}
-
- ═══════════════════════════════════════════════
-   CARTERA MODELO
-═══════════════════════════════════════════════ 
-.cartera{backgroundvar(--bg2);padding1.2rem 1.5rem;border-bottom1px solid var(--border)}
-.cartera-grid{displaygrid;grid-template-columns1fr 1fr;gap1.5rem;margin-top.9rem}
-.cartera-tabla{width100%;border-collapsecollapse}
-.cartera-tabla th{font-size8px;font-weight700;letter-spacing.18em;text-transformuppercase;
-  colorvar(--t3);padding.4rem .6rem;border-bottom1px solid var(--border);text-alignleft}
-.cartera-tabla td{font-size11.5px;padding.45rem .6rem;border-bottom1px solid var(--border);
-  colorvar(--t);vertical-alignmiddle}
-.cartera-tabla trlast-child td{border-bottomnone}
-.cartera-tabla trhover td{backgroundvar(--card)}
-.ct-asset{font-weight600;colorvar(--t)}
-.ct-tipo{font-size8.5px;font-weight700;letter-spacing.1em;padding1px 5px;border1px solid}
-.ct-pe{colorvar(--cyan);border-colorrgba(0,184,212,.3)}
-.ct-rf{colorvar(--a);border-colorrgba(212,188,0,.4)}
-.ct-co{colorvar(--orange);border-colorrgba(232,96,0,.3)}
-.ct-ca{colorvar(--t3);border-colorvar(--border2)}
-.ct-peso{font-weight700;colorvar(--t);text-alignright}
-.ct-ret{font-weight600;text-alignright}
-.ct-rat{font-size10px;colorvar(--t3)}
-
-.alloc-section{displayflex;flex-directioncolumn;gap.9rem}
-.alloc-title{font-size8.5px;font-weight700;letter-spacing.2em;text-transformuppercase;colorvar(--t3)}
-.alloc-bar-wrap{displayflex;flex-directioncolumn;gap.55rem}
-.alloc-row{displayflex;align-itemscenter;gap.7rem}
-.alloc-label{font-size10px;font-weight500;colorvar(--t2);width130px;flex-shrink0}
-.alloc-track{flex1;height8px;backgroundvar(--border);border-radius1px;overflowhidden}
-.alloc-fill{height100%;border-radius1px;transitionwidth .8s cubic-bezier(.4,0,.2,1)}
-.alloc-pct{font-size9.5px;font-weight700;colorvar(--t);width30px;text-alignright;flex-shrink0}
-.cartera-nota{margin-top.9rem;font-size10px;colorvar(--t2);line-height1.5;
-  padding.5rem .7rem;border-left2px solid var(--border2)}
-
- ═══════════════════════════════════════════════
-   GEO PANEL
-═══════════════════════════════════════════════ 
-.geo-panel{backgroundvar(--bg);padding.85rem 1.5rem;border-bottom1px solid var(--border)}
-.geo-grid{displaygrid;grid-template-columnsrepeat(3,1fr);gap1px;
-  backgroundvar(--border);margin-top.7rem}
-.geo-card{backgroundvar(--bg);padding.65rem .9rem;transitionbackground .2s}
-.geo-cardhover{backgroundvar(--card)}
-.geo-card-tag{font-size8px;font-weight700;letter-spacing.14em;colorvar(--orange);margin-bottom.2rem}
-.geo-card-title{font-size11.5px;font-weight600;colorvar(--t);text-transformuppercase;
-  line-height1.25;margin-bottom.2rem}
-.geo-card-body{font-size10.5px;font-weight300;colorvar(--t2);line-height1.5}
-.geo-card-imp{displayinline-block;font-size7.5px;font-weight700;letter-spacing.1em;
-  text-transformuppercase;padding1px 5px;border1px solid;margin-top.3rem}
-.gc-c{colorvar(--r);border-colorrgba(224,64,48,.4)}
-.gc-m{colorvar(--a);border-colorrgba(212,188,0,.4)}
-.gc-l{colorvar(--cyan);border-colorrgba(0,184,212,.3)}
-
- ═══════════════════════════════════════════════
-   EVENTOS
-═══════════════════════════════════════════════ 
-.eventos{backgroundvar(--bg2);padding.85rem 1.5rem;border-bottom1px solid var(--border)}
-.ev-grid{displaygrid;grid-template-columnsrepeat(3,1fr);gap1px;
-  backgroundvar(--border);margin-top.65rem}
-.ev-card{backgroundvar(--bg);padding.65rem .9rem;transitionbackground .2s}
-.ev-cardhover{backgroundvar(--card)}
-.ev-fecha{font-size8.5px;colorvar(--a);letter-spacing.05em;margin-bottom.2rem}
-.ev-titulo{font-size11.5px;font-weight700;colorvar(--t);text-transformuppercase;
-  line-height1.25;margin-bottom.2rem}
-.ev-desc{font-size10.5px;font-weight300;colorvar(--t2);line-height1.45}
-.ev-imp{displayinline-block;font-size7.5px;font-weight700;letter-spacing.1em;
-  text-transformuppercase;padding1px 5px;border1px solid;margin-top.3rem}
-.ea{colorvar(--r);border-colorrgba(224,64,48,.4)}
-.em{colorvar(--a);border-colorrgba(212,188,0,.4)}
-
- ═══════════════════════════════════════════════
-   FIRMA
-═══════════════════════════════════════════════ 
-.firma{backgroundvar(--bg);border-top2px solid var(--a);
-  padding.6rem 1.5rem;displayflex;
-  justify-contentspace-between;align-itemscenter;flex-wrapwrap;gap.4rem}
-.firma-l{font-size9.5px;colorvar(--t3);letter-spacing.07em}
-.firma-l b{colorvar(--a)}
-.firma-r{font-size9.5px;colorvar(--t3);letter-spacing.06em}
-
- ═══════════════════════════════════════════════
-   MOBILE
-═══════════════════════════════════════════════ 
-@media(max-width900px){
-  .main{grid-template-columns1fr 1fr}
-  .col-right{displaynone}
-  .hero{grid-template-columns1fr 1fr}
-  .hero-cardlast-child{grid-column1-1}
-  .hero-value{font-size32px}
-  .geo-grid{grid-template-columns1fr 1fr}
-  .cartera-grid{grid-template-columns1fr}
-}
-@media(max-width640px){
-  .main{grid-template-columns1fr}
-  .col-right{displaynone}
-  .hero{grid-template-columns1fr}
-  .hero-value{font-size36px}
-  .hero-cardlast-child{grid-columnauto}
-  .ev-grid,.geo-grid{grid-template-columns1fr}
-  .cartera-grid{grid-template-columns1fr}
-  nav{padding0 .9rem}
-  .nav-ed{displaynone}
-  .section-div{padding.6rem .9rem}
-  .cartera,.geo-panel,.eventos{padding.85rem .9rem}
-  .alloc-label{width100px;font-size9.5px}
-  .status-bar{gap.9rem;padding.28rem .9rem}
-}
-style
-head
-body
-
-!-- ── NAV ── --
-nav class=reveal
-  div class=nav-brand
-    span class=nav-namePULSOspan
-    span class=nav-subInteligencia Financiera · ARGspan
-  div
-  div class=nav-right
-    span class=nav-defconDEFCON 3span
-    span class=nav-edEd.001 · 16 Mar 2026span
-    button class=theme-btn onclick=toggleTheme() id=themeBtn☀ CLARObutton
-    span class=nav-dotspan class=pulse-dotspanACTIVOspan
-  div
-nav
-
-!-- ── STATUS ── --
-div class=status-bar reveal
-  div class=sispan class=si-dot dgspanBCRA span class=am id=st-bcracargando...spandiv
-  div class=sispan class=si-dot daspanDÓLAR span id=st-dolarcargando...spandiv
-  div class=sispan class=si-dot dgspanCOMDTS span id=st-commcargando...spandiv
-  div class=sispan class=si-dot drspanUPDT span id=st-time—spandiv
-div
-
-!-- ── TICKERS ── --
-div class=ticker-wrap reveal
-  div class=ticker-lblARGdiv
-  div class=tt
-    div class=tispan class=tsOFICIALspanspan class=tv id=tk-of—spandiv
-    div class=tispan class=tsBLUEspanspan class=tv dn id=tk-bl—spandiv
-    div class=tispan class=tsMEPspanspan class=tv id=tk-mep—spandiv
-    div class=tispan class=tsBRECHAspanspan class=tv dn id=tk-br—spandiv
-    div class=tispan class=tsRESERVASspanspan class=tv id=tk-res—spandiv
-    div class=tispan class=tsRIESGO PAÍSspanspan class=tv dn582 bpsspandiv
-    div class=tispan class=tsMERVALspanspan class=tv up id=tk-mv—spandiv
-    div class=tispan class=tsINFLACIÓNspanspan class=tv dn2.9%spandiv
-    div class=tispan class=tsGD30spanspan class=tv dn9.6% TIRspandiv
-    div class=tispan class=tsAL30spanspan class=tv dn11.0% TIRspandiv
-    div class=tispan class=tsLECAP 1Mspanspan class=tv28.6% TNAspandiv
-    div class=tispan class=tsYPFspanspan class=tv upUSD38 · OW USD61spandiv
-    div class=tispan class=tsRIGIspanspan class=tv upUSD63.7B anunciadosspandiv
-    div class=tispan class=tsOFICIALspanspan class=tv id=tk-of2—spandiv
-    div class=tispan class=tsBLUEspanspan class=tv dn id=tk-bl2—spandiv
-    div class=tispan class=tsMEPspanspan class=tv id=tk-mep2—spandiv
-    div class=tispan class=tsBRECHAspanspan class=tv dn id=tk-br2—spandiv
-    div class=tispan class=tsRESERVASspanspan class=tv id=tk-res2—spandiv
-    div class=tispan class=tsRIESGO PAÍSspanspan class=tv dn582 bpsspandiv
-    div class=tispan class=tsMERVALspanspan class=tv up id=tk-mv2—spandiv
-    div class=tispan class=tsINFLACIÓNspanspan class=tv dn2.9%spandiv
-    div class=tispan class=tsGD30spanspan class=tv dn9.6% TIRspandiv
-    div class=tispan class=tsAL30spanspan class=tv dn11.0% TIRspandiv
-    div class=tispan class=tsLECAP 1Mspanspan class=tv28.6% TNAspandiv
-    div class=tispan class=tsYPFspanspan class=tv upUSD38 · OW USD61spandiv
-    div class=tispan class=tsRIGIspanspan class=tv upUSD63.7B anunciadosspandiv
-  div
-div
-div class=geo-wrap reveal
-  div class=geo-lblGEOdiv
-  div class=gt
-    div class=gispan class=gtagWTIspanspan class=gv id=gk-wti—spandiv
-    div class=gispan class=gtagBRENTspanspan class=gv id=gk-brent—spandiv
-    div class=gispan class=gtagOROspanspan class=gv id=gk-gold—spandiv
-    div class=gispan class=gtagSOJAspanspan class=gv amUSD 439tspandiv
-    div class=gispan class=gtagCOBREspanspan class=gv id=gk-copper—spandiv
-    div class=gispan class=gtagDXYspanspan class=gv id=gk-dxy—spandiv
-    div class=gispan class=gtagS&P 500spanspan class=gv id=gk-spx—spandiv
-    div class=gispan class=gtagIRÁNspanspan class=gv dnHormuz cerrado · Brent +50% YTDspandiv
-    div class=gispan class=gtagFEDspanspan class=gv dimMiérc 18 · sin cambios · dot plot clavespandiv
-    div class=gispan class=gtagARG-FMIspanspan class=gv upBilateral ItaliaIsraelEEUU en procesospandiv
-    div class=gispan class=gtagWTIspanspan class=gv id=gk-wti2—spandiv
-    div class=gispan class=gtagBRENTspanspan class=gv id=gk-brent2—spandiv
-    div class=gispan class=gtagOROspanspan class=gv id=gk-gold2—spandiv
-    div class=gispan class=gtagSOJAspanspan class=gv amUSD 439tspandiv
-    div class=gispan class=gtagCOBREspanspan class=gv id=gk-copper2—spandiv
-    div class=gispan class=gtagDXYspanspan class=gv id=gk-dxy2—spandiv
-    div class=gispan class=gtagS&P 500spanspan class=gv id=gk-spx2—spandiv
-    div class=gispan class=gtagIRÁNspanspan class=gv dnHormuz cerrado · Brent +50% YTDspandiv
-    div class=gispan class=gtagFEDspanspan class=gv dimMiérc 18 · sin cambios · dot plot clavespandiv
-    div class=gispan class=gtagARG-FMIspanspan class=gv upBilateral ItaliaIsraelEEUU en procesospandiv
-  div
-div
-
-!-- ── TESIS ── --
-div class=tesis reveal
-  div style=displayflex;align-itemsbaseline;gap.9rem;flex1;min-width0;flex-wrapwrap
-    span class=tesis-tagTESIS · SEM 11span
-    span class=tesis-txtEl BCRA compra pero las netas siguen negativas. El ancla cambiaria tiene fecha de vencimiento.span
-  div
-  div class=tesis-metaFederico R. · 16 Mar 2026div
-div
-
-!-- ════════ § 1 — LOS TRES NÚMEROS ════════ --
-div class=section-div reveal
-  span class=section-div-labelLo que tenés que mirar primerospan
-  div class=section-div-linediv
-  span class=section-div-meta3 indicadores clave · actualización en vivospan
-div
-
-div class=hero reveal
-  div class=hero-card
-    div class=hero-labelBrecha cambiaria (CCL)div
-    div class=hero-value a counting id=h-brecha data-target=5.6 data-suffix=% data-prefix=—div
-    div class=hero-subMínimo desde cepo 2019 · Oficial bajó -1.5% en la semanadiv
-    div class=hero-spark id=hsp-brechadiv
-  div
-  div class=hero-card
-    div class=hero-labelRiesgo País EMBIdiv
-    div class=hero-value r counting id=h-rp data-target=582 data-suffix= bps data-prefix=—div
-    div class=hero-subAL35 -2.1% · AE38 -1.3% · semana de venta en bonos largosdiv
-    div class=hero-spark id=hsp-rpdiv
-  div
-  div class=hero-card
-    div class=hero-labelCompras BCRA · acum. 2026div
-    div class=hero-value g counting id=h-bcra data-target=307 data-suffix=M data-prefix=USD —div
-    div class=hero-subUSD 295M en la semana · compra en meses que históricamente vendíadiv
-    div class=hero-spark id=hsp-bcradiv
-  div
-div
-
-!-- ════════ § 2 — ANÁLISIS PROFUNDO ════════ --
-div class=section-div reveal
-  span class=section-div-labelAnálisis y números completosspan
-  div class=section-div-linediv
-  span class=section-div-metadatos BCRA · INDEC · Bluelytics en vivospan
-div
-
-div class=main
-  !-- COL 1 NÚMEROS --
-  div class=col reveal
-    div class=col-labelLos números que importandiv
-    div class=nb
-      div class=nb-top
-        div class=nb-left
-          div class=nrspan class=nnReservas brutas span class=nsrcBCRAspanspanspan class=nv counting id=n-resbru data-target=45.7 data-suffix=B data-prefix=USD —spandiv
-          div class=nrspan class=nnNetas FMIspanspan class=nv r nv-sm−USD 10.284Mspandiv
-          div class=nrspan class=nnLíquidas est.spanspan class=nv a nv-smUSD 8.757Mspandiv
-        div
-        div class=nb-spark id=spark-resdiv
-      div
-      div class=ncspan class=arr dn▼spanBrutas cayeron USD 352M en la semana. El stock bruto engaña — las líquidas mandan.div
-    div
-    div class=nb
-      div class=nb-top
-        div class=nb-left
-          div class=nrspan class=nnInflación feb. span class=nsrcINDECspanspanspan class=nv r counting id=n-infl data-target=2.9 data-suffix=% data-prefix=—spandiv
-          div class=nrspan class=nnNúcleo feb.spanspan class=nv r nv-sm3.1%spandiv
-        div
-        div class=nb-spark id=spark-infldiv
-      div
-      div class=ncspan class=arr dn▼spanArriba del REM (2.7%). Regulados = 30% del total. Allaria espera marzo levemente mayor.div
-    div
-    div class=nb
-      div class=nb-top
-        div class=nb-left
-          div class=nrspan class=nnLECAP 1M (S30A6)spanspan class=nv a counting id=n-lecap data-target=28.6 data-suffix=% TNA data-prefix=—spandiv
-          div class=nrspan class=nnCaución 1 díaspanspan class=nv-sm style=colorvar(--t2)20.5% TNAspandiv
-        div
-        div class=nb-spark id=spark-tasadiv
-      div
-      div class=ncspan class=arr dn▼spanLecap -180pb · Caución -136pb. Hay pesos sobrando en el sistema.div
-    div
-    div class=nb
-      div class=nb-top
-        div class=nb-left
-          div class=nrspan class=nnGD30 · TIRspanspan class=nv r nv-sm9.6%spandiv
-          div class=nrspan class=nnAL30 · TIRspanspan class=nv r nv-sm11.0%spandiv
-          div class=nrspan class=nnRiesgo País EMBIspanspan class=nv r counting id=n-rp data-target=582 data-suffix= bps data-prefix=—spandiv
-        div
-        div class=nb-spark id=spark-rpdiv
-      div
-      div class=ncspan class=arr dn▼spanSemana mala en bonos largos. BPOD7 resistió +1%. Tesoro colocó AO27 a 5.58% TIR.div
-    div
-    div class=nb style=border-bottomnone
-      div class=nb-top
-        div class=nb-left
-          div class=nrspan class=nnDólar oficial span class=nsrcBLUELYTICSspanspanspan class=nv counting id=n-oficial2 data-target=1393 data-suffix= data-prefix=$—spandiv
-          div class=nrspan class=nnBrecha CCLspanspan class=nv a nv-sm id=n-br25.6%spandiv
-        div
-        div class=nb-spark id=spark-brechadiv
-      div
-      div class=ncspan class=arr►spanOficial bajó -1.5% en la semana. Mínimo desde el cepo 2019.div
-    div
-  div
-
-  !-- COL 2 RESEARCH CARDS — 7 nuevas + 4 anteriores --
-  div class=col col-mid reveal
-    div class=col-label style=margin-bottom.7remLo que dicen los bancos span style=font-size8.5px;colorvar(--t3);font-weight400;text-transformnone;letter-spacing.03em · click para leerspandiv
-
-    !-- 1. one618 — YPF --
-    div class=res-card impact-alto onclick=toggleCard(this)
-      div class=res-header
-        span class=res-bancoone618 — YPF 4Q25 Resultsspan
-        div class=res-header-right
-          span class=impact-badge ib-altospan class=ibdotspanIMPACTO ALTOspan
-          span class=res-fecha9 MARspan
-          span class=res-toggle▶span
-        div
-      div
-      div class=res-previewOW · Target USD61 · Shale récord 204 kbbld · EBITDA +9% YoY · Lifting cost -44%div
-      div class=res-body-wrapdiv class=res-body
-        span class=res-tagUPSTREAMspanShale oil llegó a span class=kv204 kbbldspan en diciembre — récord histórico. El costo de extracción cayó a span class=kvUSD 4.2boespan en shale, lejos del costoso convencional que YPF sigue abandonando. EBITDA upstream span class=hl-gUSD 3.304M, +9% YoYspan.
-        span class=res-divspan
-        span class=res-tagDOWNSTREAMspanRefinería al span class=kv99%span de utilización. EBITDA Downstream span class=kv+10% YoYspan. El gasoducto VMOS al 50% de avance — cuando esté listo agrega 360 kbbld de capacidad exportadora.
-        span class=res-divspan
-        span class=res-tagDEUDAspanLeverage neto span class=kv1.9xspan, bajando. Target 2026 1.6x-1.7x. Burford Capital sigue siendo el overhang que el mercado no puede ignorar.
-        span class=res-divspan
-        span class=res-tagVALUACIÓNspanDCF a WACC 10.5% con CRP 5%. Precio objetivo span class=hl-gUSD 61span a diciembre 2026 — span class=kv+60%span desde los USD 38 actuales. EVEBITDA 2026E 4.3x.
-        div class=res-opspan class=res-op-tag Lectura PULSOspandiv class=res-op-txtYPF está haciendo lo que tenía que hacer sacar el convencional caro, meter shale barato, exportar. El problema no es operativo — es legal. Burford pesa USD 16.1B y está apelado. Si la Segunda Instancia falla mal, todo el DCF vuela por el aire. Mientras tanto, el bono YPFDAR 8¾ 31 cotiza 25-30pb caro a la curva la oportunidad está en el tramo corto.divdiv class=res-op-by— Federico R.divdiv
-      divdiv
-    div
-
-    !-- 2. Facimex — RIGI --
-    div class=res-card impact-alto onclick=toggleCard(this)
-      div class=res-header
-        span class=res-bancoFacimex — Los proyectos del RIGIspan
-        div class=res-header-right
-          span class=impact-badge ib-altospan class=ibdotspanIMPACTO ALTOspan
-          span class=res-fecha10 MARspan
-          span class=res-toggle▶span
-        div
-      div
-      div class=res-previewUSD 63.7B anunciados · 10 aprobados · San Juan y Río Negro las ganadoras · USD 27B en divisas 2026-2027div
-      div class=res-body-wrapdiv class=res-body
-        span class=res-tagNÚMEROSspan29 proyectos RIGI anunciados por span class=kvUSD 63.7Bspan. Solo 10 aprobados por USD 25.5B — los otros 19 siguen en proceso. Pampa Energía acaba de agregar el número 30 con Rincón de Aranda (USD 4.5B upstream).
-        span class=res-divspan
-        span class=res-tagSECTORESspanMinería concentra el span class=kv63%span del total — cobre, oro y plata lideran con USD 25.8B. Oil & Gas USD 21.8B (34%). Energía renovable, industria e infraestructura son el resto.
-        span class=res-divspan
-        span class=res-tagPROVINCIASspanSan Juan se lleva span class=kvUSD 25.1Bspan (39%) y Río Negro span class=kvUSD 18.8Bspan (29%). Catamarca, Salta, Buenos Aires y Neuquén se reparten el resto.
-        span class=res-divspan
-        span class=res-tagDIVISASspanEl 40% del monto mínimo debe liquidarse en los primeros 2 años. Piso de ingreso span class=hl-gUSD 10B entre 2026 y 2027span solo con los ya aprobados. Si se aprueban los anunciados hasta USD 27B.
-        div class=res-opspan class=res-op-tag Lectura PULSOspandiv class=res-op-txtEl RIGI es el ancla de mediano plazo que la macro argentina necesitaba. USD 10B de piso de divisas en dos años no es poca cosa — es más que lo que el FMI desembolsa en un año. El riesgo que los 19 proyectos en proceso queden trabados por burocracia o cambio de gobierno. San Juan con cobre y oro es el partido que hay que jugar.divdiv class=res-op-by— Federico R.divdiv
-      divdiv
-    div
-
-    !-- 3. Libertad y Progreso — Balanza energética --
-    div class=res-card impact-medio onclick=toggleCard(this)
-      div class=res-header
-        span class=res-bancoLibertad y Progreso — Balanza Energéticaspan
-        div class=res-header-right
-          span class=impact-badge ib-mediospan class=ibdotspanIMPACTO MEDIOspan
-          span class=res-fecha11 MARspan
-          span class=res-toggle▶span
-        div
-      div
-      div class=res-previewARG pasó de déficit USD 7.000M a superávit USD 7.815M · USD 300K extra por día por cada dólar de alza del crudodiv
-      div class=res-body-wrapdiv class=res-body
-        span class=res-tagCAMBIO ESTRUCTURALspanEn 2013 Argentina tenía un span class=hl-rdéficit energético de USD 7.000Mspan. Hoy tiene un span class=hl-gsuperávit de USD 7.815Mspan. El kirchnerismo lo destruyó, Vaca Muerta lo revirtió.
-        span class=res-divspan
-        span class=res-tagMEDIO ORIENTEspanCon un precio base de USD 66barril pre-conflicto, cada dólar de suba genera span class=kvUSD 300.000 diarios extraspan en exportaciones. Con el WTI en USD 90-99 entre USD 7M y USD 10M adicionales por día. En el pico de USD 119 eran USD 16M diarios.
-        span class=res-divspan
-        span class=res-tagCAVEATspanHay que comprar gas licuado en invierno. Si el conflicto termina en semanas, la ganancia es limitada. Y los precios domésticos de combustibles podrían tensionarse.
-        span class=res-divspan
-        span class=res-tagDATA CENTERSspanEnergía barata y abundante abre la puerta a inversiones tech data centers e IA que necesitan electricidad masiva.
-        div class=res-opspan class=res-op-tag Lectura PULSOspandiv class=res-op-txtLa historia es simple Argentina pasó de pagar energía a cobrarla. Cada barril que sube Brent, el BCRA compra más dólares. El riesgo es el invierno — si el conflicto sigue en julio, la factura de GNL licuado come parte de la ganancia. Pero el cambio estructural es real y el mercado todavía no lo tiene del todo priceado.divdiv class=res-op-by— Federico R.divdiv
-      divdiv
-    div
-
-    !-- 4. BCP — Pluspetrol --
-    div class=res-card impact-medio onclick=toggleCard(this)
-      div class=res-header
-        span class=res-bancoBCP Securities — Pluspetrol 4Q25span
-        div class=res-header-right
-          span class=impact-badge ib-mediospan class=ibdotspanIMPACTO MEDIOspan
-          span class=res-fecha12 MARspan
-          span class=res-toggle▶span
-        div
-      div
-      div class=res-previewResultados débiles · Revenue -17% QoQ · EBITDA -27% QoQ · Leverage neto sube a 5.5xdiv
-      div class=res-body-wrapdiv class=res-body
-        span class=res-tagOPERATIVOspanProducción cayó span class=kv dn-19% QoQspan a 73 kbpd — crudo -14%, gas -22%. Revenue USD 299M (-17% QoQ). EBITDA USD 97M (-27% QoQ). Margen EBITDA 37.4%.
-        span class=res-divspan
-        span class=res-tagDEUDAspanFCF negativo en span class=kv dnUSD -310Mspan por el capex agresivo en La Calera y Bajo del Choquie. Leverage LQA saltó de 3.5x a span class=hl-r5.5xspan. Emitió un bono de USD 500M al 8.125% en noviembre.
-        span class=res-divspan
-        span class=res-tagESTRATEGIAspanTarget 120 kboed a fin de 2026. En enero swapeó activos con YPF — le dio wet gas, se quedó con shale oil. Reservas P1 crecieron span class=kv+57% YoYspan a 401 mmboe.
-        span class=res-divspan
-        span class=res-tagBONOSspanPLUSPE 2031 y 2032 rinden ambos 7.31%. Comparado con VISTAA y PANAME en el mismo rango, la prima de riesgo por el leverage alto está incorporada.
-        div class=res-opspan class=res-op-tag Lectura PULSOspandiv class=res-op-txtPluspetrol está en modo inversión pesada — el capex destruye FCF hoy para construir producción mañana. El problema es que 5.5x de leverage en un contexto de tasas globales altas es incómodo. Si el crudo se mantiene arriba de USD 90, el plan funciona. Si cae, el refinanciamiento de deuda se complica. Los bonos reflejan ese riesgo.divdiv class=res-op-by— Federico R.divdiv
-      divdiv
-    div
-
-    !-- 5. Barclays — Fed --
-    div class=res-card impact-alto onclick=toggleCard(this)
-      div class=res-header
-        span class=res-bancoBarclays — FOMC Primer corte en septiembrespan
-        div class=res-header-right
-          span class=impact-badge ib-altospan class=ibdotspanIMPACTO ALTOspan
-          span class=res-fecha13 MARspan
-          span class=res-toggle▶span
-        div
-      div
-      div class=res-previewCorte de junio eliminado · Septiembre 25pb · PCE headline llega a 3.4% en Q2 · Iran war + inflación = Fed atadadiv
-      div class=res-body-wrapdiv class=res-body
-        span class=res-tagNUEVO CALLspanBarclays corrió su primera baja de junio a span class=hl-rseptiembrespan y la segunda de diciembre a marzo 2027. Resultado span class=hl-rsolo 25pb en todo 2026span. La Fed no sube — pero tampoco baja rápido.
-        span class=res-divspan
-        span class=res-tagINFLACIÓNspanCore PCE enero 0.36% mm. Febrero estimado 0.45% mm. Proyección Q4Q4 span class=kv2.8%span — una décima arriba del SEP mediano. Headline PCE llega a span class=kv dn3.4% YoY en Q2span por el crudo.
-        span class=res-divspan
-        span class=res-tagIRÁN + PETRÓLEOspanCon WTI alto y futuros que no revierten del todo hacia fin de año, la Fed no puede declarar victoria en inflación. Mira el núcleo — pero el headline político le complica la narrativa.
-        span class=res-divspan
-        span class=res-tagRIESGOspanSi el desempleo sube de golpe por el shock energético → la Fed baja más y más rápido. Si la inflación se extiende → corta más tarde. Barclays dice riesgos bidireccionales.
-        div class=res-opspan class=res-op-tag Lectura PULSOspandiv class=res-op-txtEl dot plot de este miércoles es el evento de la semana. Si el mediano baja a un solo corte para 2026, el DXY sube y los EM caen. ARG está directamente expuesta bonos HD en dólares y el CCL dependen de la liquidez global. Una Fed atada es un techo para el rally soberano argentino.divdiv class=res-op-by— Federico R.divdiv
-      divdiv
-    div
-
-    !-- 6. Barclays LatAm — Petróleo y fiscal --
-    div class=res-card impact-medio onclick=toggleCard(this)
-      div class=res-header
-        span class=res-bancoBarclays LatAm — Petróleo y cuentas fiscalesspan
-        div class=res-header-right
-          span class=impact-badge ib-mediospan class=ibdotspanIMPACTO MEDIOspan
-          span class=res-fecha13 MARspan
-          span class=res-toggle▶span
-        div
-      div
-      div class=res-previewARG superávit primario 1.2% GDP · Crudo sube = retenciones + impuesto a la renta sube · Ecuador el gran ganadordiv
-      div class=res-body-wrapdiv class=res-body
-        span class=res-tagARGENTINAspanBarclays mantiene superávit primario span class=kv g1.2% del PIBspan para 2026. El efecto neto del crudo alto es span class=hl-gpositivospan retenciones e impuesto a la renta de petroleras superan el aumento de subsidios. El fiscal 2025 cerró con superávit por segundo año consecutivo — primera vez desde 2008.
-        span class=res-divspan
-        span class=res-tagBRASILspanCada USD 10 adicional sobre Brent vale entre 0.2% y 0.7% del PIB en ingresos federales netos. El gobierno ya eliminó el PISCofins sobre gasoil y puso subsidio de 64 centavos — costo fiscal de BRL 30B.
-        span class=res-divspan
-        span class=res-tagECUADORspanEl gran ganador ya tenía superávit de cuenta corriente del 6% del PIB. Más crudo = más divisas = más espacio fiscal. El FMI programa en track.
-        span class=res-divspan
-        span class=res-tagCOLOMBIA  MÉXICOspanColombia Petro no va a subir nafta antes de las elecciones. Las ganancias del crudo van a subsidios, no al fisco. México el mecanismo IEPS absorbe el shock — fiscal neutral en el corto plazo.
-        div class=res-opspan class=res-op-tag Lectura PULSOspandiv class=res-op-txtDe toda LatAm, Argentina y Ecuador son los que más ganan con el crudo alto. ARG porque pasó de importador a exportador — el shock geopolítico que en otro momento hubiera destruido reservas, hoy las acumula. El fiscal argentino tiene margen. El problema es que el mercado ya tiene eso incorporado en parte — el upside está en que el crudo se mantenga.divdiv class=res-op-by— Federico R.divdiv
-      divdiv
-    div
-
-    !-- 7. Inviu — Inflación persistente --
-    div class=res-card impact-alto onclick=toggleCard(this)
-      div class=res-header
-        span class=res-bancoInviu — Inflación persistente, CER ganaspan
-        div class=res-header-right
-          span class=impact-badge ib-altospan class=ibdotspanIMPACTO ALTOspan
-          span class=res-fecha16 MARspan
-          span class=res-toggle▶span
-        div
-      div
-      div class=res-previewLicitación 108% rollover · 63% fue a CER · Inflación feb 2.9% arriba del REM · CER gana +61pb a +214pb sobre tasa fijadiv
-      div class=res-body-wrapdiv class=res-body
-        span class=res-tagLICITACIÓNspanEl Tesoro colocó ARS 10.42B con un rollover de span class=kv108%span. El span class=hl63% fue a instrumentos CERspan — la X15Y6 concentró ARS 2.74B (0.37% TIREA) y el TZX28 ARS 1.87B (8.7% TIREA). Las LECAPs captaron 25%. Dollar linked solo 2%.
-        span class=res-divspan
-        span class=res-tagIPC FEBREROspan2.9% — arriba del mercado (2.4%) y del REM (2.7%). Núcleo span class=kv dn3.1%span — máximo desde abril 2025. Vivienda y tarifas 6.8%. Alimentos 3.3%. Acumulado 2026 33.1%.
-        span class=res-divspan
-        span class=res-tagBREAKEVENSspanLa curva todavía pricéa desaceleración rápida ~2.5% para marzo, bajo 2% hacia julio. Inviu ve eso como demasiado optimista dado el contexto externo (crudo) y la expansión monetaria del BCRA comprando reservas.
-        span class=res-divspan
-        span class=res-tagRECOMENDACIÓNspanPreferir CER. En escenario moderado span class=kv g+61pbspan sobre tasa fija. En escenario de inflación persistente span class=kv g+214pbspan. La licitación se hizo antes del dato — la próxima puede mostrar demanda CER aún más fuerte.
-        div class=res-opspan class=res-op-tag Lectura PULSOspandiv class=res-op-txtEl mercado dice que la inflación se va a 2% en julio. Yo digo que el mercado está siendo muy optimista. El núcleo en 3.1%, el crudo arriba, el BCRA inyectando pesos al comprar dólares — hay tres presiones que la curva de tasa fija no está incorporando. CER corto-medio es la posición defensiva correcta acá.divdiv class=res-op-by— Federico R.divdiv
-      divdiv
-    div
-
-    !-- 8. HSBC (anterior) --
-    div class=res-card impact-alto onclick=toggleCard(this)
-      div class=res-header
-        span class=res-bancoHSBC Asset Managementspan
-        div class=res-header-right
-          span class=impact-badge ib-altospan class=ibdotspanIMPACTO ALTOspan
-          span class=res-fecha16 MARspan
-          span class=res-toggle▶span
-        div
-      div
-      div class=res-preview6040 muerto · EM la oportunidad del año · Merval 9.4x PE vs EEUU 21xdiv
-      div class=res-body-wrapdiv class=res-body
-        span class=res-tagPETRÓLEOspanBrent span class=kv+50%span — HSBC descarta recesión. S&P cayó solo span class=kv-13%span en Ucrania 2022 y recuperó en span class=kv120 díasspan. Esta vez el punto de partida macro es más frágil.
-        span class=res-divspan
-        span class=res-tagPORTAFOLIOspanspan class=hlEl 6040 dejó de funcionar.span Acciones y bonos caen juntos. span class=hlHedge funds = nuevo diversificador.span En los 90s rendían span class=kv+20%span anual.
-        span class=res-divspan
-        span class=res-tagEMERGENTESspanMerval cotiza a span class=kv9.4x PEspan vs Brasil span class=kv10xspan, India span class=kv20xspan, EEUU span class=kv21xspan. HSBC no menciona Argentina en ningún análisis de asignación.
-        div class=res-opspan class=res-op-tag Lectura PULSOspandiv class=res-op-txtHSBC dice tres cosas sin juntarlas el 6040 murió, los emergentes son la oportunidad del año, y Argentina es el activo más barato de la región. Cuando el mercado la encuentre, ya va a ser tarde.divdiv class=res-op-by— Federico R.divdiv
-      divdiv
-    div
-
-    !-- 9. Allaria (anterior) --
-    div class=res-card impact-alto onclick=toggleCard(this)
-      div class=res-header
-        span class=res-bancoAllaria — Renta Fija Macrospan
-        div class=res-header-right
-          span class=impact-badge ib-altospan class=ibdotspanIMPACTO ALTOspan
-          span class=res-fecha16 MARspan
-          span class=res-toggle▶span
-        div
-      div
-      div class=res-previewInflación 2.9% sobre REM · Tasas -180pb · Preferir CER sobre tasa fijadiv
-      div class=res-body-wrapdiv class=res-body
-        span class=res-tagINFLACIÓNspanFeb span class=kv2.9%span, arriba del REM (span class=kv2.7%span). Núcleo span class=kv3.1%span — máximo desde abr-25. Regulados explicaron el 30%.
-        span class=res-divspan
-        span class=res-tagTASASspanLECAP S30A6 span class=kv dn-180pbspan → TNA 28.6%. span class=hlPrefieren CERspan — Boncer y Lecer para abrjun. Inflación BE marzo 2.3% vs REM 2.56% CER gana.
-        span class=res-divspan
-        span class=res-tagRESERVASspanBCRA compró span class=kvUSD 295Mspan en la semana. span class=hl-gFinanciamiento bilateral próximo a anunciar.span
-        span class=res-divspan
-        span class=res-tagBONOS HDspanEscenario base (RP 400pb) AL35 span class=kv+19.2%span, GD35 span class=kv+17.6%span. Tramo corto por ahora.
-        div class=res-opspan class=res-op-tag Lectura PULSOspandiv class=res-op-txtEl carry en pesos ya no alcanza — la tasa real ex-ante sigue negativa. El BCRA compra dólares en meses que históricamente vendía señal muy positiva. El problema -USD 10.284M con el FMI es mucho.divdiv class=res-op-by— Federico R.divdiv
-      divdiv
-    div
-
-  div
-
-  !-- COL 3 FEED --
-  div class=col col-right reveal
-    div class=feed-headerdiv class=col-label style=margin-bottom0Feed · Esta semanadivdiv
-    div class=feed-scroll
-      div class=feed-inner
-        div class=feed-itemdiv class=feed-sourceone618 · YPFdivdiv class=feed-titleOW con target USD61 — shale récord 204 kbblddivdiv class=feed-bodyLifting cost -44% YoY. VMOS pipeline al 50%. Burford overhang.divspan class=feed-imp fi-altoAltospandiv
-        div class=feed-itemdiv class=feed-sourceFACIMEX · RIGIdivdiv class=feed-titleUSD 63.7B anunciados — USD 27B en divisas 2026-27divdiv class=feed-bodySan Juan lidera con cobre y oro. 19 proyectos en proceso.divspan class=feed-imp fi-altoCríticospandiv
-        div class=feed-itemdiv class=feed-sourceIRÁN · HORMUZdivdiv class=feed-title9-10M barrilesdía atrapados en Hormuzdivdiv class=feed-bodyTrump pide coalición naval. SPR no alcanza para compensar.divspan class=feed-imp fi-altoCríticospandiv
-        div class=feed-itemdiv class=feed-sourceFED · MIÉRC 18divdiv class=feed-titleDot plot ¿cero recortes en 2026divdiv class=feed-bodyBarclays primer corte recién en septiembre. 40% chance de cero recortes.divspan class=feed-imp fi-altoCríticospandiv
-        div class=feed-itemdiv class=feed-sourceINVIU · ARGdivdiv class=feed-titleInflación feb 2.9% — núcleo 3.1%, máximo desde abr-25divdiv class=feed-bodyCER gana +61pb a +214pb sobre tasa fija. Licitación 63% fue a CER.divspan class=feed-imp fi-altoAltospandiv
-        div class=feed-itemdiv class=feed-sourceBARCLAYS · LATAMdivdiv class=feed-titleCrudo sube → ARG y Ecuador los grandes ganadoresdivdiv class=feed-bodyBarclays mantiene superávit primario ARG 1.2% GDP. Retenciones compensan subsidios.divspan class=feed-imp fi-medioPositivospandiv
-        div class=feed-itemdiv class=feed-sourceALLARIA · ARGdivdiv class=feed-titleTasas -180pb · BCRA compró USD 295M en la semanadivdiv class=feed-bodyPrefieren CER. AL35 +19.2% en escenario base con RP 400pb.divspan class=feed-imp fi-altoAltospandiv
-        div class=feed-itemdiv class=feed-sourceBCP · PLUSPETROLdivdiv class=feed-title4Q25 suave — leverage sube a 5.5xdivdiv class=feed-bodyRevenue -17% QoQ. Meta 120 kboed a fin de 2026. Reservas +57% YoY.divspan class=feed-imp fi-medioMonitorearspandiv
-        div class=feed-itemdiv class=feed-sourceBCRA · RESERVASdivdiv class=feed-titleBCRA compró USD 307M netos en 2026divdiv class=feed-bodyAcumula en meses que históricamente vendía. Señal positiva para el programa.divspan class=feed-imp fi-medioPositivospandiv
-        div class=feed-itemdiv class=feed-sourceTESORO · ARGdivdiv class=feed-titleBilateral ItaliaIsraelEEUU próximodivdiv class=feed-bodyAO27 USD 500M a TIR 5.58%. Cubriría jul-26 y ene-27.divspan class=feed-imp fi-medioPositivospandiv
-        div class=feed-itemdiv class=feed-sourceHSBCdivdiv class=feed-titleEl 6040 dejó de funcionardivdiv class=feed-bodyMerval 9.4x PE vs EEUU 21x — el más barato de LatAm.divspan class=feed-imp fi-altoAltospandiv
-        !-- duplicado loop --
-        div class=feed-itemdiv class=feed-sourceone618 · YPFdivdiv class=feed-titleOW con target USD61 — shale récord 204 kbblddivdiv class=feed-bodyLifting cost -44% YoY. VMOS pipeline al 50%. Burford overhang.divspan class=feed-imp fi-altoAltospandiv
-        div class=feed-itemdiv class=feed-sourceFACIMEX · RIGIdivdiv class=feed-titleUSD 63.7B anunciados — USD 27B en divisas 2026-27divdiv class=feed-bodySan Juan lidera con cobre y oro. 19 proyectos en proceso.divspan class=feed-imp fi-altoCríticospandiv
-        div class=feed-itemdiv class=feed-sourceIRÁN · HORMUZdivdiv class=feed-title9-10M barrilesdía atrapados en Hormuzdivdiv class=feed-bodyTrump pide coalición naval. SPR no alcanza para compensar.divspan class=feed-imp fi-altoCríticospandiv
-        div class=feed-itemdiv class=feed-sourceFED · MIÉRC 18divdiv class=feed-titleDot plot ¿cero recortes en 2026divdiv class=feed-bodyBarclays primer corte recién en septiembre. 40% chance de cero recortes.divspan class=feed-imp fi-altoCríticospandiv
-        div class=feed-itemdiv class=feed-sourceINVIU · ARGdivdiv class=feed-titleInflación feb 2.9% — núcleo 3.1%, máximo desde abr-25divdiv class=feed-bodyCER gana +61pb a +214pb sobre tasa fija. Licitación 63% fue a CER.divspan class=feed-imp fi-altoAltospandiv
-        div class=feed-itemdiv class=feed-sourceBARCLAYS · LATAMdivdiv class=feed-titleCrudo sube → ARG y Ecuador los grandes ganadoresdivdiv class=feed-bodyBarclays mantiene superávit primario ARG 1.2% GDP.divspan class=feed-imp fi-medioPositivospandiv
-        div class=feed-itemdiv class=feed-sourceALLARIA · ARGdivdiv class=feed-titleTasas -180pb · BCRA compró USD 295M en la semanadivdiv class=feed-bodyPrefieren CER. AL35 +19.2% en escenario base con RP 400pb.divspan class=feed-imp fi-altoAltospandiv
-        div class=feed-itemdiv class=feed-sourceBCP · PLUSPETROLdivdiv class=feed-title4Q25 suave — leverage sube a 5.5xdivdiv class=feed-bodyRevenue -17% QoQ. Meta 120 kboed a fin de 2026.divspan class=feed-imp fi-medioMonitorearspandiv
-        div class=feed-itemdiv class=feed-sourceBCRA · RESERVASdivdiv class=feed-titleBCRA compró USD 307M netos en 2026divdiv class=feed-bodySeñal positiva. Compra en meses que históricamente vendía.divspan class=feed-imp fi-medioPositivospandiv
-        div class=feed-itemdiv class=feed-sourceTESORO · ARGdivdiv class=feed-titleBilateral ItaliaIsraelEEUU próximodivdiv class=feed-bodyAO27 USD 500M a TIR 5.58%.divspan class=feed-imp fi-medioPositivospandiv
-        div class=feed-itemdiv class=feed-sourceHSBCdivdiv class=feed-titleEl 6040 dejó de funcionardivdiv class=feed-bodyMerval 9.4x PE — el más barato de LatAm.divspan class=feed-imp fi-altoAltospandiv
-      div
-    div
-  div
-div
-
-!-- ════════ § 3 — CARTERA MODELO ════════ --
-div class=section-div reveal
-  span class=section-div-labelCartera modelospan
-  div class=section-div-linediv
-  span class=section-div-metaposicionamiento sugerido · semana 11 · perfil moderadospan
-div
-
-div class=cartera reveal
-  div class=cartera-grid
-    div
-      table class=cartera-tabla
-        thead
-          tr
-            thActivoththTipoththPesoththRetorno est.ththTesisth
-          tr
-        thead
-        tbody
-          tr
-            td class=ct-assetAL35  GD35td
-            tdspan class=ct-tipo ct-rfSoberano HDspantd
-            td class=ct-peso20%td
-            td class=ct-ret up+17–19%td
-            td class=ct-ratRP baja a 400pb en escenario basetd
-          tr
-          tr
-            td class=ct-assetLecer  Boncertd
-            tdspan class=ct-tipo ct-rfCERspantd
-            td class=ct-peso25%td
-            td class=ct-ret up+inf+3%td
-            td class=ct-ratInflación BE subestima; CER gana vs tasa fija · Inviu +214pb en stresstd
-          tr
-          tr
-            td class=ct-assetLECAP S30A6td
-            tdspan class=ct-tipo ct-rfTasa fijaspantd
-            td class=ct-peso10%td
-            td class=ct-ret am28.6% TNAtd
-            td class=ct-ratSolo si desinflación acelera más de lo esperadotd
-          tr
-          tr
-            td class=ct-assetMerval  CEDEARs ARGtd
-            tdspan class=ct-tipo ct-peRenta variablespantd
-            td class=ct-peso20%td
-            td class=ct-ret up+25–40%td
-            td class=ct-rat9.4x PE · RIGI cataliza flujo · YPF OW USD61td
-          tr
-          tr
-            td class=ct-assetCEDEARs Tech (SPY, QQQ)td
-            tdspan class=ct-tipo ct-peRenta variablespantd
-            td class=ct-peso15%td
-            td class=ct-ret amcobertura CCLtd
-            td class=ct-ratCobertura ante devaluación + boom IAtd
-          tr
-          tr
-            td class=ct-assetEfectivo  Caucióntd
-            tdspan class=ct-tipo ct-caLiquidezspantd
-            td class=ct-peso10%td
-            td class=ct-ret dim20.5% TNAtd
-            td class=ct-ratMunición ante el dot plot del miércolestd
-          tr
-        tbody
-      table
-    div
-    div class=alloc-section
-      div class=alloc-titleDistribución del portafoliodiv
-      div class=alloc-bar-wrap
-        div class=alloc-rowdiv class=alloc-labelSoberano HDdivdiv class=alloc-trackdiv class=alloc-fill style=width0%;backgroundvar(--r) data-w=20divdivdiv class=alloc-pct20%divdiv
-        div class=alloc-rowdiv class=alloc-labelCER (LecerBoncer)divdiv class=alloc-trackdiv class=alloc-fill style=width0%;backgroundvar(--a) data-w=25divdivdiv class=alloc-pct25%divdiv
-        div class=alloc-rowdiv class=alloc-labelTasa fija (LECAP)divdiv class=alloc-trackdiv class=alloc-fill style=width0%;background#888 data-w=10divdivdiv class=alloc-pct10%divdiv
-        div class=alloc-rowdiv class=alloc-labelRenta variable ARGdivdiv class=alloc-trackdiv class=alloc-fill style=width0%;backgroundvar(--g) data-w=20divdivdiv class=alloc-pct20%divdiv
-        div class=alloc-rowdiv class=alloc-labelCEDEARs Tech  SPYdivdiv class=alloc-trackdiv class=alloc-fill style=width0%;backgroundvar(--cyan) data-w=15divdivdiv class=alloc-pct15%divdiv
-        div class=alloc-rowdiv class=alloc-labelLiquidezdivdiv class=alloc-trackdiv class=alloc-fill style=width0%;backgroundvar(--t3) data-w=10divdivdiv class=alloc-pct10%divdiv
-      div
-      div class=cartera-nota
-        Perfil moderado · Horizonte 6 meses · Ajustar según tolerancia al riesgo individual.br
-        span style=colorvar(--r)⚠span El dot plot del miércoles puede mover todo — mantener 10% en liquidez como táctica.
-      div
-    div
-  div
-div
-
-!-- ════════ § 4 — GEOPOLÍTICA ════════ --
-div class=section-div reveal id=geopolitica
-  span class=section-div-labelGeopolítica · Commodities · Macro globalspan
-  div class=section-div-linediv
-  span class=section-div-meta6 temas a monitorearspan
-div
-div class=geo-panel reveal style=border-topnone
-  div class=geo-grid
-    div class=geo-carddiv class=geo-card-tagIRÁN — HORMUZdivdiv class=geo-card-titleCrisis energética activadivdiv class=geo-card-body9-10M barrilesdía atrapados. Brent +50% YTD. SPR aporta ~3Mdía — insuficiente. Sin cese al fuego a la vista.divspan class=geo-card-imp gc-cCríticospandiv
-    div class=geo-carddiv class=geo-card-tagFED — MIÉRC 18 MARdivdiv class=geo-card-titleSin cambios · dot plotdivdiv class=geo-card-bodyBarclays corrió corte a septiembre. PCE headline llega a 3.4% en Q2. Si el dot plot da ≤1 corte, DXY sube y EM caen.divspan class=geo-card-imp gc-cCríticospandiv
-    div class=geo-carddiv class=geo-card-tagRIGI — INVERSIÓNdivdiv class=geo-card-titleUSD 63.7B en juegodivdiv class=geo-card-bodyUSD 10B piso de divisas 2026-2027 con proyectos aprobados. San Juan cobre y oro. Río Negro litio y gas. Catalizador de largo plazo.divspan class=geo-card-imp gc-mPositivospandiv
-    div class=geo-carddiv class=geo-card-tagOPEC+ — CRUDOdivdiv class=geo-card-titleProducción reducidadivdiv class=geo-card-bodyWTI cerca de USD 99. Para ARG Vaca Muerta exporta más caro. USD 300K extra por día por cada dólar de alza. USD 7Mdía adicionales a USD 90.divspan class=geo-card-imp gc-mMediospandiv
-    div class=geo-carddiv class=geo-card-tagARG-FMIdivdiv class=geo-card-titleItalia · Israel · EEUUdivdiv class=geo-card-bodyBloomberg adelantó los tres países. AO27 llegó a USD 500M a TIR 5.58%. Cubriría jul-26 y ene-27. Barclays espera superávit primario 1.2% GDP.divspan class=geo-card-imp gc-mMediospandiv
-    div class=geo-carddiv class=geo-card-tagYPF — SHALEdivdiv class=geo-card-titlePivot estructuraldivdiv class=geo-card-body204 kbbld en diciembre — récord. Lifting cost shale USD 4.2boe. VMOS pipeline al 50%. Target 250 kbbld a fin de 2026. OW con upside 60%.divspan class=geo-card-imp gc-mPositivospandiv
-  div
-div
-
-!-- ════════ § 5 — AGENDA ════════ --
-div class=section-div reveal
-  span class=section-div-labelAgenda de la semanaspan
-  div class=section-div-linediv
-  span class=section-div-meta3 eventos que pueden mover el mercadospan
-div
-div class=eventos reveal style=border-topnone
-  div class=ev-grid
-    div class=ev-carddiv class=ev-fechaMié 18 Mar · EEUU · 14hs ARGdivdiv class=ev-tituloFED — Tasa + Dot Plotdivdiv class=ev-descSin cambios. Barclays ve primer corte en septiembre. Lo que importa dot plot 2026. Mueve el DXY, los bonos EM y el CCL argentino directamente.divspan class=ev-imp eaImpacto altospandiv
-    div class=ev-carddiv class=ev-fechaJue 19 Mar · EZ  UK  JPdivdiv class=ev-tituloECB · BOE · BOJdivdiv class=ev-descECB Deposit Rate en 2.00%. BOE y BOJ sin cambios. Si alguno sorprende, sacude el mercado global.divspan class=ev-imp emImpacto mediospandiv
-    div class=ev-carddiv class=ev-fechaLun 31 Mar · ARGdivdiv class=ev-tituloFMI — Revisión programadivdiv class=ev-desc¿Desembolso o condicionamiento Allaria espera que el gobierno llegue con el bilateral ya anunciado. Barclays proyecta superávit primario 1.2% GDP.divspan class=ev-imp eaImpacto altospandiv
-  div
-div
-
-!-- FIRMA --
-div class=firma reveal
-  div class=firma-lPULSO · bFederico R.b · La Plata, Argentina · Edición semanal · lunesdiv
-  div class=firma-rNo es asesoramiento de inversióndiv
-div
-
-script
- ══ THEME TOGGLE ════════════════════════════════
-function toggleTheme(){
-  const html=document.documentElement;
-  const isDark=html.getAttribute('data-theme')==='dark';
-  html.setAttribute('data-theme',isDark'light''dark');
-  document.getElementById('themeBtn').textContent=isDark'☾ OSCURO''☀ CLARO';
+.rc-full{
+  padding:.8rem 1.1rem 1.1rem 1.3rem;
+  border-top:1px solid var(--border);
+  background:var(--card3);
 }
 
- ══ SPARKLINES ══════════════════════════════════
-function makeSpark(id,data,color,w=58,h=26){
-  const el=document.getElementById(id);if(!el)return;
-  const mn=Math.min(...data),mx=Math.max(...data),range=mx-mn1;
-  const pts=data.map((v,i)={
-    const x=(i(data.length-1))(w-4)+2;
-    const y=h-4-((v-mn)range)(h-8);
-    return `${x.toFixed(1)},${y.toFixed(1)}`;
-  }).join(' ');
-  const lp=pts.split(' ').pop().split(',');
-  el.innerHTML=`svg width=${w} height=${h} viewBox=0 0 ${w} ${h}
-    polyline points=${pts} fill=none stroke=${color} stroke-width=1.5 stroke-linejoin=round stroke-linecap=round opacity=.85
-    circle cx=${lp[0]} cy=${lp[1]} r=2.5 fill=${color}
-  svg`;
+/* cabecera del análisis */
+.rc-full-header{
+  display:flex;align-items:center;gap:.6rem;
+  margin-bottom:.8rem;
+  padding-bottom:.6rem;
+  border-bottom:1px solid var(--border2);
 }
-makeSpark('spark-res',[41.2,42.0,43.1,44.5,44.0,45.5,46.0,45.7],'#00B8D4');
-makeSpark('spark-infl',[3.7,2.8,1.5,1.6,1.9,1.9,2.9,2.9],'#E04030');
-makeSpark('spark-tasa',[42.0,38.0,34.5,32.6,31.0,30.4,28.6,28.6],'#D4BC00');
-makeSpark('spark-brecha',[22.5,4.2,3.7,3.9,4.7,5.2,4.7,5.6],'#D4BC00');
-makeSpark('spark-rp',[900,750,650,600,580,520,573,582],'#E04030');
-makeSpark('hsp-brecha',[22.5,4.2,3.7,3.9,4.7,5.2,4.7,5.6],'#D4BC00',70,32);
-makeSpark('hsp-rp',[900,750,650,600,580,520,573,582],'#E04030',70,32);
-makeSpark('hsp-bcra',[-200,-150,-50,50,100,180,280,307],'#28A060',70,32);
+.rc-full-label{
+  font-size:8px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--a);
+}
+.rc-full-label::before{content:"// ANÁLISIS COMPLETO · "}
+.rc-full-source{
+  font-size:7.5px;color:var(--t3);letter-spacing:.08em;
+  padding:1px 6px;border:1px solid var(--border2);
+}
 
- ══ COUNT-UP ════════════════════════════════════
-function countUp(el,target,prefix,suffix,duration=1100){
-  const start=performance.now(),isFloat=String(target).includes('.');
-  function step(now){
-    const t=Math.min((now-start)duration,1);
-    const ease=1-Math.pow(1-t,4);
-    el.textContent=prefix+(isFloat(targetease).toFixed(1)Math.round(targetease))+suffix;
-    if(t1)requestAnimationFrame(step);
+/* bloques temáticos */
+.rc-block{
+  margin-bottom:.9rem;
+  padding:.6rem .8rem;
+  background:rgba(0,0,0,.25);
+  border-left:2px solid var(--border2);
+}
+[data-theme="light"] .rc-block{background:rgba(0,0,0,.04)}
+.rc-block-title{
+  font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--orange);margin-bottom:.35rem;
+}
+.rc-block-body{
+  font-size:12px;font-weight:400;color:var(--t2);line-height:1.78;
+}
+.rc-block-body .dato{display:inline-block;font-size:9px;font-weight:700;color:var(--cyan);border:1px solid rgba(0,176,204,.2);background:rgba(0,176,204,.07);padding:0 4px;margin:0 2px;letter-spacing:.04em;vertical-align:middle}
+.rc-block-body .bull{color:var(--g);font-weight:700}
+.rc-block-body .bear{color:var(--r);font-weight:700}
+.rc-block-body .key{color:var(--a);font-weight:600}
+.rc-block-body p{margin-bottom:.55rem}
+.rc-block-body p:last-child{margin-bottom:0}
+
+/* bloque de conclusión */
+.rc-conclusion{
+  margin-top:.4rem;
+  padding:.65rem .9rem;
+  background:var(--a-dim);
+  border:1px solid rgba(212,188,0,.2);
+  border-left:3px solid var(--a);
+}
+.rc-conclusion-title{
+  font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--a);margin-bottom:.3rem;
+}
+.rc-conclusion-title::before{content:"// "}
+.rc-conclusion-body{
+  font-size:12px;font-weight:400;color:var(--t2);line-height:1.72;
+}
+.rc-conclusion-body .dato{display:inline-block;font-size:9px;font-weight:700;color:var(--cyan);border:1px solid rgba(0,176,204,.2);background:rgba(0,176,204,.07);padding:0 4px;margin:0 2px;letter-spacing:.04em;vertical-align:middle}
+.rc-conclusion-body .bull{color:var(--g);font-weight:700}
+.rc-conclusion-body .bear{color:var(--r);font-weight:700}
+.rc-conclusion-body .key{color:var(--a);font-weight:600}
+.rc-by{font-size:7.5px;color:var(--t3);letter-spacing:.12em;text-transform:uppercase;margin-top:.5rem}
+
+/* SECCIONES COLAPSABLES */
+.section-toggle-btn{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1.4rem;background:var(--bg3);border-top:1px solid var(--border);border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;width:100%;font-family:inherit;}
+.section-toggle-btn:hover{background:var(--card)}
+.stb-left{display:flex;align-items:center;gap:.8rem}
+.stb-label{font-size:8px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--a)}
+.stb-label::before{content:"§ "}
+.stb-meta{font-size:7.5px;color:var(--t3);letter-spacing:.06em}
+.stb-arrow{font-size:11px;color:var(--t3);transition:transform .25s,color .15s}
+.stb-arrow.open{transform:rotate(90deg);color:var(--a)}
+.collapsible-section{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1)}
+.collapsible-section.open{max-height:8000px}
+
+/* NÚMEROS */
+.numeros-band{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border);}
+.nb{background:var(--bg2);padding:.6rem 1rem;display:flex;flex-direction:column;gap:.12rem;transition:background .15s}
+.nb:hover{background:var(--card)}
+.nb-lbl{font-size:7.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3)}
+.nb-val{font-size:18px;font-weight:700;line-height:1;letter-spacing:-.02em}
+.nb-val.r{color:var(--r)}.nb-val.g{color:var(--g)}.nb-val.a{color:var(--a)}
+.nb-sub{font-size:9px;color:var(--t3);line-height:1.3}
+.nb-src{font-size:6.5px;font-weight:700;letter-spacing:.12em;color:var(--t4);text-transform:uppercase}
+
+/* CARTERA */
+.cartera{background:var(--bg2);padding:.95rem 1.4rem;border-bottom:1px solid var(--border)}
+.cartera-top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem;}
+.cartera-nota-top{font-size:9.5px;color:var(--t3);font-style:italic}
+.cartera-nota-top b{color:var(--a);font-style:normal}
+.cartera-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.ct{width:100%;border-collapse:collapse}
+.ct th{font-size:7.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);padding:.32rem .5rem;border-bottom:1px solid var(--border);text-align:left}
+.ct td{font-size:11px;padding:.38rem .5rem;border-bottom:1px solid var(--border);color:var(--t);vertical-align:middle}
+.ct tr:last-child td{border-bottom:none}
+.ct tr:hover td{background:var(--card)}
+.ct-asset{font-weight:600}
+.ct-tipo{font-size:7.5px;font-weight:700;letter-spacing:.1em;padding:1px 5px;border:1px solid}
+.ct-pe{color:var(--cyan);border-color:rgba(0,176,204,.3)}.ct-rf{color:var(--a);border-color:rgba(212,188,0,.35)}.ct-ca{color:var(--t3);border-color:var(--border2)}
+.ct-peso{font-weight:700;text-align:right}.ct-ret{font-weight:600;text-align:right}.ct-rat{font-size:9px;color:var(--t3)}
+.ct-rt{font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 4px;border:1px solid rgba(212,188,0,.3);color:var(--a);background:var(--a-dim);margin-right:3px;vertical-align:middle}
+.alloc-section{display:flex;flex-direction:column;gap:.7rem}
+.alloc-title{font-size:7.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--t3)}
+.alloc-bar-wrap{display:flex;flex-direction:column;gap:.45rem}
+.alloc-row{display:flex;align-items:center;gap:.55rem}
+.alloc-label{font-size:9.5px;font-weight:500;color:var(--t2);width:125px;flex-shrink:0}
+.alloc-track{flex:1;height:6px;background:var(--border);border-radius:1px;overflow:hidden}
+.alloc-fill{height:100%;border-radius:1px;transition:width .85s cubic-bezier(.4,0,.2,1)}
+.alloc-pct{font-size:9px;font-weight:700;color:var(--t);width:26px;text-align:right;flex-shrink:0}
+.cartera-nota{margin-top:.65rem;font-size:9.5px;color:var(--t2);line-height:1.55;padding:.42rem .6rem;border-left:2px solid var(--border2)}
+
+/* GEO */
+.geo-panel{background:var(--bg);padding:.8rem 1.4rem;border-bottom:1px solid var(--border)}
+.geo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:.65rem}
+.geo-card{background:var(--bg);padding:.6rem .85rem;transition:background .15s}
+.geo-card:hover{background:var(--card)}
+.geo-card-tag{font-size:7.5px;font-weight:700;letter-spacing:.14em;color:var(--orange);margin-bottom:.18rem}
+.geo-card-title{font-size:11px;font-weight:600;color:var(--t);text-transform:uppercase;line-height:1.25;margin-bottom:.18rem}
+.geo-card-body{font-size:10px;font-weight:300;color:var(--t2);line-height:1.5}
+.geo-imp{display:inline-block;font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 5px;border:1px solid;margin-top:.28rem}
+.gc-c{color:var(--r);border-color:rgba(224,48,32,.4)}.gc-m{color:var(--a);border-color:rgba(212,188,0,.4)}.gc-l{color:var(--cyan);border-color:rgba(0,176,204,.3)}
+
+/* AGENDA */
+.eventos{background:var(--bg2);padding:.8rem 1.4rem;border-bottom:1px solid var(--border)}
+.ev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:.6rem}
+.ev-card{background:var(--bg);padding:.6rem .85rem;transition:background .15s}
+.ev-card:hover{background:var(--card)}
+.ev-fecha{font-size:8px;color:var(--a);letter-spacing:.05em;margin-bottom:.18rem}
+.ev-titulo{font-size:11px;font-weight:700;color:var(--t);text-transform:uppercase;line-height:1.25;margin-bottom:.18rem}
+.ev-desc{font-size:10px;font-weight:300;color:var(--t2);line-height:1.45}
+.ev-imp{display:inline-block;font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 5px;border:1px solid;margin-top:.28rem}
+.ea{color:var(--r);border-color:rgba(224,48,32,.4)}.em{color:var(--a);border-color:rgba(212,188,0,.4)}
+
+/* FIRMA */
+.firma{background:var(--bg);border-top:2px solid var(--a);padding:.55rem 1.4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.4rem}
+.firma-l{font-size:9px;color:var(--t3);letter-spacing:.07em}
+.firma-l b{color:var(--a)}
+.firma-r{font-size:9px;color:var(--t3);letter-spacing:.06em}
+
+/* MOBILE */
+@media(max-width:980px){.research-grid{grid-template-columns:1fr 1fr}.geo-grid{grid-template-columns:1fr 1fr}.cartera-grid{grid-template-columns:1fr}.numeros-band{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.research-grid{grid-template-columns:1fr}.ev-grid,.geo-grid{grid-template-columns:1fr}.cartera-grid{grid-template-columns:1fr}.numeros-band{grid-template-columns:1fr 1fr}nav{padding:0 .9rem}.nav-ed{display:none}.rc-gancho{font-size:13.5px}.rc-banco{font-size:10.5px}}
+</style>
+</head>
+<body>
+
+<nav class="reveal">
+  <div class="nav-brand">
+    <span class="nav-name">PULSO</span>
+    <span class="nav-sub">Inteligencia Financiera · ARG</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-defcon">DEFCON 3</span>
+    <span class="nav-ed">Ed.002 · 17 Mar 2026</span>
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀ CLARO</button>
+    <span class="nav-live"><span class="pulse-dot"></span>ACTIVO</span>
+  </div>
+</nav>
+
+<div class="status-bar reveal">
+  <div class="si"><span class="si-dot dg"></span>BCRA <span class="am" id="st-bcra">cargando...</span></div>
+  <div class="si"><span class="si-dot da"></span>DÓLAR <span id="st-dolar">cargando...</span></div>
+  <div class="si"><span class="si-dot dg"></span>COMDTS <span id="st-comm">cargando...</span></div>
+  <div class="si"><span class="si-dot dr"></span>UPDT <span id="st-time">—</span></div>
+</div>
+
+<div class="ticker-wrap reveal">
+  <div class="ticker-lbl">ARG</div>
+  <div class="tt">
+    <div class="ti"><span class="ts">OFICIAL</span><span class="tv" id="tk-of">—</span></div><div class="ti"><span class="ts">BLUE</span><span class="tv dn" id="tk-bl">—</span></div><div class="ti"><span class="ts">MEP</span><span class="tv" id="tk-mep">—</span></div><div class="ti"><span class="ts">BRECHA</span><span class="tv dn" id="tk-br">—</span></div><div class="ti"><span class="ts">RESERVAS</span><span class="tv" id="tk-res">—</span></div><div class="ti"><span class="ts">RIESGO PAÍS</span><span class="tv dn">582 bps</span></div><div class="ti"><span class="ts">MERVAL</span><span class="tv up" id="tk-mv">—</span></div><div class="ti"><span class="ts">INFLACIÓN</span><span class="tv dn">2.9%</span></div><div class="ti"><span class="ts">GD30</span><span class="tv dn">9.6% TIR</span></div><div class="ti"><span class="ts">AL30</span><span class="tv dn">11.0% TIR</span></div><div class="ti"><span class="ts">YPF</span><span class="tv up">USD 38 · OW USD 61</span></div><div class="ti"><span class="ts">SANTA FE 34</span><span class="tv">8.7% TIR</span></div><div class="ti"><span class="ts">GASTO PRIMARIO</span><span class="tv up">14.2% PIB · mín. 2007</span></div>
+    <div class="ti"><span class="ts">OFICIAL</span><span class="tv" id="tk-of2">—</span></div><div class="ti"><span class="ts">BLUE</span><span class="tv dn" id="tk-bl2">—</span></div><div class="ti"><span class="ts">MEP</span><span class="tv" id="tk-mep2">—</span></div><div class="ti"><span class="ts">BRECHA</span><span class="tv dn" id="tk-br2">—</span></div><div class="ti"><span class="ts">RESERVAS</span><span class="tv" id="tk-res2">—</span></div><div class="ti"><span class="ts">RIESGO PAÍS</span><span class="tv dn">582 bps</span></div><div class="ti"><span class="ts">MERVAL</span><span class="tv up" id="tk-mv2">—</span></div><div class="ti"><span class="ts">INFLACIÓN</span><span class="tv dn">2.9%</span></div><div class="ti"><span class="ts">GD30</span><span class="tv dn">9.6% TIR</span></div><div class="ti"><span class="ts">AL30</span><span class="tv dn">11.0% TIR</span></div><div class="ti"><span class="ts">YPF</span><span class="tv up">USD 38 · OW USD 61</span></div><div class="ti"><span class="ts">SANTA FE 34</span><span class="tv">8.7% TIR</span></div><div class="ti"><span class="ts">GASTO PRIMARIO</span><span class="tv up">14.2% PIB · mín. 2007</span></div>
+  </div>
+</div>
+
+<div class="geo-wrap reveal">
+  <div class="geo-lbl">GEO</div>
+  <div class="gt">
+    <div class="gi"><span class="gtag">WTI</span><span class="gv" id="gk-wti">—</span></div><div class="gi"><span class="gtag">BRENT</span><span class="gv" id="gk-brent">—</span></div><div class="gi"><span class="gtag">ORO</span><span class="gv" id="gk-gold">—</span></div><div class="gi"><span class="gtag">SOJA</span><span class="gv am">USD 445/t</span></div><div class="gi"><span class="gtag">DXY</span><span class="gv" id="gk-dxy">—</span></div><div class="gi"><span class="gtag">S&P 500</span><span class="gv" id="gk-spx">—</span></div><div class="gi"><span class="gtag">COBRE</span><span class="gv" id="gk-copper">—</span></div><div class="gi"><span class="gtag">IRÁN</span><span class="gv dn">Hormuz · Brent +50% YTD</span></div><div class="gi"><span class="gtag">FED</span><span class="gv dim">Miérc 18 · dot plot clave</span></div><div class="gi"><span class="gtag">MSFT</span><span class="gv up">P/E 22.9x · mín. 10 años</span></div>
+    <div class="gi"><span class="gtag">WTI</span><span class="gv" id="gk-wti2">—</span></div><div class="gi"><span class="gtag">BRENT</span><span class="gv" id="gk-brent2">—</span></div><div class="gi"><span class="gtag">ORO</span><span class="gv" id="gk-gold2">—</span></div><div class="gi"><span class="gtag">SOJA</span><span class="gv am">USD 445/t</span></div><div class="gi"><span class="gtag">DXY</span><span class="gv" id="gk-dxy2">—</span></div><div class="gi"><span class="gtag">S&P 500</span><span class="gv" id="gk-spx2">—</span></div><div class="gi"><span class="gtag">COBRE</span><span class="gv" id="gk-copper2">—</span></div><div class="gi"><span class="gtag">IRÁN</span><span class="gv dn">Hormuz · Brent +50% YTD</span></div><div class="gi"><span class="gtag">FED</span><span class="gv dim">Miérc 18 · dot plot clave</span></div><div class="gi"><span class="gtag">MSFT</span><span class="gv up">P/E 22.9x · mín. 10 años</span></div>
+  </div>
+</div>
+
+<div class="tesis-bar reveal">
+  <span class="tesis-tag">TESIS · SEM 12</span>
+  <span class="tesis-txt">"El gasto primario está en mínimos desde 2007 y el BCRA sigue comprando. Pero el dot plot del miércoles puede frenar todo el rally."</span>
+  <div class="tesis-meta">Federico R. · 17 Mar 2026</div>
+</div>
+
+<!-- ══ RESEARCH ══ -->
+<div class="sdiv reveal">
+  <span class="sdiv-label">Lo que dicen los bancos</span>
+  <div class="sdiv-line"></div>
+  <span class="sdiv-meta" id="rc-meta">13 research · sem.12 · click → resumen · doble click → análisis completo</span>
+</div>
+
+<div class="research-hero reveal">
+  <div><div class="rh-title">Research del día</div></div>
+  <div class="filter-row">
+    <span style="font-size:7.5px;color:var(--t3);letter-spacing:.1em">FILTRAR:</span>
+    <button class="fbtn fa" onclick="filterRC('all',this)">Todos</button>
+    <button class="fbtn" onclick="filterRC('alto',this)">● Alto</button>
+    <button class="fbtn" onclick="filterRC('medio',this)">● Medio</button>
+  </div>
+</div>
+
+<div class="research-grid reveal" id="rc-grid">
+
+<!-- ════════════════════════════════════════
+     CÓMO AGREGAR UN RESEARCH:
+     1. Copiar bloque .rc completo
+     2. rc-banco: nombre del banco (12px, prominente)
+     3. rc-gancho: título gancho (15.5px)
+     4. rc-pulso-hook: 1 línea tu take inicial
+     5. rc-sum-txt: resumen con datos (~100 palabras)
+     6. rc-block x N: bloques temáticos del análisis extendido
+        - rc-block-title: QUÉ DICE EL BANCO
+        - rc-block-body: tu narración detallada
+     7. rc-conclusion: tu veredicto final
+════════════════════════════════════════ -->
+
+  <!-- ══ 1: one618 Weekly Report ══ -->
+  <div class="rc alto" data-impact="alto">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">one618 — Weekly Report</span>
+        <div class="rc-hookright"><span class="rc-fecha">16 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">¿Puede Irán destruir el portafolio <em>60/40</em> como lo hizo 2022? La pregunta que nadie terminó de responder.</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-a"><span class="ibdot"></span>IMPACTO ALTO</span></div>
+        <div class="rc-pulso-hook">El mercado descuenta resolución rápida — la probabilidad implícita de escenarios complejos es sistemáticamente baja</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          Dos semanas de conflicto y sabemos <span class="bear">menos</span> que el primer día sobre cómo termina. El S&P cayó apenas <span class="dato">-3.5%</span> — el mercado sigue descontando resolución rápida. one618 advierte que la asimetría de terminación es lo más subestimado: Irán no puede ceder y mantener su régimen en pie, y Trump no puede declarar victoria mientras el Estrecho esté bloqueado. La señal de alerta silenciosa está en el crédito privado — MS North Haven limitó rescates al <span class="dato">5%</span> tras solicitudes del <span class="dato">10.9%</span>. Eso aún no se filtró al crédito público.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">one618 Weekly Report · 16 Mar 2026</span>
+          <span class="rc-full-source">José M. Echagüe · Estratega</span>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice one618 sobre el conflicto en Medio Oriente</div>
+          <div class="rc-block-body">
+            <p>one618 arranca con una premisa incómoda: a dos semanas del conflicto, sabemos <span class="bear">menos</span> de cómo termina que el día uno. El mercado sigue descontando resolución rápida — el S&P cayó solo un <span class="dato">3.5%</span> desde el inicio, los spreads de crédito no se movieron. Pero one618 advierte que la probabilidad asignada a escenarios más complejos parece sistemáticamente baja en relación a la evidencia disponible.</p>
+            <p>La comparación instintiva con las guerras comerciales de Trump no sirve acá, dice one618. En las guerras reales, las negras también juegan. Irán no es un socio comercial que puede ceder y mantener su régimen en pie. La geografía le da capacidad de afectar una fracción enorme del suministro energético global incluso con medios limitados. Trump no puede declarar victoria y salir de escena mientras Irán tenga capacidad de bloquear el Estrecho. Esa asimetría de terminación es lo más subestimado del conflicto.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Qué pasa con los bancos centrales del G3 — la semana clave</div>
+          <div class="rc-block-body">
+            <p>El miércoles 18 la Fed mantiene tasas, dice one618, pero eso es secundario. Lo que importa es el <span class="key">dot plot</span>. Si el mediano confirma un solo recorte en 2026 con inflación PCE revisada al alza hacia <span class="dato">2.9%</span>, el mercado tendrá que procesar que tasas altas por más tiempo es la trayectoria central, no un riesgo de cola.</p>
+            <p>one618 señala una derivada política que el mercado subestima: el dot plot informa a Trump sobre el escenario en que la Fed llega a noviembre. Con inflación energética, empleo en desaceleración y una Fed inmovilizada, el menú electoral se vuelve incómodo. El BCE también mantiene el jueves, pero el evento es el cambio de tono: de "buen lugar" a "vigilancia y agilidad". En el escenario del barril sostenido en USD 100, nuevas subas del BCE que hoy no están incorporadas deberían incluirse. El BoJ mantiene en 0.75% y la cumbre Trump-Takaichi puede traer anuncios de gasto de defensa japonés hacia el 5% del PIB — si eso implica emisión masiva de JGBs, los yields japoneses tienen espacio para subir con derrame potencial a los USTs.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">La señal de alerta silenciosa — crédito privado</div>
+          <div class="rc-block-body">
+            <p>Lo más importante del reporte y lo menos comentado: los spreads IG americanos no se movieron en dos semanas de conflicto y desapalancamiento generalizado. La lectura de confianza es que el crédito público confía en la Fed como ancla del ciclo. Pero one618 señala la lectura de alerta: el crédito privado acumula señales de estrés que el mercado público todavía no procesó.</p>
+            <p><span class="bear">MS North Haven</span> limitó los rescates al cap trimestral del <span class="dato">5%</span> tras recibir solicitudes del <span class="dato">10.9%</span>. <span class="bear">Cliffwater</span> reportó rescates del <span class="dato">14%</span>. <span class="bear">JPMorgan</span> marcó preventivamente préstamos a fondos con exposición a software antes de cualquier default formal. El riesgo concreto es que ese deterioro se filtre al crédito público vía marcaciones y reducción de originación — en un momento en que los spreads no están descontando ese escenario.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">¿Será 2026 un déjà vu del 2022?</div>
+          <div class="rc-block-body">
+            <p>La pregunta de fondo que one618 intenta responder: ¿puede este conflicto reproducir el 2022, el año en que bonos y acciones cayeron en tándem y no hubo dónde refugiarse? La respuesta de one618 es que <span class="bull">no</span>. El mecanismo en 2022 fue específico: inflación suficientemente persistente para forzar al banco central más poderoso del mundo a subir tasas desde cero. Eso rompió la correlación negativa entre acciones y bonos que había funcionado como ancla del 60/40 durante décadas.</p>
+            <p>La situación actual comparte el diagnóstico inicial (shock energético, inflación al alza) pero difiere en las condiciones de partida. Las tasas ya están en territorio restrictivo. La Fed no necesita ir de 0% a 5%. La demanda es más débil, el mercado laboral menos tenso. Si el shock es corto, el sistema lo absorbe. <span class="key">El dato que cierra la pregunta no está todavía disponible: es cuánto tiempo más permanece cerrado el Estrecho.</span></p>
+          </div>
+        </div>
+
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Qué pasa con Argentina y qué tenés que tener en cuenta</div>
+          <div class="rc-conclusion-body">
+            Argentina está directamente en la línea de fuego de este análisis. Los bonos soberanos HD dependen de la liquidez global en dólares. Si el dot plot del miércoles confirma tasas altas por más tiempo, el <span class="bear">DXY sube y los bonos emergentes caen</span> — los soberanos ARG ya cedieron <span class="dato">-2% a -5%</span> en el último mes. El rally que empezó con la acumulación de reservas del BCRA puede frenarse o revertirse por factores externos que no tienen nada que ver con la macro local. Por eso la recomendación de mantener <span class="key">liquidez táctica</span> antes del miércoles tiene sentido. La oportunidad de compra aparece si el desempleo americano sube de golpe — en ese escenario la Fed baja agresivo, el DXY cae, y el carry en emergentes vuela. Dos escenarios opuestos con el dot plot como bifurcación.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 2: Facimex — Gasto fiscal ══ -->
+  <div class="rc alto" data-impact="alto">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">Facimex — Gasto en mínimos desde 2007</span>
+        <div class="rc-hookright"><span class="rc-fecha">17 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">El gasto primario cayó al <em>nivel más bajo en casi dos décadas</em>. No es un titular — es el argumento más fuerte para los bonos.</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-a"><span class="ibdot"></span>IMPACTO ALTO</span></div>
+        <div class="rc-pulso-hook">Superávit primario bimestral 0.40% PIB — consistente con equilibrio anual proyectado por Facimex</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          El SPN registró superávit primario de <span class="dato">$1.4 billones</span> y superávit financiero de <span class="dato">$0.1 billones</span> en febrero. Gasto primario: <span class="bull">14.2% del PIB</span> en los últimos 12 meses — mínimo desde junio de 2007. El gobierno recortó el gasto al ritmo de la caída de ingresos. Ingresos cayeron <span class="bear">-8.9% a/a real</span> (derechos de exportación -40% real por el adelanto de las retenciones). Gasto primario bajó <span class="bull">-8.8% a/a real</span>. Facimex mantiene proyección de <span class="key">equilibrio fiscal para 2026</span>.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">Facimex Informe Diario · 17 Mar 2026</span>
+          <span class="rc-full-source">Facimex Research · Equipo Macro</span>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice Facimex sobre el resultado fiscal de febrero</div>
+          <div class="rc-block-body">
+            <p>Facimex publicó el análisis del resultado fiscal de febrero. El Sector Público Nacional registró un <span class="bull">superávit primario de $1.4 billones</span> y un superávit financiero de $0.1 billones. Los pagos de intereses se mantuvieron elevados en $1.3 billones por los vencimientos con el FMI por <span class="dato">USD 835 millones</span>. En el primer bimestre, el superávit primario fue del <span class="bull">0.40% del PIB</span> y el superávit fiscal del 0.11% del PIB.</p>
+            <p>Lo que destaca Facimex es la consistencia del número: al excluir la privatización de las represas del Comahue, el blanqueo y el impuesto PAIS, el superávit primario del primer bimestre se mantiene relativamente estable en relación a los dos primeros años del mandato de Milei — 0.38% del PIB en 2024, 0.40% del PIB en 2025, y 0.31% del PIB en 2026. No hay deterioro estructural.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">El dato que más importa — el gasto en mínimos históricos</div>
+          <div class="rc-block-body">
+            <p>El número que Facimex pone en el centro es el gasto primario. En los últimos 12 meses, el gasto primario acumuló solo el <span class="bull">14.2% del PIB</span> — un mínimo que no se veía desde junio de 2007. Para dar contexto: en 2023 el gasto primario estaba cerca del 20% del PIB. La reducción de casi 6 puntos del PIB en tres años es una de las consolidaciones fiscales más rápidas de la historia argentina reciente.</p>
+            <p>El gobierno logró esto recortando el gasto al ritmo de la caída en los ingresos. Los ingresos cayeron <span class="bear">-8.9% a/a real</span>, principalmente por una fuerte caída en los derechos de exportación del <span class="bear">-40% a/a real</span> — efecto del adelanto que implicó la eliminación transitoria de retenciones en septiembre y la baja de alícuotas. Al excluir los DEX, los ingresos igualmente cayeron <span class="bear">-7.2% a/a real</span>. El gasto primario bajó <span class="bull">-8.8% a/a real</span> y <span class="bull">-3.4% m/m</span> en términos reales desestacionalizados.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Dónde cayó el gasto — la composición que importa</div>
+          <div class="rc-block-body">
+            <p>Facimex desglosa la composición del ajuste. El gasto discrecional cayó <span class="bear">-20.9% a/a real</span>. Los recortes más notorios: Programas Sociales <span class="bear">-62% a/a real</span>, Transferencias a Provincias <span class="bear">-47% a/a real</span>, Subsidios al Transporte <span class="bear">-41% a/a real</span> y Gasto de Capital <span class="bear">-19% a/a real</span>. Salarios cayó <span class="bear">-7.9% a/a real</span> y acumuló solo el <span class="dato">1.9% del PIB</span> en los últimos 12 meses — un mínimo histórico.</p>
+            <p>El gasto indexado subió <span class="dato">+2.2% a/a real</span> traccionado por Asignaciones (+6.3%) y Jubilaciones y Pensiones (+1.8%). La excepción que preocupa: los Subsidios Energéticos volvieron a subir con fuerza, <span class="dato">+68% a/a real</span>. Facimex señala que esta dinámica probablemente se revierta en los próximos meses con las recientes subas de tarifas.</p>
+          </div>
+        </div>
+
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Qué pasa con Argentina y qué tenés que tener en cuenta</div>
+          <div class="rc-conclusion-body">
+            Este número es el argumento más fuerte que tiene Argentina cuando va al FMI el 31 de marzo. Llevar un gasto en mínimos desde 2007 y un superávit primario consistente con el equilibrio anual no es un dato menor — es la credencial central del programa. Para los bonos soberanos, este dato refuerza la tesis de compresión del riesgo país hacia <span class="dato">400pb</span> que proyecta Allaria para el escenario base. La única preocupación es que los Subsidios Energéticos vuelvan a presionar el gasto en los próximos meses, y que la caída de retenciones no se revierta rápido. <span class="key">Proyección Facimex: equilibrio fiscal 2026 en el escenario base.</span> Los datos de febrero son consistentes con ese objetivo.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 3: Criteria ══ -->
+  <div class="rc alto" data-impact="alto">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">Criteria — Volatilidad global y activos ARG</span>
+        <div class="rc-hookright"><span class="rc-fecha">17 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">Los bonos argentinos vuelven al <em>10% de TIR</em> con tensión geopolítica. Criteria dice: <em>hay que ser selectivo, no salir</em>.</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-a"><span class="ibdot"></span>IMPACTO ALTO</span></div>
+        <div class="rc-pulso-hook">Recomiendan AL30 + AE38 en HD y TZX26 en CER corto — el crudo introduce efectos mixtos para Argentina</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          La semana estuvo marcada por tasas de los bonos ARG en dólares <span class="bear">nuevamente cerca del 10%</span>. El GD35 cayó <span class="bear">-2.4% en la semana</span>, acumulando <span class="bear">-5.0% en el último mes</span>. Criteria señala que el crudo introduce efectos <span class="key">mixtos</span>: mejora exportaciones energéticas pero presiona la inflación interna. Los combustibles en el conurbano acumulan subas superiores al <span class="bear">9%</span> desde el inicio del conflicto. La retención al petróleo convencional subió automáticamente del <span class="dato">3.36% al 8%</span> en varias provincias.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">Criteria Comité de Inversiones · 17 Mar 2026</span>
+          <span class="rc-full-source">Comité de Inversiones Criteria</span>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice Criteria sobre el contexto global y los activos locales</div>
+          <div class="rc-block-body">
+            <p>El Comité de Inversiones de Criteria publicó su análisis semanal marcado por tres variables que confluyeron en la misma dirección: tasas de los bonos ARG en dólares nuevamente cerca del <span class="bear">10%</span>, mayor tensión geopolítica vinculada al conflicto en Medio Oriente, y datos de inflación local por encima de lo esperado. El resultado fue que los activos argentinos mostraron sensibilidad al contexto externo con caídas en los bonos HD.</p>
+            <p>La inflación de febrero de <span class="dato">2.9%</span> mensual se ubicó por encima de las expectativas del mercado, superando en <span class="dato">26pb</span> y <span class="dato">22pb</span> a las estimaciones del REM en sus variantes general y top-10 respectivamente. El detalle que más le preocupa a Criteria: la inflación núcleo se ubicó en <span class="dato">3.1% mensual</span>, acelerando 0.5 puntos porcentuales respecto al 2.8% de enero, con una variación interanual de 33.6%.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">El crudo alto — efectos mixtos para Argentina que Criteria identifica</div>
+          <div class="rc-block-body">
+            <p>Criteria hace una distinción importante que el mercado suele pasar por alto: el aumento del precio del crudo tiene efectos <span class="key">mixtos</span> para la economía argentina, no puramente positivos. Por el lado positivo, mejora el potencial de exportaciones energéticas y acumula divisas en el BCRA. Por el lado negativo, genera presiones sobre la inflación y los costos internos.</p>
+            <p>Los precios de los combustibles en el conurbano ya acumulan subas superiores al <span class="bear">9%</span> desde el inicio de la operación israelí-norteamericana en Irán. Ese aumento no solo impacta en el surtidor, sino que comienza a trasladarse a otros costos relevantes, incluyendo insumos clave como la urea, fertilizante nitrogenado cuyo proceso productivo depende del gas natural. En paralelo, la suba del precio del crudo activó automáticamente un incremento en las retenciones a la exportación de petróleo convencional, que pasaron del <span class="dato">3.36% al 8%</span> en provincias como Chubut, Santa Cruz, Mendoza y Neuquén. Una medida que juega en sentido opuesto al aumento esperado en exportaciones.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Qué recomienda Criteria para la semana</div>
+          <div class="rc-block-body">
+            <p>La visión de Criteria es <span class="key">constructiva pero selectiva</span>. En deuda soberana en dólares, mantienen una visión positiva apoyada en la continuidad del proceso de acumulación de reservas por parte del BCRA. Recomiendan extender la exposición a lo largo de la curva de ley local, combinando la preferencia por el <span class="bull">AL30</span> con posiciones en el <span class="bull">AE38</span>. La lógica es que en el tramo largo la compresión del spread puede ser mayor, pero hay que combinar con el tramo corto para administrar la volatilidad.</p>
+            <p>En pesos, para perfiles conservadores, Criteria sigue priorizando la parte corta de la curva ajustada por CER: preferencia por el <span class="bull">TZX26</span>. Para aquellos que ven niveles inflacionarios por encima de las expectativas del mercado y un conflicto geopolítico que se extiende más allá de lo esperado, recomiendan una extensión marginal de duración sobre la misma curva, destacando el <span class="bull">TZXO6</span> o el <span class="bull">TZXD6</span>.</p>
+          </div>
+        </div>
+
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Qué pasa con Argentina y qué tenés que tener en cuenta</div>
+          <div class="rc-conclusion-body">
+            La posición de Criteria resume bien el dilema de la semana: Argentina tiene fundamentos fiscales sólidos y el BCRA acumula reservas, pero está atada al contexto externo. La caída de bonos HD de la semana (-2.4% en GD35) no refleja deterioro local — refleja el repricing global de riesgo emergente por la Fed y el conflicto de Hormuz. <span class="key">Lo que hay que mirar el miércoles</span>: si el dot plot da más de un recorte en 2026, los bonos ARG recuperan. Si da cero o uno, continúa la presión. El GD29 y el AL30 son los más defensivos en este contexto por su baja duration. El AE38 tiene el mayor potencial de upside si el escenario se normaliza.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 4: Facimex Santa Fe ══ -->
+  <div class="rc medio" data-impact="medio">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">Facimex — Santa Fe · Credit Update</span>
+        <div class="rc-hookright"><span class="rc-fecha">16 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">Santa Fe tuvo el <em>mejor cuarto trimestre fiscal desde 2011</em>. Y la deuda neta lleva cuatro años consecutivos en terreno negativo.</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-m"><span class="ibdot"></span>IMPACTO MEDIO</span></div>
+        <div class="rc-pulso-hook">SFD34 top pick Facimex — cotiza subvaluado a Z+448pb, espacio para comprimir hacia CABA 2033 en 304pb</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          En el 4T25, Santa Fe alcanzó margen operativo de <span class="bull">11.7%</span> (vs 2.0% un año antes). Ingresos operativos crecieron <span class="dato">+14% a/a real</span>, alcanzando máximos históricos a precios constantes. Superávit primario del 4T25: <span class="bull">5.0% de los ingresos</span> vs déficit de -5.5% en el 4T24. La deuda neta lleva <span class="key">cuatro años consecutivos en terreno negativo</span>. Liquidez amplia: <span class="dato">USD 1.818M = 1.4x su stock de deuda</span>. Facimex recomienda <span class="bull">Overweight SFD34</span>.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">Facimex Credit Update: Santa Fe · 16 Mar 2026</span>
+          <span class="rc-full-source">Facimex Research · Rosario Gómez Vallín · Credit Strategist</span>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice Facimex sobre Santa Fe — el resultado fiscal del 4T25</div>
+          <div class="rc-block-body">
+            <p>Facimex publicó el credit update de Santa Fe con el análisis del 4T25. Los números son, en palabras del propio reporte, extraordinarios para un cuarto trimestre. Santa Fe alcanzó un margen operativo del <span class="bull">11.7%</span>, mejorando notoriamente contra el <span class="bear">2.0%</span> del 4T24. ¿Por qué subió tanto? Porque los ingresos operativos crecieron <span class="dato">+14% a/a real</span> y alcanzaron, a precios constantes, máximos históricos.</p>
+            <p>Dentro de los ingresos hay un item que distorsiona: la suba del <span class="dato">286% a/a real</span> de los ingresos de origen nacional vinculados al convenio de la Corte Suprema (la resolución del reclamo por la retención del 15% de la coparticipación entre 2006 y 2015). Al excluir esa línea, los ingresos operativos crecieron 3% a/a real — positivo pero más modesto. Por su parte, los gastos operativos subieron solo <span class="dato">3% a/a real</span> y el gasto de capital cayó <span class="dato">-23% a/a real</span> después de cinco trimestres con fuertes subas.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">La estructura financiera — cuatro años con deuda neta negativa</div>
+          <div class="rc-block-body">
+            <p>El dato estructural más importante del reporte: la <span class="key">deuda neta de Santa Fe lleva cuatro años consecutivos en terreno negativo</span>. En diciembre de 2025, Santa Fe reaccedió al mercado global colocando USD 800M en un bono a 2034 (el SFD34) a una TIR del 8.54%. Con eso, la deuda bruta saltó a USD 1.276M y llegó al 15.4% de los ingresos operativos — alineándose a la mediana provincial de jurisdicciones con deuda de mercado en divisas del 16.1%.</p>
+            <p>Pero lo que mitiga ese aumento es la posición de liquidez: Facimex estima que Santa Fe cerró el 2025 con liquidez por <span class="dato">USD 1.818M</span>, equivalente al <span class="dato">21.1%</span> de sus ingresos y <span class="dato">1.4x su deuda</span>. La deuda neta de la liquidez amplia cerró el 4T25 en <span class="dato">-USD 543M</span> y -6.5% de los ingresos operativos. Es decir: Santa Fe tiene más cash y activos líquidos que deuda total.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">La reforma previsional — el cambio estructural que pocos conocen</div>
+          <div class="rc-block-body">
+            <p>Facimex destaca que la reforma previsional aprobada por el Congreso Provincial en el 3T24 está comenzando a rendir frutos. El déficit de la seguridad social bajó a <span class="bull">3.6% de los ingresos</span>, un mínimo desde el LTM 2T17. La reforma aumentó el porcentaje de aportes y estableció un tope a las jubilaciones. Es un cambio estructural clave: al excluirla, Santa Fe hubiera acumulado un superávit primario del <span class="dato">5.0% de los ingresos</span> en 2025.</p>
+          </div>
+        </div>
+
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Por qué importa para el portafolio — el caso del SFD34</div>
+          <div class="rc-conclusion-body">
+            Santa Fe ocupa el segundo lugar en el ranking de provincias de Facimex, tiene un historial crediticio impecable y deuda neta negativa. El SFD34 cotiza con un Z spread de <span class="dato">448pb</span> y TIR del <span class="dato">8.7%</span>. Facimex lo ve <span class="key">subvaluado</span> y espera compresión hacia los <span class="dato">304pb</span> del CABA 2033. Eso implicaría un upside de precio significativo en un contexto donde el bono ya está por encima de par (99.63 USD, paridad 97.55%). Para el portafolio argentino, el SFD34 es una alternativa de diversificación provincial con fundamentos mucho más sólidos que el riesgo soberano nacional, con una TIR atractiva y respaldada por una liquidez equivalente a 1.4 veces la deuda total.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 5: Facimex PAE ══ -->
+  <div class="rc medio" data-impact="medio">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">Facimex — Pan American Energy 4Q25</span>
+        <div class="rc-hookright"><span class="rc-fecha">16 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">PAE tiene los rendimientos más bajos de todos los corporativos argentinos. <strong>¿Eso se justifica</strong> — o conviene mirar a YPF en su lugar?</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-m"><span class="ibdot"></span>IMPACTO MEDIO</span></div>
+        <div class="rc-pulso-hook">EBITDA +167% a/a vía eficiencia de costos — pero la curva PNXCO cotiza cara vs YPF 2031 y YPF 2034</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          En un trimestre de caída de ventas, PAE logró que el EBITDA explote. Los cash costs cayeron <span class="bull">-29% a/a</span> — eso más que compensó la caída de ingresos (-4% a/a). EBITDA ajustado: <span class="bull">USD 400M (+167% a/a)</span>. Margen EBITDA: <span class="bull">35.1%</span> (+22.5pp a/a). La alianza estratégica con <span class="key">Continental Resources</span> (mayor productor no convencional de EEUU) es el movimiento más relevante. Pero Facimex prefiere YPF 2031 y YPF 2034 sobre la curva PAE en términos de valuación relativa.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">Facimex Credit Update: Pan American Energy · 16 Mar 2026</span>
+          <span class="rc-full-source">Facimex Research · Rosario Gómez Vallín · Credit Strategist</span>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice Facimex sobre PAE — cómo hizo para ganar con ventas en baja</div>
+          <div class="rc-block-body">
+            <p>Facimex analiza el 4T25 de Pan American Energy y encuentra un resultado paradójico: las ventas cayeron <span class="bear">-4.1% a/a</span> a USD 1.138M, pero el EBITDA ajustado explotó al alza llegando a <span class="bull">USD 400M (+167% a/a)</span>. ¿Cómo? Por una reducción brutal de costos. Los cash costs cayeron <span class="dato">-29% a/a</span> por menores costos de ventas (-26% a/a), menores gastos de comercialización (-14% a/a) y menores gastos de administración (-18% a/a). El margen EBITDA pasó del 12.6% al 35.1% — ganando 22.5 puntos porcentuales en un año.</p>
+            <p>En el segmento upstream (15% de las ventas), las ventas cayeron 20.3% a/a con el crudo bajando 27.8% a/a afectado por un menor precio Brent (-15% a/a) y menores despachos. En el downstream (85% de las ventas), las ventas cayeron solo -0.7% a/a ya que el gasoil creció +12% a/a y compensó parcialmente la baja de naftas (-9% a/a). El EBITDA anual cerró en <span class="dato">USD 1.276M</span>, estable con respecto a 2024 — lo que Facimex considera un avance importante considerando la baja del 15% del Brent en el año.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">La alianza con Continental Resources — lo que cambia estratégicamente</div>
+          <div class="rc-block-body">
+            <p>El movimiento más relevante del trimestre no está en los números sino en el acuerdo estratégico. PAE se asoció con <span class="key">Continental Resources</span>, el mayor productor no convencional de Estados Unidos. Continental adquiere el <span class="dato">20%</span> de las áreas de Coirón Amargo Sureste, Bandurria Centro y Aguada Cánepa en Neuquén, y el bloque Loma Guadalosa en Río Negro. PAE continúa como operador, pero incorporará el know how no convencional de Continental.</p>
+            <p>Esta alianza es la respuesta de PAE a la brecha de capacidad técnica en shale oil respecto a YPF y otras operadoras. Continental tiene décadas de experiencia en Bakken y otros plays americanos. En paralelo, la subsidiaria Southern Energy firmó un contrato con la empresa alemana SEFE por <span class="dato">USD 7M</span> para proveer GNL a Europa, asegurando la exportación del 30% de la producción y garantizando la venta del 80% del primer barco de licuefacción.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">La posición financiera se deterioró — qué dice Facimex sobre la deuda</div>
+          <div class="rc-block-body">
+            <p>El fuerte crecimiento del EBITDA ayudó a la recuperación de la generación de caja — el FCO creció <span class="dato">+19% a/a</span> a USD 579M. Pero la deuda neta igualmente creció <span class="dato">+23% a/a</span> a USD 3.253M. Esto se explica porque la caja cayó un 20% a/a a USD 625M y la deuda total subió 13.5% a USD 3.878M. El leverage bajó de 3.52x EBITDA en el 3T25 a <span class="bull">2.55x</span> en el 4T25 — una mejora significativa, aunque con subida anual de 0.4pp vs el 2.07x del 4T24. En enero PAE colocó una ON internacional a 2037, obteniendo <span class="dato">USD 375M a una yield del 7.9%</span>.</p>
+          </div>
+        </div>
+
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Qué recomienda Facimex y qué tenés que tener en cuenta</div>
+          <div class="rc-conclusion-body">
+            La curva de PAE tiene los rendimientos más bajos dentro del universo de corporativos argentinos, al estar garantizada por su casa matriz BP. Dentro de la curva, Facimex prefiere la <span class="key">PAE 2032 (PNXCO)</span> con Z spread de 314pb sobre la PAE 2037 (PN43O) en 319pb. Sin embargo, el mensaje más importante del reporte es la comparación relativa: en ese mismo tramo de curva, Facimex ve valuaciones más atractivas en <span class="bull">YPF 2031 (YMCXO) en 361pb</span>, <span class="bull">YPF 2034 (YM34O) en 365pb</span> e <span class="bull">YPF Luz 2032 (YFCJO) en 345pb</span>. Si tenés que elegir entre PAE y YPF para el mismo plazo, YPF ofrece más spread por fundamentos que son comparables.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 6: Facimex Genneia ══ -->
+  <div class="rc medio" data-impact="medio">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">Facimex — Genneia 4Q25</span>
+        <div class="rc-hookright"><span class="rc-fecha">17 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">Los vientos flojaron pero el sol explotó. Genneia tiene <em>todo el capex de 2026 financiado</em> con el BID y el margen EBITDA sigue en 68%.</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-m"><span class="ibdot"></span>IMPACTO MEDIO</span></div>
+        <div class="rc-pulso-hook">Resultados mixtos pero estructura financiera sólida — BID USD 320M + ON USD 400M + caja USD 404M ya disponibles</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          El 4T25 fue un trimestre de transición. Los vencimientos de PPAs de Rawson I y II presionaron los ingresos eólicos, pero la energía solar compensó con <span class="bull">+113.5% a/a</span> gracias al COD de los parques Anchoris y Malargüe I. EBITDA ajustado: <span class="dato">USD 69.9M (-3.8% a/a)</span>. Margen: <span class="bull">68%</span>. Lo más relevante para el crédito: el capex de 2026 está completamente financiado — BID <span class="dato">USD 320M</span> + ON internacional <span class="dato">USD 400M</span> + caja de <span class="dato">USD 404M</span>. Leverage: <span class="dato">2.88x EBITDA</span>, por debajo del covenant de 3.0x.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">Facimex Credit Update: Genneia · 17 Mar 2026</span>
+          <span class="rc-full-source">Facimex Research · Rosario Gómez Vallín · Credit Strategist</span>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice Facimex — por qué el trimestre fue mixto</div>
+          <div class="rc-block-body">
+            <p>Facimex describe el 4T25 de Genneia como un trimestre de resultados mixtos con una historia interna interesante. El segmento eólico, que representa el <span class="dato">67%</span> de los ingresos, cayó <span class="bear">-10.8% a/a</span> porque los PPAs (contratos de largo plazo) de los parques Rawson I y II vencieron. Rawson I migró al MATER en mayo 2025 y Rawson II en octubre 2025. Cuando un PPA vence, el precio de la energía baja de forma material al pasar al mercado spot. Esto es algo conocido y esperado — el mercado ya lo sabía.</p>
+            <p>Lo que compensó fue el segmento solar, que representa el <span class="dato">21%</span> de los ingresos: las ventas saltaron <span class="bull">+113.5% a/a</span> por el COD (Commercial Operation Date) del parque solar Anchoris en el 3T25 y el parque solar Malargüe I en el 1T25. La generación solar llegó a <span class="dato">377 GWh</span> (+148% a/a). El EBITDA solar cerró en <span class="dato">USD 17.3M (+117.5% a/a)</span>. El resultado neto: EBITDA ajustado de <span class="dato">USD 69.9M (-3.8% a/a)</span> con margen del <span class="dato">68%</span> — todavía muy elevado para cualquier estándar de la industria.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">La agenda de expansión — lo que viene en 2026</div>
+          <div class="rc-block-body">
+            <p>Facimex detalla el pipeline de proyectos que explica por qué Genneia necesitaba financiarse. El parque solar <span class="key">San Rafael</span> obtuvo COD de 150MW de los 180MW entre diciembre y febrero, con el COD final esperado para los próximos meses. El parque solar <span class="key">San Juan Sur</span> (129MW) tiene COD estimado para el 2T26. Los proyectos <span class="key">Lincoln y Junín</span> (40MW) esperan COD durante el 2T26, adelantado respecto al plan original. Y la novedad: la compañía fue adjudicada con un proyecto de baterías <span class="key">BESS (Battery Energy Storage System)</span> de 40MW de almacenamiento en Maschwitz, que operará bajo un contrato a 15 años con Edenor, garantizado por CAMMESA, con COD esperado para el 1T27.</p>
+            <p>El capex total estimado para 2026 es de <span class="dato">USD 285M</span>. Para financiarlo, en el 4T25 Genneia hizo dos operaciones: firmó un préstamo con el <span class="bull">BID por USD 320M</span> y emitió una <span class="bull">ON internacional a 8 años con TEA del 8% por USD 400M</span>, usando parte de los fondos para pre-cancelar la ON internacional 2027. Resultado: la caja cerró en <span class="bull">USD 404M (+92% a/a)</span>.</p>
+          </div>
+        </div>
+
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Por qué el crédito de Genneia es una historia atractiva de bajo riesgo</div>
+          <div class="rc-conclusion-body">
+            Genneia es, en términos crediticios, una de las historias más limpias del universo corporativo argentino. Tiene contratos de energía a largo plazo garantizados por CAMMESA (que tiene respaldo del Tesoro nacional), un mix diversificado eólico-solar, todo el capex de 2026 ya financiado, y leverage de 2.88x EBITDA por debajo del covenant de 3.0x. No hay riesgo de refinanciamiento en el corto plazo. <span class="key">La recomendación de Facimex</span>: en el tramo de 5 años de curva, el GN49O (dic-33) cotiza a Z spread de 347pb. Sin embargo, Facimex prefiere en ese mismo tramo YPF 2031 (358pb) e YPF 2034 (365pb) como alternativas con más spread por riesgo similar. Genneia es la opción más defensiva; YPF ofrece un poco más de yield extra.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 7: Facimex Inflación semanal ══ -->
+  <div class="rc alto" data-impact="alto">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">Facimex — Inflación semanal en 0.4%</span>
+        <div class="rc-hookright"><span class="rc-fecha">16 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">La inflación núcleo de la segunda semana de marzo fue la <em>más baja desde julio de 2024</em>. Pero Facimex igual proyecta que marzo sea el pico del año.</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-a"><span class="ibdot"></span>IMPACTO ALTO</span></div>
+        <div class="rc-pulso-hook">IPC-OJF 0.4% general y 0.1% núcleo — pero el arrastre estadístico ya marca 2.5% para marzo</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          IPC-OJF al 13 de marzo: general <span class="dato">0.4% s/s</span>, núcleo <span class="dato">0.1% s/s</span> — la más baja desde julio de 2024. El mes móvil navega en torno al <span class="dato">3% m/m</span>. Arrastre estadístico: <span class="dato">2.5% m/m</span>. Facimex mantiene proyección de marzo en <span class="key">3.0% m/m</span> como pico del año. Los catalizadores que hacen de marzo el mes más difícil: inicio de clases, cambio de temporada de indumentaria, lácteos, y colectivos nacionales AMBA <span class="dato">+7.6%</span> el 17 de marzo.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">Facimex Informe Diario · 16 Mar 2026</span>
+          <span class="rc-full-source">Facimex Research · Equipo Macro</span>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dicen los datos de alta frecuencia de la segunda semana de marzo</div>
+          <div class="rc-block-body">
+            <p>Facimex analiza el dato de alta frecuencia del IPC-OJF de Ferreres con información al 13 de marzo. La inflación general de la segunda semana de marzo fue del <span class="dato">0.4% s/s</span> y la inflación núcleo del <span class="dato">0.1% s/s</span> — la más baja desde julio de 2024. El dato semanal implícito en regulados y estacionales en conjunto fue de <span class="dato">3.9% s/s</span>, principalmente por aumentos en Educación y Transporte. En Alimentos y Bebidas, EconViews relevó una suba del <span class="dato">0.8% s/s</span> con fuertes subas en Fiambres (5.8%), acelerando 0.2pp tanto contra la primera semana de marzo como contra la segunda semana de febrero.</p>
+            <p>Las métricas mensuales del IPC-OJF muestran desaceleración en el margen. En la medición punta a punta de los últimos 30 días, el nivel general registró una suba del <span class="dato">3.0%</span> (-0.5pp contra la semana anterior) y <span class="dato">2.3%</span> para la núcleo (-0.9pp). Al comparar los primeros 13 días de marzo contra los primeros 13 días de febrero: inflación general <span class="dato">2.8%</span> (igual que en febrero) y núcleo <span class="dato">2.5%</span> (vs 3.6% de febrero). El proxy del ritmo mensual (variación entre las últimas 4 semanas y las 4 previas) arrojó <span class="dato">2.9% m/m</span> para el nivel general y <span class="dato">3.1% m/m</span> para la núcleo.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Por qué Facimex proyecta 3.0% para marzo — los catalizadores específicos</div>
+          <div class="rc-block-body">
+            <p>Facimex mantiene su proyección de inflación de marzo en <span class="key">3.0% m/m</span>. El razonamiento es claro: el arrastre estadístico del IPC-OJF quedó en 2.5% m/m y al asumir una inflación del 0.4% s/s en las próximas semanas, el mes cerraría en 2.9% m/m. El 3.0% incorpora un pequeño margen adicional por los factores estacionales que todavía faltan.</p>
+            <p>Marzo es estacionalmente el mes más desafiante del año por varios catalizadores simultáneos: las subas en Educación con el inicio de las clases, en Indumentaria con el cambio de temporada, y en algunos rubros de Alimentos como los productos lácteos. Este año se sumó el aumento del <span class="dato">4.9-5.1%</span> en los colectivos jurisdiccionales de la CABA y la PBA a principios de mes, y el <span class="dato">7.6%</span> en los colectivos nacionales del AMBA el 17 de marzo. <span class="key">El escenario base de Facimex descuenta que marzo será el pico inflacionario del año</span>. Si ese diagnóstico es correcto, el segundo semestre debería tener una trayectoria más benigna.</p>
+          </div>
+        </div>
+
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Qué implica para el mercado de pesos y la curva CER</div>
+          <div class="rc-conclusion-body">
+            Si Facimex tiene razón y marzo es el pico del año en <span class="dato">3.0%</span>, la curva CER ya está incorporando buena parte de eso. El mercado pricéa ~2.5% para marzo y por debajo del 2% hacia julio — lo que Inviu califica de demasiado optimista en el contexto actual. La tensión entre ambas visiones define el trade. Si la inflación desacelera más rápido de lo esperado, la tasa fija gana. Si marzo sorprende al alza y abril no baja tan rápido, <span class="key">CER corto (TZX26, TZXO6) sigue siendo la posición defensiva correcta</span>. El riesgo adicional es que el conflicto de Hormuz mantenga el crudo alto y los regulados sigan subiendo — en ese escenario el pico de marzo puede extenderse a abril y mayo.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 8: Barron's Microsoft ══ -->
+  <div class="rc medio" data-impact="medio">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">Barron's — Microsoft · Stock Pick</span>
+        <div class="rc-hookright"><span class="rc-fecha">13 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">Microsoft está más barata que Coca-Cola, Home Depot y Colgate. <em>La última vez que cotizó así</em>, subió 73% en los 12 meses siguientes.</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-m"><span class="ibdot"></span>IMPACTO MEDIO</span></div>
+        <div class="rc-pulso-hook">P/E 22.9x NTM — mínimo relativo vs S&P en una década — Azure crece 40% y OpenAI vale estimado +USD 200B</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          Microsoft cayó <span class="bear">-28% desde julio</span>, perdiendo USD 1 trillón de market cap. El mercado procesa la amenaza de la IA a su negocio de software. Pero Barron's argumenta que está posicionada para ganar en cualquier escenario: si la IA amenaza al software → <span class="bull">Azure gana</span>. Si el software sobrevive → <span class="bull">Productivity gana</span>. La cobertura incluye un stake en OpenAI estimado en <span class="dato">+USD 200B</span>. P/E NTM: <span class="dato">22.9x</span> — mínimo relativo vs S&P en una década. Revenue 2026E: <span class="dato">USD 328B (+16%)</span>.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">Barron's Stock Pick · 13 Mar 2026</span>
+          <span class="rc-full-source">Adam Levine · Barron's</span>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice Barron's — la tesis de inversión en MSFT</div>
+          <div class="rc-block-body">
+            <p>Barron's publica su stock pick semanal con una tesis clara: Microsoft es la empresa de tecnología más grande del mundo y cotiza con un múltiplo menor a Coca-Cola. El precio cayó <span class="bear">-28%</span> desde el pico de julio de 2025 (USD 555 por acción), borrando más de USD 1 trillón de market cap. Hoy cotiza a <span class="dato">USD 401.86</span> con un Market Cap de USD 3.0 trillones y un P/E NTM de <span class="dato">22.9x</span> — por debajo de Coca-Cola, Home Depot y Colgate-Palmolive. Relativo al S&P 500, es el nivel más barato en una <span class="key">década</span>.</p>
+            <p>La razón de la caída es la narrativa de la "Software Apocalypse": el mercado teme que los agentes de IA (software que puede hacer el trabajo que antes hacía el software empresarial) destruyan el modelo de negocio de suscripción que Microsoft construyó durante 20 años. El segmento Productivity & Business Processes (Office, LinkedIn) genera el 42% de los ingresos y más de la mitad del operating income — y eso es lo que el mercado considera amenazado.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">Por qué Barron's dice que Microsoft está en los dos lados del trade de IA</div>
+          <div class="rc-block-body">
+            <p>El argumento central de Barron's es que Microsoft tiene dos coberturas naturales contra la amenaza de la IA a su software. La primera y más obvia es <span class="key">Azure</span>. El negocio cloud creció casi <span class="dato">40%</span> en el segundo trimestre, impulsado por demanda de IA que supera la capacidad instalada. Microsoft va a invertir más de <span class="dato">USD 100B en capex</span> este año solo para construir data centers. Si la IA destruye el software empresarial, la demanda de compute en la nube explota — y Azure es el No. 2 del mercado cloud detrás de AWS, creciendo más rápido.</p>
+            <p>La segunda cobertura es <span class="key">OpenAI</span>. En 2019, cuando OpenAI era un nonprofit que no podía pagar sus servidores, Microsoft invirtió USD 1B. En 2023 invirtió otros USD 10B (mayormente en créditos de Azure). La inversión total fue de <span class="dato">USD 13B</span>. En la ronda reciente, OpenAI levantó <span class="dato">USD 110B</span> con Amazon, Nvidia y SoftBank, a una valuación de <span class="dato">USD 840B</span>. El stake de Microsoft, aunque diluido, vale hoy estimado en más de <span class="dato">USD 200B</span>. Si OpenAI llega a ser la empresa más importante de la era de la IA, Microsoft es su principal accionista.</p>
+          </div>
+        </div>
+
+        <div class="rc-block">
+          <div class="rc-block-title">¿Por qué el software de Microsoft no va a desaparecer?</div>
+          <div class="rc-block-body">
+            <p>Barron's cita al analista de Jefferies Brent Thill con una observación que vale la pena repetir: "Microsoft siempre empieza lento y no es particularmente innovador. El chiste en la comunidad de desarrolladores era que el primer producto siempre es malo, el segundo mejor, y el tercero es donde le sale bien". Microsoft 365 Copilot tiene hoy <span class="dato">15 millones de usuarios pagos</span> — el 3% de su base instalada. Parece poco, pero la historia de Microsoft muestra que el patrón es siempre el mismo: iterar hasta que el producto esté listo, y después monetizar agresivamente via bundling y relaciones empresariales profundas.</p>
+            <p>Una presentación reciente de Anthropic (líder en agentes de IA) reforzó este punto: presentaron los agentes de IA como asistentes que son muy buenos usando Excel, PowerPoint y otras aplicaciones de Microsoft. En vez de reemplazar el software existente, los agentes lo usan. Eso hizo que el ETF de software americano recuperara parte de sus pérdidas del año.</p>
+          </div>
+        </div>
+
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Qué pasa con el portafolio ARG y por qué importa tener MSFT en CEDEARs</div>
+          <div class="rc-conclusion-body">
+            Para el portafolio argentino, MSFT vía CEDEAR tiene un doble rol. Primero, como cobertura cambiaria ante cualquier devaluación del peso — los CEDEARs se ajustan con el tipo de cambio implícito. Segundo, como una apuesta a la empresa que está mejor posicionada para ganar en el ciclo de IA: tiene el cloud que lo soporta (Azure), tiene la posición en el modelo que lo lidera (OpenAI), y tiene el software que lo distribuye (Office, Copilot). La valuación actual de <span class="dato">22.9x P/E</span> es la entrada más barata de la última década en términos relativos. La última vez que cotizó así (enero 2023), <span class="key">subió 73% en 12 meses</span>. Si te gusta EEUU en el portafolio, MSFT hoy es una de las mejores formas de acceder.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 9: one618 YPF ══ -->
+  <div class="rc alto" data-impact="alto">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">one618 — YPF 4Q25 Results</span>
+        <div class="rc-hookright"><span class="rc-fecha">9 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">YPF perforó <em>costos a la mitad</em> y el precio objetivo dice <em>+60%</em>. Pero hay un juicio que puede tirar todo abajo.</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-a"><span class="ibdot"></span>IMPACTO ALTO</span></div>
+        <div class="rc-pulso-hook">OW a USD 61 — el upside operativo es real pero Burford pesa USD 16.1B y vuela el DCF si la apelación falla</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          YPF hace exactamente lo que tenía que hacer. Shale oil llegó a <span class="dato">204 kbbl/d</span> en diciembre — récord histórico. Costo de extracción bajó a <span class="dato">USD 4.2/boe</span>. EBITDA upstream: <span class="bull">USD 3.304M, +9% YoY</span>. Refinería al <span class="dato">99%</span>. VMOS pipeline al 50% — cuando termine agrega <span class="dato">360 kbbl/d</span> de capacidad exportadora. Problema: <span class="bear">Burford pesa USD 16.1B</span> y está apelado. Target one618: <span class="bull">USD 61 (+60%)</span>.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">one618 — YPF 4Q25 Results · 9 Mar 2026</span>
+          <span class="rc-full-source">one618 · Equipo de Research</span>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice one618 — la transformación operativa de YPF</div>
+          <div class="rc-block-body">
+            <p>one618 analiza los resultados del 4T25 de YPF y la conclusión operativa es clara: la empresa está ejecutando la transformación que prometió. El shale oil llegó a <span class="dato">204 kbbl/d</span> en diciembre — un récord histórico. El costo de extracción bajó a <span class="dato">USD 4.2/boe</span> en shale, lejos del costoso convencional que YPF sigue abandonando sistemáticamente. El EBITDA upstream cerró en <span class="bull">USD 3.304M, +9% YoY</span>. La refinería operó al <span class="dato">99%</span> de utilización, y el EBITDA downstream creció un <span class="dato">+10% YoY</span>. El gasoducto VMOS está al 50% de avance — cuando esté listo, añade <span class="dato">360 kbbl/d</span> de capacidad exportadora, lo que cambia estructuralmente la ecuación de divisas.</p>
+          </div>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">El elefante en la sala — Burford Capital</div>
+          <div class="rc-block-body">
+            <p>one618 no ignora el overhang legal. Burford Capital tiene un reclamo contra el Estado argentino (no contra YPF directamente, sino por la expropiación de Repsol) que el mercado de bonos y equity descuenta como riesgo YPF. El monto es de <span class="dato">USD 16.1B</span> y está en proceso de apelación. Si la Segunda Instancia falla en contra, todo el DCF (Discounted Cash Flow) que sustenta el precio objetivo de USD 61 vuela por el aire. Es el riesgo binario que define el perfil de la inversión.</p>
+          </div>
+        </div>
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">La valuación y qué tenés que decidir</div>
+          <div class="rc-conclusion-body">
+            one618 usa un DCF con WACC del 10.5% y Country Risk Premium del 5%. El precio objetivo es <span class="bull">USD 61</span> a diciembre 2026 — <span class="dato">+60%</span> desde los USD 38 actuales. EV/EBITDA 2026E: <span class="dato">4.3x</span>, barato comparado con pares de LatAm. El upside operativo es real y los números lo respaldan. La pregunta de inversión es si el riesgo Burford está apropiadamente priceado en el precio actual. <span class="key">Para los bonos</span>: el YPFDAR 8¾ 31 cotiza 25-30pb caro a la curva de YPF. La oportunidad en renta fija está en el tramo corto. Para las acciones vía CEDEAR: YPF es una apuesta asimétrica — upside enorme si Burford se resuelve bien, riesgo alto si falla.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 10: Facimex RIGI ══ -->
+  <div class="rc alto" data-impact="alto">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">Facimex — Los proyectos del RIGI</span>
+        <div class="rc-hookright"><span class="rc-fecha">10 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho"><em>USD 63.700 millones</em> en proyectos anunciados. Son más dólares que un año entero de exportaciones argentinas.</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-a"><span class="ibdot"></span>IMPACTO ALTO</span></div>
+        <div class="rc-pulso-hook">El ancla de mediano plazo que la macro necesitaba — piso USD 10B de divisas en 2026-27 solo con proyectos aprobados</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          29 proyectos anunciados por <span class="dato">USD 63.7B</span>, solo <span class="dato">10 aprobados</span> por USD 25.5B. Pampa Energía agregó el número 30 con Rincón de Aranda (<span class="dato">USD 4.5B</span>). El 40% del monto mínimo debe liquidarse en los primeros 2 años. Piso de ingreso de divisas: <span class="bull">USD 10B entre 2026-27</span> con los aprobados. Si se aprueban todos: hasta <span class="dato">USD 27B</span>. <span class="key">San Juan USD 25.1B (cobre, oro, plata), Río Negro USD 18.8B (litio, gas).</span>
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">Facimex — Los proyectos del RIGI · 10 Mar 2026</span>
+          <span class="rc-full-source">Facimex Research · Equipo Macro y Crédito</span>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice Facimex — la magnitud del RIGI en perspectiva</div>
+          <div class="rc-block-body">
+            <p>Facimex publica el análisis completo del estado de los proyectos bajo el Régimen de Incentivo a las Grandes Inversiones (RIGI). El número que encabeza el reporte: <span class="dato">29 proyectos</span> anunciados por <span class="dato">USD 63.7B</span>. Para dimensionar: las exportaciones totales de Argentina en 2025 fueron de aproximadamente USD 70B. Los proyectos RIGI anunciados equivalen al 90% de un año entero de exportaciones. Solo <span class="dato">10 proyectos</span> están formalmente aprobados por <span class="dato">USD 25.5B</span> — los restantes 19 están en proceso. Pampa Energía acaba de agregar el número 30 con Rincón de Aranda (USD 4.5B upstream) en Neuquén.</p>
+          </div>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">La composición sectorial y provincial — dónde está el dinero</div>
+          <div class="rc-block-body">
+            <p>Facimex desagrega los proyectos por sector y provincia. Minería concentra el <span class="dato">63%</span> del total con USD 25.8B — cobre, oro y plata son los metales dominantes. Oil & Gas suma USD 21.8B (34%). Energía renovable, industria e infraestructura completan el cuadro. Por provincias: <span class="key">San Juan</span> se lleva el <span class="dato">39%</span> del total (USD 25.1B) por los proyectos de cobre y oro. <span class="key">Río Negro</span> suma el <span class="dato">29%</span> (USD 18.8B) principalmente por litio y gas. Catamarca, Salta, Buenos Aires y Neuquén se reparten el resto.</p>
+          </div>
+        </div>
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Lo que importa para las reservas del BCRA</div>
+          <div class="rc-conclusion-body">
+            La mecánica del RIGI establece que el 40% del monto mínimo de inversión debe liquidarse en los primeros 2 años. Eso implica un piso de ingreso de <span class="dato">USD 10B entre 2026 y 2027</span> solo con los proyectos ya aprobados. Si los 19 proyectos en proceso se aprueban, el número puede llegar a <span class="dato">USD 27B</span>. Para el BCRA, que hoy tiene reservas netas con el FMI de -USD 10.284M, este flujo es transformador. El RIGI es la respuesta estructural al problema crónico de reservas de Argentina. El riesgo es la burocracia y el riesgo político 2027 — un cambio de gobierno que revierta el régimen dejaría los 19 proyectos en proceso en el limbo.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 11: Barclays FED ══ -->
+  <div class="rc alto" data-impact="alto">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">Barclays — FOMC Preview</span>
+        <div class="rc-hookright"><span class="rc-fecha">13 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">La Fed no va a bajar hasta <em>septiembre</em>. El dot plot de este miércoles puede destruir el rally de los bonos argentinos.</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-a"><span class="ibdot"></span>IMPACTO ALTO</span></div>
+        <div class="rc-pulso-hook">Una Fed atada es un techo para el soberano ARG — el evento de la semana es miércoles 14hs</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          Barclays corrió su primera baja a <span class="bear">septiembre</span>, segunda a <span class="bear">marzo 2027</span>. Solo <span class="dato">25pb en todo 2026</span>. Core PCE enero: <span class="dato">0.36% m/m</span>. Febrero estimado: <span class="dato">0.45%</span>. Headline PCE llega a <span class="dato">3.4% YoY en Q2</span> por el crudo. Si el dot plot da un solo corte, el <span class="bear">DXY sube y los bonos EM caen</span>. Argentina directamente expuesta: bonos HD y CCL dependen de la liquidez global. P(cero recortes en 2026): <span class="dato">40%</span>.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">Barclays — FOMC Preview · 13 Mar 2026</span>
+          <span class="rc-full-source">Barclays Research · Equipo Macro Global</span>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">El nuevo call de Barclays — por qué corrió el primer recorte</div>
+          <div class="rc-block-body">
+            <p>Barclays modifica su call de política monetaria. La primera baja se corre de junio a <span class="bear">septiembre</span> y la segunda de diciembre a <span class="bear">marzo 2027</span>. Resultado: solo <span class="dat">25pb en todo 2026</span>. La Fed no sube — pero tampoco baja rápido. La razón principal: el impacto del conflicto de Hormuz en los precios energéticos. El Core PCE de enero fue de <span class="dato">0.36% m/m</span>, y Barclays estima que febrero llegó a <span class="dato">0.45%</span>. La proyección para Q4/Q4 es de <span class="dato">2.8%</span> — una décima por encima del dot plot mediano anterior. Más importante: el headline PCE va a llegar al <span class="dato">3.4% YoY en el segundo trimestre</span> por el efecto del crudo. Con ese número en los titulares, la Fed no puede declarar victoria aunque mire el núcleo.</p>
+          </div>
+        </div>
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">Por qué el dot plot del miércoles es el evento más importante para Argentina</div>
+          <div class="rc-conclusion-body">
+            El canal de transmisión es directo: si el dot plot da el mediano en 1 recorte o menos para 2026, el DXY sube porque los diferenciales de tasa favorecen al dólar frente al resto. Cuando el DXY sube, los activos de mercados emergentes bajan — los bonos ARG en dólares tienen correlación negativa con el DXY. El GD35 ya cayó <span class="dato">-5.0%</span> en el último mes por esta dinámica. El escenario contrario también existe: si el desempleo americano sube de manera inesperada, la Fed baja más agresivo, el DXY cae, y los bonos ARG recuperan fuertemente. <span class="key">Es el evento binario de la semana.</span> Mantener liquidez táctica hasta después del miércoles 14hs ARG es la decisión correcta.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 12: Inviu CER ══ -->
+  <div class="rc alto" data-impact="alto">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">Inviu — Inflación persistente, CER gana</span>
+        <div class="rc-hookright"><span class="rc-fecha">16 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">El mercado apuesta a que la inflación va a <em>2% en julio</em>. <strong>Inviu dice que está equivocado</strong> — y tiene los datos para probarlo.</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-a"><span class="ibdot"></span>IMPACTO ALTO</span></div>
+        <div class="rc-pulso-hook">Núcleo 3.1%, crudo arriba, BCRA inyectando pesos — CER corto es la única posición lógica</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          Licitación del martes: rollover <span class="dato">108%</span>, <span class="bull">63% fue a CER</span>. X15Y6: ARS 2.74B, TZX28: ARS 1.87B. LECAPs: 25%. IPC feb: <span class="bear">2.9%</span> arriba del mercado (2.4%) y REM (2.7%). Núcleo: <span class="bear">3.1%</span>, máximo desde abril 2025. Curva pricéa ~2.5% para marzo y bajo 2% para julio — Inviu lo ve como excesivamente optimista. Tres presiones que la tasa fija no incorpora. Escenario base: CER gana <span class="bull">+61pb</span>. Stress: <span class="bull">+214pb</span>.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">Inviu — Inflación persistente, CER gana · 16 Mar 2026</span>
+          <span class="rc-full-source">Inviu · Equipo de Research</span>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice Inviu — por qué el mercado se equivoca con la inflación</div>
+          <div class="rc-block-body">
+            <p>Inviu parte de un dato concreto: en la última licitación del Tesoro, el rollover fue del <span class="dato">108%</span> y el <span class="key">63% fue a instrumentos CER</span>. La X15Y6 concentró ARS 2.74B (a 0.37% TIREA real) y el TZX28 ARS 1.87B (a 8.7% TIREA real). Las LECAPs capturaron solo el 25%. El mensaje del mercado es claro: los inversores ya están migrando a CER porque no creen en la desinflación rápida que descuenta la curva de tasa fija.</p>
+            <p>El IPC de febrero de <span class="dato">2.9%</span> vino arriba del mercado (2.4%) y del REM (2.7%). El núcleo de <span class="dato">3.1%</span> es el máximo desde abril de 2025 — no hay tendencia bajista sostenida. Regulados explicaron el 30% del dato.</p>
+          </div>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">Las tres presiones que la tasa fija no está incorporando</div>
+          <div class="rc-block-body">
+            <p>Inviu identifica tres fuentes de presión inflacionaria que la curva de tasa fija no tiene priceadas. Primera: el <span class="key">crudo arriba</span> por el conflicto de Hormuz. Los combustibles trasladan a costos de transporte, logística y producción. Segunda: el <span class="key">BCRA comprando dólares</span> e inyectando pesos al sistema — cuando el banco central compra reservas, emite moneda local, lo que en otros contextos genera inflación monetaria. Tercera: los <span class="key">servicios regulados ajustando</span> — tarifas de transporte, energía y agua todavía tienen rezago frente a la inflación pasada. La curva pricéa ~2.5% para marzo y por debajo del 2% hacia julio. Inviu ve eso como demasiado optimista dado el contexto externo y la expansión monetaria del BCRA comprando reservas.</p>
+          </div>
+        </div>
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">La recomendación concreta y los números detrás</div>
+          <div class="rc-conclusion-body">
+            La recomendación de Inviu es clara: preferir CER. En el escenario base moderado, CER gana <span class="bull">+61pb</span> sobre tasa fija. En el escenario de inflación persistente (que Inviu ve como el más probable), CER gana <span class="bull">+214pb</span>. Para el portafolio argentino, esto se traduce en: sobreponderar Lecer y Boncer para los plazos de abril a junio, particularmente el TZX26 para el corto plazo conservador y el TZXO6 o TZXD6 para quienes aceptan más duration. La licitación que viene va a ser interesante — se hizo antes del dato de IPC. La próxima puede mostrar demanda CER aún más fuerte si marzo efectivamente confirma el pico proyectado por Facimex en 3.0%.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 13: Allaria ══ -->
+  <div class="rc alto" data-impact="alto">
+    <div class="rc-hook" onclick="toggleL1(this.closest('.rc'))">
+      <div class="rc-hook-top">
+        <span class="rc-banco">Allaria — Renta Fija &amp; Macro</span>
+        <div class="rc-hookright"><span class="rc-fecha">16 MAR</span><span class="rc-arr">▶</span></div>
+      </div>
+      <div class="rc-gancho">El BCRA compró <em>USD 295 millones</em> en una semana. En meses que históricamente <em>vendía</em>. Algo está cambiando.</div>
+      <div class="rc-bottom-row">
+        <div class="rc-badges"><span class="ibadge ib-a"><span class="ibdot"></span>IMPACTO ALTO</span></div>
+        <div class="rc-pulso-hook">Señal muy positiva en reservas — pero netas en −USD 10.284M con el FMI sigue siendo el número que duele</div>
+      </div>
+    </div>
+    <div class="rc-l1">
+      <div class="rc-summary">
+        <div class="rc-sum-tag">// Lectura PULSO · Federico R.</div>
+        <div class="rc-sum-txt">
+          El carry en pesos ya no alcanza — tasa real ex-ante negativa. LECAP S30A6 bajó <span class="bear">-180pb</span> a <span class="dato">TNA 28.6%</span>. Hay pesos sobrando. Pero la señal de reservas es muy positiva: <span class="bull">USD 295M comprados en la semana</span> en meses que históricamente el BCRA vendía. Financiamiento bilateral próximo. Escenario base RP 400pb: AL35 <span class="bull">+19.2%</span>, GD35 <span class="bull">+17.6%</span>. Allaria prefiere <span class="key">CER sobre tasa fija</span>.
+        </div>
+        <div class="rc-sum-by">— Federico R. · PULSO</div>
+      </div>
+      <button class="rc-expand" onclick="toggleL2(this.closest('.rc'))"><span class="rc-exp-label">Leer análisis completo</span><span class="rc-exp-arr">▶</span></button>
+    </div>
+    <div class="rc-l2">
+      <div class="rc-full">
+        <div class="rc-full-header">
+          <span class="rc-full-label">Allaria — Renta Fija &amp; Macro · 16 Mar 2026</span>
+          <span class="rc-full-source">Allaria · Equipo de Research</span>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">Qué dice Allaria — la señal de reservas que el mercado no está mirando</div>
+          <div class="rc-block-body">
+            <p>Allaria destaca como el dato más positivo de la semana la compra de <span class="dato">USD 295M</span> de reservas por parte del BCRA — en meses que históricamente el banco central vendía divisas. En 2024 y 2025, marzo y los meses de verano solían ser de venta neta. El hecho de que hoy el BCRA esté comprando es una señal de que el programa está funcionando: la balanza de pagos mejoró estructuralmente. El acumulado 2026 supera los <span class="dato">USD 307M</span> en compras netas.</p>
+            <p>Respecto a las tasas, Allaria señala que la LECAP S30A6 cayó <span class="bear">-180pb</span> en la semana a TNA 28.6%. La caución a un día bajó a 20.5% TNA. Hay pesos sobrando en el sistema — señal de que la demanda de liquidez del Tesoro es menor a la oferta del mercado. Eso presiona las tasas hacia abajo pero también implica que el carry en pesos ex-ante sigue siendo negativo en términos reales.</p>
+          </div>
+        </div>
+        <div class="rc-block">
+          <div class="rc-block-title">El escenario para los bonos en dólares — qué proyecta Allaria</div>
+          <div class="rc-block-body">
+            <p>Allaria presenta su escenario base con riesgo país en <span class="dato">400pb</span>. En ese contexto, el AL35 tiene retorno esperado de <span class="bull">+19.2%</span> y el GD35 de <span class="bull">+17.6%</span>. El gobierno colocó el AO27 (USD 500M) a TIR del 5.58% — lo que Allaria interpreta como una señal de acceso al mercado a tasas razonables para cubrir los vencimientos de julio-2026 y enero-2027. El financiamiento bilateral Italia/Israel/EEUU está próximo a anunciarse según Allaria — si llega, despeja la principal incertidumbre de corto plazo sobre el programa.</p>
+          </div>
+        </div>
+        <div class="rc-conclusion">
+          <div class="rc-conclusion-title">La recomendación de Allaria y qué tener en cuenta</div>
+          <div class="rc-conclusion-body">
+            Allaria prefiere en pesos <span class="key">CER sobre tasa fija</span>: Boncer y Lecer para los plazos de abril/junio. El breakeven de inflación para marzo es de 2.3% según Allaria vs REM de 2.56% — en cualquier escenario donde la inflación real supere ese breakeven, CER gana. En bonos HD, la recomendación es tramo corto por ahora (AO27, AL30) hasta tener más claridad sobre el dot plot de la Fed del miércoles. El riesgo principal que Allaria identifica: las reservas brutas cayeron USD 352M en la semana y las netas con el FMI siguen en <span class="bear">-USD 10.284M</span>. Es mucho. Por más positivo que sea el flujo semanal, la posición de partida de reservas netas sigue siendo negativa. Eso limita el margen de maniobra del gobierno ante cualquier shock externo.
+          </div>
+          <div class="rc-by">— Análisis PULSO · Federico R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /rc-grid -->
+
+<!-- ══ NÚMEROS ══ -->
+<div class="sdiv reveal">
+  <span class="sdiv-label">Los números en contexto</span>
+  <div class="sdiv-line"></div>
+  <span class="sdiv-meta">BCRA · INDEC · Bluelytics en vivo</span>
+</div>
+<div class="numeros-band reveal">
+  <div class="nb"><div class="nb-lbl">Reservas brutas</div><div class="nb-val a counting" id="n-res" data-target="45.7" data-suffix="B" data-prefix="USD ">—</div><div class="nb-sub">Netas FMI: −USD 10.284M<br>Brutas −USD 352M en la semana</div><div class="nb-src">BCRA · en vivo</div></div>
+  <div class="nb"><div class="nb-lbl">Inflación feb.</div><div class="nb-val r counting" id="n-infl" data-target="2.9" data-suffix="%" data-prefix="">—</div><div class="nb-sub">Núcleo 3.1% · REM 2.7%<br>máximo desde abr-25</div><div class="nb-src">INDEC</div></div>
+  <div class="nb"><div class="nb-lbl">LECAP 1M</div><div class="nb-val a counting" id="n-lecap" data-target="28.6" data-suffix="% TNA" data-prefix="">—</div><div class="nb-sub">−180pb en la semana<br>Caución 1d: 20.5%</div><div class="nb-src">IAMC</div></div>
+  <div class="nb"><div class="nb-lbl">Riesgo País EMBI</div><div class="nb-val r counting" id="n-rp" data-target="582" data-suffix=" bps" data-prefix="">—</div><div class="nb-sub">GD30 9.6% TIR · AL30 11.0%<br>venta en largos esta semana</div><div class="nb-src">JP Morgan</div></div>
+  <div class="nb"><div class="nb-lbl">Dólar oficial</div><div class="nb-val counting" id="n-oficial" data-target="1395" data-suffix="" data-prefix="$">—</div><div class="nb-sub">Brecha CCL: <span id="n-brecha-sub" class="am">5.5%</span><br>Mínimo desde cepo 2019</div><div class="nb-src">Bluelytics · en vivo</div></div>
+</div>
+
+<!-- ══ PORTAFOLIO — COLAPSABLE ══ -->
+<button class="section-toggle-btn reveal" onclick="toggleSection('portafolio-section', this)">
+  <div class="stb-left">
+    <span class="stb-label">Portafolio modelo</span>
+    <span class="stb-meta">construido a partir del research · sem.12 · click para ver</span>
+  </div>
+  <span class="stb-arrow" id="arrow-portafolio-section">▶</span>
+</button>
+<div class="collapsible-section" id="portafolio-section">
+  <div class="cartera">
+    <div class="cartera-top">
+      <div style="font-size:8.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--a)">// Posicionamiento sugerido</div>
+      <div class="cartera-nota-top">Deriva directo de los research · <b>Inviu/Criteria → CER</b> · <b>one618 → YPF OW</b> · <b>Criteria → AL30+AE38</b> · <b>Barron's → MSFT</b> · <b>Facimex → SFD34</b></div>
+    </div>
+    <div class="cartera-grid">
+      <div>
+        <table class="ct">
+          <thead><tr><th>Activo</th><th>Tipo</th><th>Peso</th><th>Retorno est.</th><th>Tesis (research)</th></tr></thead>
+          <tbody>
+            <tr><td class="ct-asset">AL30 / AE38</td><td><span class="ct-tipo ct-rf">Soberano HD</span></td><td class="ct-peso">22%</td><td class="ct-ret up">+12–18%</td><td class="ct-rat"><span class="ct-rt">CRITERIA</span>Extender curva ley local — AL30 base + AE38</td></tr>
+            <tr><td class="ct-asset">Lecer / Boncer / TZX26</td><td><span class="ct-tipo ct-rf">CER</span></td><td class="ct-peso">25%</td><td class="ct-ret up">+inf+3%</td><td class="ct-rat"><span class="ct-rt">INVIU</span>Núcleo 3.1% · BE demasiado optimista · +214pb stress</td></tr>
+            <tr><td class="ct-asset">LECAP S30A6</td><td><span class="ct-tipo ct-rf">Tasa fija</span></td><td class="ct-peso">8%</td><td class="ct-ret am">28.6% TNA</td><td class="ct-rat"><span class="ct-rt">ALLARIA</span>Solo si desinflación sorprende</td></tr>
+            <tr><td class="ct-asset">Merval / YPF / CVH</td><td><span class="ct-tipo ct-pe">RV Argentina</span></td><td class="ct-peso">18%</td><td class="ct-ret up">+20–35%</td><td class="ct-rat"><span class="ct-rt">ONE618</span>YPF OW USD 61 · RIGI cataliza</td></tr>
+            <tr><td class="ct-asset">MSFT / SPY / QQQ CEDEARs</td><td><span class="ct-tipo ct-pe">RV Externa</span></td><td class="ct-peso">15%</td><td class="ct-ret am">cobertura CCL</td><td class="ct-rat"><span class="ct-rt">BARRON'S</span>MSFT P/E mín 10 años · Azure + OpenAI</td></tr>
+            <tr><td class="ct-asset">SFD34</td><td><span class="ct-tipo ct-rf">Provincial HD</span></td><td class="ct-peso">5%</td><td class="ct-ret up">compresión Z</td><td class="ct-rat"><span class="ct-rt">FACIMEX</span>Top pick · Z+448pb · deuda neta negativa</td></tr>
+            <tr><td class="ct-asset">Efectivo / Caución</td><td><span class="ct-tipo ct-ca">Liquidez</span></td><td class="ct-peso">7%</td><td class="ct-ret dim">20.5% TNA</td><td class="ct-rat"><span class="ct-rt">BARCLAYS</span>Táctica dot plot miércoles</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="alloc-section">
+        <div class="alloc-title">Distribución del portafolio</div>
+        <div class="alloc-bar-wrap">
+          <div class="alloc-row"><div class="alloc-label">Soberano HD</div><div class="alloc-track"><div class="alloc-fill" style="width:0%;background:var(--r)" data-w="22"></div></div><div class="alloc-pct">22%</div></div>
+          <div class="alloc-row"><div class="alloc-label">CER</div><div class="alloc-track"><div class="alloc-fill" style="width:0%;background:var(--a)" data-w="25"></div></div><div class="alloc-pct">25%</div></div>
+          <div class="alloc-row"><div class="alloc-label">Tasa fija</div><div class="alloc-track"><div class="alloc-fill" style="width:0%;background:#666" data-w="8"></div></div><div class="alloc-pct">8%</div></div>
+          <div class="alloc-row"><div class="alloc-label">RV Argentina</div><div class="alloc-track"><div class="alloc-fill" style="width:0%;background:var(--g)" data-w="18"></div></div><div class="alloc-pct">18%</div></div>
+          <div class="alloc-row"><div class="alloc-label">CEDEARs Ext.</div><div class="alloc-track"><div class="alloc-fill" style="width:0%;background:var(--cyan)" data-w="15"></div></div><div class="alloc-pct">15%</div></div>
+          <div class="alloc-row"><div class="alloc-label">Provincial HD</div><div class="alloc-track"><div class="alloc-fill" style="width:0%;background:var(--orange)" data-w="5"></div></div><div class="alloc-pct">5%</div></div>
+          <div class="alloc-row"><div class="alloc-label">Liquidez</div><div class="alloc-track"><div class="alloc-fill" style="width:0%;background:var(--t3)" data-w="7"></div></div><div class="alloc-pct">7%</div></div>
+        </div>
+        <div class="cartera-nota">Perfil moderado · Horizonte 6 meses · Ajustar según tolerancia al riesgo individual.<br><span style="color:var(--r)">⚠</span> CER sobreponderado por núcleo 3.1% (Inviu: +214pb en stress). Liquidez táctica por dot plot del miércoles 14hs ARG.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GEOPOLÍTICA — COLAPSABLE ══ -->
+<button class="section-toggle-btn reveal" onclick="toggleSection('geo-section', this)">
+  <div class="stb-left">
+    <span class="stb-label">Geopolítica · Commodities · Macro global</span>
+    <span class="stb-meta">7 temas a monitorear · click para ver</span>
+  </div>
+  <span class="stb-arrow" id="arrow-geo-section">▶</span>
+</button>
+<div class="collapsible-section" id="geo-section">
+  <div class="geo-panel" style="border-top:none">
+    <div class="geo-grid">
+      <div class="geo-card"><div class="geo-card-tag">IRÁN — HORMUZ</div><div class="geo-card-title">Crisis activa · 3ª semana</div><div class="geo-card-body">9-10M barriles/día atrapados. Brent +50% YTD. SPR ~3M/día — insuficiente. Irán abrió LPG a aliados el fin de semana.</div><span class="geo-imp gc-c">Crítico</span></div>
+      <div class="geo-card"><div class="geo-card-tag">FED — MIÉRC 18 MAR · 14hs</div><div class="geo-card-title">Sin cambios · dot plot clave</div><div class="geo-card-body">Barclays: primer corte en septiembre. PCE headline 3.4% Q2. Dot plot ≤1 corte → DXY sube → EM caen. P(cero recortes): 40%.</div><span class="geo-imp gc-c">Crítico</span></div>
+      <div class="geo-card"><div class="geo-card-tag">BCE / BOJ / TRUMP-TAKAICHI</div><div class="geo-card-title">Jueves 19 — triple evento</div><div class="geo-card-body">BCE cambia tono a "vigilancia". BOJ en 0.75%. Cumbre Trump-Takaichi: defensa japonesa 5% PIB, inversión USD 100B EEUU → riesgo JGB yields.</div><span class="geo-imp gc-c">Crítico</span></div>
+      <div class="geo-card"><div class="geo-card-tag">RIGI — INVERSIÓN ARGENTINA</div><div class="geo-card-title">USD 63.7B en juego</div><div class="geo-card-body">USD 10B piso divisas 2026-27. San Juan: cobre y oro. Río Negro: litio y gas. 19 proyectos en proceso. Pampa agrega nro.30.</div><span class="geo-imp gc-m">Positivo</span></div>
+      <div class="geo-card"><div class="geo-card-tag">ARG-FMI · 31 MAR</div><div class="geo-card-title">Revisión programa</div><div class="geo-card-body">Bilateral Italia/Israel/EEUU próximo. Gasto primario mínimos 2007. AO27 USD 500M al 5.58% TIR. Criteria: visión constructiva.</div><span class="geo-imp gc-m">Medio</span></div>
+      <div class="geo-card"><div class="geo-card-tag">MICROSOFT · AI</div><div class="geo-card-title">Valuación de crisis sin crisis</div><div class="geo-card-body">MSFT P/E 22.9x NTM — mínimo relativo S&P 10 años. Azure +40%. OpenAI stake est. +USD 200B. Barron's: compra.</div><span class="geo-imp gc-m">Positivo</span></div>
+      <div class="geo-card"><div class="geo-card-tag">CRÉDITO PRIVADO · EEUU</div><div class="geo-card-title">Estrés no visible en spreads</div><div class="geo-card-body">MS North Haven: cap 5%, solicitudes 10.9%. Cliffwater: 14% rescates. JPMorgan marcó préstamos a fondos software. Spreads IG no se movieron — alerta.</div><span class="geo-imp gc-c">Monitorear</span></div>
+    </div>
+  </div>
+  <div class="eventos" style="border-top:none">
+    <div style="font-size:8.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--a);margin-bottom:.6rem">// Agenda de la semana</div>
+    <div class="ev-grid">
+      <div class="ev-card"><div class="ev-fecha">Mié 18 Mar · EEUU · 14hs ARG</div><div class="ev-titulo">FED — Tasa + Dot Plot</div><div class="ev-desc">Sin cambios esperados. Lo que importa: el dot plot 2026. Mueve el DXY, los bonos EM y el CCL argentino directamente. El evento de la semana.</div><span class="ev-imp ea">Impacto alto</span></div>
+      <div class="ev-card"><div class="ev-fecha">Jue 19 Mar · Global</div><div class="ev-titulo">BCE · BOE · BOJ · Trump-Takaichi</div><div class="ev-desc">BCE cambia tono. BOJ en 0.75%. Cumbre bilateral puede anunciar defensa japonesa 5% PIB + inversión USD 100B en EEUU. Si JGBs suben, derrame a USTs.</div><span class="ev-imp ea">Impacto alto</span></div>
+      <div class="ev-card"><div class="ev-fecha">Lun 31 Mar · ARG</div><div class="ev-titulo">FMI — Revisión programa</div><div class="ev-desc">El gasto en mínimos desde 2007 es el argumento principal. Bilateral esperado antes. Criteria: visión constructiva en deuda ARG.</div><span class="ev-imp ea">Impacto alto</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="firma reveal">
+  <div class="firma-l">PULSO · <b>Federico R.</b> · La Plata, Argentina · Ed.002 · 17 Mar 2026</div>
+  <div class="firma-r">No es asesoramiento de inversión</div>
+</div>
+
+<script>
+function toggleTheme(){const h=document.documentElement,d=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',d?'light':'dark');document.getElementById('themeBtn').textContent=d?'☾ OSCURO':'☀ CLARO';}
+
+function toggleL1(c){
+  if(c.classList.contains('deep')){c.classList.remove('deep');return;}
+  if(c.classList.contains('open')){c.classList.remove('open');return;}
+  c.classList.add('open');
+}
+function toggleL2(c){
+  event.stopPropagation();
+  if(c.classList.contains('deep')){c.classList.remove('deep');}
+  else{c.classList.add('open','deep');}
+}
+
+function toggleSection(id,btn){
+  const sec=document.getElementById(id);
+  const arrow=btn.querySelector('.stb-arrow');
+  const isOpen=sec.classList.contains('open');
+  sec.classList.toggle('open',!isOpen);
+  arrow.classList.toggle('open',!isOpen);
+  if(!isOpen&&id==='portafolio-section'){
+    setTimeout(()=>{sec.querySelectorAll('.alloc-fill[data-w]').forEach(b=>b.style.width=b.dataset.w+'%');},100);
   }
-  requestAnimationFrame(step);
-}
-function initCountup(){
-  const obs=new IntersectionObserver(entries={
-    entries.forEach(e={
-      if(e.isIntersecting){
-        const el=e.target;
-        countUp(el,parseFloat(el.dataset.target),el.dataset.prefix'',el.dataset.suffix'');
-        obs.unobserve(el);
-      }
-    });
-  },{threshold.1});
-  document.querySelectorAll('.counting[data-target]').forEach(el=obs.observe(el));
 }
 
- ══ ALLOC BARS ══════════════════════════════════
-function initAllocBars(){
-  const obs=new IntersectionObserver(entries={
-    entries.forEach(e={
-      if(e.isIntersecting){
-        e.target.querySelectorAll('.alloc-fill[data-w]').forEach(bar={
-          setTimeout(()=bar.style.width=bar.dataset.w+'%',100);
-        });
-        obs.unobserve(e.target);
-      }
-    });
-  },{threshold.2});
-  document.querySelectorAll('.cartera').forEach(el=obs.observe(el));
+function filterRC(t,btn){
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('fa','fr','fm'));
+  if(t==='all')btn.classList.add('fa');
+  else if(t==='alto')btn.classList.add('fr');
+  else btn.classList.add('fm');
+  let v=0;
+  document.querySelectorAll('.rc').forEach(c=>{const s=t==='all'||c.dataset.impact===t;c.style.display=s?'flex':'none';if(s)v++;});
+  document.getElementById('rc-meta').textContent=`${v} research · sem.12 · click → resumen · doble click → análisis completo`;
 }
 
- ══ STAGGER REVEAL ══════════════════════════════
+function countUp(el,tgt,pre,suf,dur=950){
+  const t0=performance.now(),isF=String(tgt).includes('.');
+  (function step(now){const p=Math.min((now-t0)/dur,1),e=1-Math.pow(1-p,4);el.textContent=pre+(isF?(tgt*e).toFixed(1):Math.round(tgt*e))+suf;if(p<1)requestAnimationFrame(step);})(t0);
+}
+function initCounts(){
+  const ob=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const el=e.target;countUp(el,parseFloat(el.dataset.target),el.dataset.prefix||'',el.dataset.suffix||'');ob.unobserve(el);}});},{threshold:.1});
+  document.querySelectorAll('.counting[data-target]').forEach(el=>ob.observe(el));
+}
 function initReveal(){
-  const obs=new IntersectionObserver(entries={
-    entries.forEach((e,i)={
-      if(e.isIntersecting){
-        setTimeout(()=e.target.classList.add('visible'),i50);
-        obs.unobserve(e.target);
-      }
-    });
-  },{threshold.04});
-  document.querySelectorAll('.reveal').forEach(el=obs.observe(el));
+  const ob=new IntersectionObserver(es=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*35);ob.unobserve(e.target);}});},{threshold:.04});
+  document.querySelectorAll('.reveal').forEach(el=>ob.observe(el));
 }
 
- ══ CARD TOGGLE ═════════════════════════════════
-function toggleCard(card){
-  const wasOpen=card.classList.contains('open');
-  document.querySelectorAll('.res-card.open').forEach(c={if(c!==card)c.classList.remove('open')});
-  card.classList.toggle('open',!wasOpen);
-}
-
- ══ APIS ════════════════════════════════════════
 function setEl(id,val,cls){const el=document.getElementById(id);if(!el)return;el.textContent=val;if(cls!==undefined)el.className=cls;}
-function setMany(ids,val,cls){ids.forEach(id=setEl(id,val,cls));}
-function nowStr(){return new Date().toLocaleTimeString('es-AR',{hour'2-digit',minute'2-digit'});}
+function setMany(ids,val){ids.forEach(id=>setEl(id,val));}
+function nowStr(){return new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});}
 function todayStr(){return new Date().toISOString().split('T')[0];}
 
-async function fetchBCRA(){
-  const base='httpsapi.bcra.gob.arestadisticasv2.0datosvariable';
-  async function getVar(id){
-    try{const r=await fetch(`${base}${id}2025-01-01${todayStr()}`,{headers{'Accept''applicationjson'}});if(!r.ok)return null;const d=await r.json();const items=d.results;return items.lengthitems[items.length-1]null;}catch{return null;}
-  }
-  const res=await getVar(1);
-  if(res){const fmt='USD '+(res.valor1000).toFixed(1)+'B';setMany(['tk-res','tk-res2'],fmt);setEl('st-bcra','OK · '+res.fecha,'up');}
-  setEl('st-time',nowStr());
-}
-async function fetchDolar(){
-  try{
-    const r=await fetch('httpsapi.bluelytics.com.arv2latest');const d=await r.json();
-    const of=d.oficial.value_sell,bl=d.blue.value_sell,mep=d.blue_euro.value_sell;
-    if(of){const v='$'+Math.round(of).toLocaleString('es-AR');setMany(['tk-of','tk-of2'],v);setEl('n-oficial2','$'+Math.round(of),'nv counting');}
-    if(bl)setMany(['tk-bl','tk-bl2'],'$'+Math.round(bl).toLocaleString('es-AR'));
-    if(bl&&of){const br=((bl-of)of100).toFixed(1)+'%';setMany(['tk-br','tk-br2'],br);setEl('n-br2',br,'nv a nv-sm');}
-    if(mep)setMany(['tk-mep','tk-mep2'],'$'+Math.round(mep).toLocaleString('es-AR'));
-    setEl('st-dolar','OK · '+nowStr());setEl('st-time',nowStr());
-  }catch(e){}
-}
-async function fetchMerval(){
-  try{const r=await fetch('httpsquery1.finance.yahoo.comv8financechart%5EMERVinterval=1d&range=2d');const d=await r.json();const p=d.chart.result.[0].meta.regularMarketPrice;if(p)setMany(['tk-mv','tk-mv2'],Math.round(p).toLocaleString('es-AR'));}catch(e){}
-}
-const SYMS={'CL=F'{ids['gk-wti','gk-wti2'],fmtv='USD '+v.toFixed(1)},'BZ=F'{ids['gk-brent','gk-brent2'],fmtv='USD '+v.toFixed(1)},'GC=F'{ids['gk-gold','gk-gold2'],fmtv='USD '+Math.round(v).toLocaleString('en-US')},'HG=F'{ids['gk-copper','gk-copper2'],fmtv='USD '+v.toFixed(3)+'lb'},'DX-Y.NYB'{ids['gk-dxy','gk-dxy2'],fmtv=v.toFixed(2)},'^GSPC'{ids['gk-spx','gk-spx2'],fmtv=Math.round(v).toLocaleString('en-US')}};
-async function fetchCommodities(){
-  let ok=0;
-  for(const[sym,cfg]of Object.entries(SYMS)){
-    try{const r=await fetch(`httpsquery1.finance.yahoo.comv8financechart${encodeURIComponent(sym)}interval=1d&range=2d`);const d=await r.json();const price=d.chart.result.[0].meta.regularMarketPrice;const prev=d.chart.result.[0].meta.previousClose;if(!price)continue;const pct=prev((price-prev)prev100)null;const pctStr=pct!==null' ('+(pct=0'+''')+pct.toFixed(1)+'%)''';const cls=pct!==null(pct=0'gv up''gv dn')'gv';cfg.ids.forEach(id=setEl(id,cfg.fmt(price)+pctStr,cls));ok++;}catch(e){}
-  }
-  if(ok0)setEl('st-comm','OK · '+nowStr());setEl('st-time',nowStr());
-}
+async function fetchBCRA(){try{const r=await fetch(`https://api.bcra.gob.ar/estadisticas/v2.0/datosvariable/1/2025-01-01/${todayStr()}`,{headers:{'Accept':'application/json'}});if(!r.ok)return;const d=await r.json();const items=d?.results;if(items?.length){const last=items[items.length-1];setMany(['tk-res','tk-res2'],'USD '+(last.valor/1000).toFixed(1)+'B');setEl('st-bcra','OK · '+last.fecha,'up');}}catch(e){}setEl('st-time',nowStr());}
+async function fetchDolar(){try{const r=await fetch('https://api.bluelytics.com.ar/v2/latest');const d=await r.json();const of=d.oficial?.value_sell,bl=d.blue?.value_sell,mep=d.blue_euro?.value_sell;if(of){setMany(['tk-of','tk-of2'],'$'+Math.round(of).toLocaleString('es-AR'));setEl('n-oficial','$'+Math.round(of),'nb-val counting');}if(bl){setMany(['tk-bl','tk-bl2'],'$'+Math.round(bl).toLocaleString('es-AR'));}if(bl&&of){const br=((bl-of)/of*100).toFixed(1)+'%';setMany(['tk-br','tk-br2'],br);setEl('n-brecha-sub',br,'am');}if(mep)setMany(['tk-mep','tk-mep2'],'$'+Math.round(mep).toLocaleString('es-AR'));setEl('st-dolar','OK · '+nowStr());setEl('st-time',nowStr());}catch(e){}}
+async function fetchMerval(){try{const r=await fetch('https://query1.finance.yahoo.com/v8/finance/chart/%5EMERV?interval=1d&range=2d');const d=await r.json();const p=d?.chart?.result?.[0]?.meta?.regularMarketPrice;if(p)setMany(['tk-mv','tk-mv2'],Math.round(p).toLocaleString('es-AR'));}catch(e){}}
+const SYMS={'CL=F':{ids:['gk-wti','gk-wti2'],fmt:v=>'USD '+v.toFixed(1)},'BZ=F':{ids:['gk-brent','gk-brent2'],fmt:v=>'USD '+v.toFixed(1)},'GC=F':{ids:['gk-gold','gk-gold2'],fmt:v=>'USD '+Math.round(v).toLocaleString('en-US')},'HG=F':{ids:['gk-copper','gk-copper2'],fmt:v=>'USD '+v.toFixed(3)+'/lb'},'DX-Y.NYB':{ids:['gk-dxy','gk-dxy2'],fmt:v=>v.toFixed(2)},'^GSPC':{ids:['gk-spx','gk-spx2'],fmt:v=>Math.round(v).toLocaleString('en-US')}};
+async function fetchCommodities(){let ok=0;for(const[sym,cfg]of Object.entries(SYMS)){try{const r=await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=2d`);const d=await r.json();const price=d?.chart?.result?.[0]?.meta?.regularMarketPrice;const prev=d?.chart?.result?.[0]?.meta?.previousClose;if(!price)continue;const pct=prev?((price-prev)/prev*100):null;const pctStr=pct?(' ('+(pct>=0?'+':'')+pct.toFixed(1)+'%)'):'';cfg.ids.forEach(id=>setEl(id,cfg.fmt(price)+pctStr,pct?(pct>=0?'gv up':'gv dn'):'gv'));ok++;}catch(e){}}if(ok>0)setEl('st-comm','OK · '+nowStr());setEl('st-time',nowStr());}
 
-function flicker(){
-  ['h-brecha'].forEach(id={if(Math.random().14){const el=document.getElementById(id);if(!el)return;el.classList.remove('flash-up','flash-dn');void el.offsetWidth;el.classList.add(Math.random().5'flash-up''flash-dn');setTimeout(()=el.classList.remove('flash-up','flash-dn'),500);}});
-}
-
-window.addEventListener('DOMContentLoaded',()={
-  initReveal();initCountup();initAllocBars();
+window.addEventListener('DOMContentLoaded',()=>{
+  initReveal();initCounts();
   fetchBCRA();fetchDolar();fetchMerval();fetchCommodities();
 });
-setInterval(fetchDolar,60_000);setInterval(fetchMerval,60_000);
-setInterval(fetchCommodities,120_000);setInterval(fetchBCRA,300_000);
-setInterval(flicker,3_500);
-script
-body
-html
+setInterval(fetchDolar,60_000);setInterval(fetchMerval,60_000);setInterval(fetchCommodities,120_000);setInterval(fetchBCRA,300_000);
+</script>
+</body>
+</html>
